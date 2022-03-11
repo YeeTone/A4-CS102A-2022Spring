@@ -1,3 +1,13 @@
+# Assignment 4
+> Contributor List:
+> 
+> Design: 
+> 
+> JUnit:
+> 
+> Document:
+> 
+> Test:
 ## Question 1. BigBinary
 
 Computers store data in binary form.
