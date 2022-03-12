@@ -1,5 +1,4 @@
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
@@ -13,7 +12,9 @@ import java.util.Random;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBigBinaryOfficial {
-    private static final SecurityManager bigIntegerBanner = new SecurityManager() {
+
+    private static final class BigIntegerBanner extends SecurityManager{
+        private static boolean ableResetManager = true;
         @Override
         public void checkPackageAccess(String pkg) {
             super.checkPackageAccess(pkg);
@@ -24,16 +25,28 @@ public class TestBigBinaryOfficial {
 
         @Override
         public void checkPermission(Permission perm) {
+            if(perm.getName().equals("setSecurityManager")){
+                if(!ableResetManager) {
+                    throw new RuntimeException("You cannot reset SecurityManager in this problem!");
+                }
 
+            }
         }
-    };
 
-    private static final SecurityManager bigIntegerAllower = new SecurityManager() {
+        public void setAbleResetManager(boolean resetAble){
+            ableResetManager = resetAble;
+        }
+    }
+
+    private static final class BigIntegerAllower extends SecurityManager{
         @Override
         public void checkPermission(Permission perm) {
 
         }
-    };
+    }
+
+    private static final SecurityManager bigIntegerBanner = new BigIntegerBanner();
+    private static final SecurityManager bigIntegerAllower = new BigIntegerAllower();
 
     private static Class<?> bigBinaryClazz;
     private static Constructor<?> onlyConstructor;
@@ -138,7 +151,7 @@ public class TestBigBinaryOfficial {
     }
 
     private BigInteger buildBigInteger(int[] b1, boolean p1) {
-        System.setSecurityManager(bigIntegerAllower);
+        allowBigInteger();
         StringBuilder b = new StringBuilder();
         if (!p1) {
             b.append('-');
@@ -154,7 +167,7 @@ public class TestBigBinaryOfficial {
 
         BigInteger result = new BigInteger(b.toString(), 2);
 
-        System.setSecurityManager(bigIntegerBanner);
+        banBigInteger();
 
         return result;
     }
@@ -230,6 +243,7 @@ public class TestBigBinaryOfficial {
 
             }
         } catch (Exception e) {
+            e.printStackTrace();
             fail(exceptionMessage);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
@@ -266,12 +280,12 @@ public class TestBigBinaryOfficial {
     }
 
     private String buildAddAnswer(int[] b1, boolean p1, int[] b2, boolean p2) {
-        System.setSecurityManager(bigIntegerAllower);
+        allowBigInteger();
         BigInteger bigInteger1 = buildBigInteger(b1, p1);
         BigInteger bigInteger2 = buildBigInteger(b2, p2);
 
         String result = bigInteger1.add(bigInteger2).toString(2);
-        System.setSecurityManager(bigIntegerBanner);
+        banBigInteger();
 
         return result;
     }
@@ -355,12 +369,12 @@ public class TestBigBinaryOfficial {
     }
 
     private String buildMinusAnswer(int[] b1, boolean p1, int[] b2, boolean p2) {
-        System.setSecurityManager(bigIntegerAllower);
+        allowBigInteger();
         BigInteger bigInteger1 = buildBigInteger(b1, p1);
         BigInteger bigInteger2 = buildBigInteger(b2, p2);
 
         String result = bigInteger1.subtract(bigInteger2).toString(2);
-        System.setSecurityManager(bigIntegerBanner);
+        banBigInteger();
 
         return result;
     }
@@ -432,6 +446,7 @@ public class TestBigBinaryOfficial {
 
             }
         } catch (Exception e) {
+            e.printStackTrace();
             fail(exceptionMessage);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
@@ -439,15 +454,27 @@ public class TestBigBinaryOfficial {
     }
 
     private String buildMultiplyAnswer(int[] b1, boolean p1, int[] b2, boolean p2) {
-        System.setSecurityManager(bigIntegerAllower);
+        allowBigInteger();
         BigInteger bigInteger1 = buildBigInteger(b1, p1);
         BigInteger bigInteger2 = buildBigInteger(b2, p2);
 
         String result = bigInteger1.multiply(bigInteger2).toString(2);
-        System.setSecurityManager(bigIntegerBanner);
+        banBigInteger();
 
         return result;
     }
+
+    private static void allowBigInteger(){
+        ((BigIntegerBanner) bigIntegerBanner).setAbleResetManager(true);
+        System.setSecurityManager(bigIntegerAllower);
+    }
+
+    private static void banBigInteger(){
+        ((BigIntegerBanner) bigIntegerBanner).setAbleResetManager(true);
+        System.setSecurityManager(bigIntegerBanner);
+        ((BigIntegerBanner) bigIntegerBanner).setAbleResetManager(false);
+    }
+
 
     private void mul0Judgement(int cases, int bitLength){
         try {
