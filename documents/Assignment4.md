@@ -263,4 +263,4 @@ Product ID 2, Laptop, RMB 10000.0, Rating 4.5
 ```
 
 ## Submission
-You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for the basic part of question 2.
+You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for question 2.
