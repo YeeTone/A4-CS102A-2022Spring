@@ -112,14 +112,13 @@ After executing the method, the return value should be the difference between Bi
 
 ## Question 2. Online store
 
-
 Online shopping has becoming more and more convenient these days. Basically, customers could go to different online stores, each of which provides a list of products for customers to buy. In this question, you'll design three classes, `Customer`, `Store`, and `Product`, to implement the online shopping process. The details of each class is described below.
 
 ### 2.1 Product
 #### Attributes
 ```java
-private static int cnt = 0;
-private int id; // unique for each product
+private static int cnt; //intialized to 0, and will increase by 1 when the constructor is called.
+private int id;  // unique for each product and the value is from cnt.
 private String name;
 private float price;
 private ArrayList<Integer> ratings; // default empty
@@ -156,8 +155,8 @@ Note that for `price`, let's keep 1 decimal place. For `rating`, keep 2 decimal 
 ### 2.2 Store
 #### Attributes
 ```java
-private static int cnt = 0;
-private int id; // unique for each store
+private static int cnt; //intialized to 0, and will increase by 1 when the constructor is called.
+private int id;  // unique for each store and the value is from cnt.
 private String name;
 private ArrayList<Product> productList;
 ```
@@ -198,8 +197,8 @@ Return `true` if this store has the given `product`; otherwise, return `false`.
 ### 2.3 Customer
 #### Attributes
 ```java
-private static int cnt = 0;
-private int id;  // unique for each customer
+private static int cnt; //intialized to 0, and will increase by 1 when the constructor is called.
+private int id;  // unique for each customer and the value is from cnt.
 private String name;
 private ArrayList<Product> shoppingCart; // default empty
 ```
@@ -214,7 +213,7 @@ public void rateProduct(Product product, int rating)
 public boolean purchaseProduct(Store store, Product product)
 public void viewShoppingCart(SortBy sortMethod)
 ```
-`public void rateProduct(Product product, float rating)`
+`public void rateProduct(Product product, int rating)`
 
 Set the rating of the given `product` to `rating`.
 
@@ -236,7 +235,7 @@ public enum SortBy {
 
 Suppose a customer Alice has purchase a few products from different stores.
 ```java
-Customer alice = new Customer(1, "Alice")
+Customer alice = new Customer(1, "Alice");
 // code for creating stores and products are ommitted
 alice.purchaseProduct(store1, product_laptop);
 alice.purchaseProduct(store1, product_table);
@@ -245,7 +244,7 @@ alice.purchaseProduct(store3, product_phone);
 ```
 Then, calling
 ```java
-alice.viewShoppingCart(SortBy.PurchaseTime)
+alice.viewShoppingCart(SortBy.PurchaseTime);
 ```
 will display (see `Product.toString()` for the format)
 ```
@@ -256,7 +255,7 @@ Product ID 1, Phone, RMB 7000.0, Rating 4.50
 ```
 Calling
 ```java
-alice.viewShoppingCart(SortBy.Rating)
+alice.viewShoppingCart(SortBy.Rating);
 ```
 will display
 ```
@@ -268,7 +267,7 @@ Product ID 4, Table, RMB 300.0, Rating 5.50
 Note that when having the same rating, the purchased products will be displayed by the purchase time.   
 Calling
 ```java
-alice.viewShoppingCart(SortBy.Price)
+alice.viewShoppingCart(SortBy.Price);
 ```
 will display
 ```
@@ -279,4 +278,4 @@ Product ID 2, Laptop, RMB 10000.0, Rating 4.50
 ```
 Note that when having the same price, the purchased products will be displayed by the purchase time.
 ## Submission
-You'll submit `BigBinary.java` for question 1, `Product.java`, `Store.java` and `Customer.java` for question 2.
+You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for question 2.
