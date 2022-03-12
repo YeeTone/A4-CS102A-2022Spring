@@ -243,7 +243,6 @@ public class TestBigBinaryOfficial {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
             fail(exceptionMessage);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
@@ -446,7 +445,6 @@ public class TestBigBinaryOfficial {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
             fail(exceptionMessage);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
