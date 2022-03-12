@@ -1,21 +1,23 @@
 # Assignment 4
 ## Contributor List:
 > 
-> Design: Yitong WANG, Yida TAO
+> Design: YeeTone WANG, Yida TAO
 > 
-> JUnit: Yitong WANG, Dingyuan XUE
+> JUnit: YeeTone WANG, Dingyuan XUE
 > 
 > Document: Yida TAO
 > 
-> Test: Siyi WANG, Sicen LIU
+> Solution & Test: Siyi WANG, Sicen LIU
 
 ## Question 1. BigBinary
 
-Computers store data in binary form.
+Computers store data in the binary form.
 
-YeeTone is a student of CS major but not good at solving binary number arithmetic problems, so he asks you for help. Fortunately, he is very familiar with Java Programming.
+YeeTone is a student of CS major but not good at solving binary number arithmetic problems, so he asks you for help. 
+Fortunately, he is very familiar with Java Programming.
+If you can design a class and gives the solution by designing a class in Java without using the libraries in ```java.math```, he will be very happy to give you extra bonus points on your assignment!
 
-Please design a Java class named BigBinary to give a hand to YeeTone.
+Please design a Java class named BigBinary to give a hand to YeeTone. Notice that in order to let YeeTone really trust you can help him solve the problems, YeeTone does not want you to use some libraries of Java such as ```java.math.BigInteger``` and ```java.math.BigDecimal``` in this problem. 
 
 ### Constructor
 ```java
@@ -48,8 +50,8 @@ The bigBinary can express the binary number ```100011```, whose decimal number i
 ### Methods
 - ```public String toString();```
 
-This method can return the BigBinary in a bigbinary format. Notice that if there exists at least one ```1``` in the binary form, then the leading 0s should not be output; otherwise return ```"0"```.
-For example, if the BigBinary is ```-0011011```, the ```toString()``` method should return ```-11011```; if the BigBinary is ```-00000```, the ```toString()``` method should return ```0```.
+This method can return the BigBinary in a binary format. Notice that if there exists at least one ```1``` in the binary form, then the leading 0s should not be output; otherwise return ```"0"```.
+For example, if the BigBinary is ```-0011011```, the ```toString()``` method should return ```"-11011"```; if the BigBinary is ```-00000```, the ```toString()``` method should return ```"0"```.
 
 **Sample code:**
 ```java
