@@ -45,7 +45,7 @@ The bigBinary can express the binary number ```0```, whose decimal number is ```
 ```java
 bits = {1,0,0,0,1,1}, positive = true
 ```
-The bigBinary can express the binary number ```100011```, whose decimal number is ```2^5^ + 2^1^ + 2^0^ = 34```.
+The bigBinary can express the binary number ```100011```, whose decimal number is ```2^5^ + 2^1^ + 2^0^ = 35```.
 
 
 ### Methods
