@@ -22,7 +22,7 @@ public BigBinary(int[] bits, boolean positive);
 ```
 
 Design a constructor with two parameters:
-* An int array ```bits``` consisting of 0s and 1s, meaning the corresponding bit values.
+* An int array ```bits``` consisting of 0s and 1s, meaning the corresponding bit values. 0 <= ```bits.length``` <= 1e4
 * A boolean ```positive```, indicating whether the sign of BigBinary object is positive.
 
 **Example 1**
@@ -114,7 +114,8 @@ Online shopping has becoming more and more convenient these days. Basically, cus
 ### 2.1 Product
 #### Attributes
 ```java
-private int id; // unique for each product
+private static int idCnt; // initialized to 0, and increase 1 if the constructor is called.
+private int id; // unique for each product, and the value is from idCnt.
 private String name;
 private float price;
 private float rating = 0; //default
@@ -123,7 +124,7 @@ Note that for `price` and `rating`, let's keep 1 decimal place.
 
 #### Constructor
 ```java
-public Product(int id, String name, float price)
+public Product(String name, float price)
 ```
 
 #### Methods
@@ -142,14 +143,15 @@ Return a string description of this product, in the format of "Product ID id, na
 ### 2.2 Store
 #### Attributes
 ```java
-private int id;  // unique for each store
+private static int idCnt; // initialized to 0, and increase 1 if the constructor is called.
+private int id;  // unique for each store, and the value is from idCnt.
 private String name;
 private ArrayList<Product> productList;
 ```
 
 #### Constructors
 ```java
-public Store(int id, String name, ArrayList<Product>)
+public Store(String name, ArrayList<Product>)
 ```
 #### Methods
 ```java
@@ -182,13 +184,14 @@ Return `true` if this store has the given `product`; otherwise, return `false`.
 ### 2.3 Customer
 #### Attributes
 ```java
-private int id;  // unique for each customer
+private static int idCnt; // initialized to 0, and increase 1 if the constructor is called.
+private int id;  // unique for each customer, and the value is from idCnt.
 private String name;
 private ArrayList<Product> shoppingCart; // default empty
 ```
 #### Constructor
 ```java
-public Customer(int id, String name)
+public Customer(String name)
 ```
 #### Methods
 ```java
@@ -260,4 +263,4 @@ Product ID 2, Laptop, RMB 10000.0, Rating 4.5
 ```
 
 ## Submission
-You'll submit `BigBinary.java` for question 1, `Product.java`, `Store.java` and `Customer.java` for question 2.
+You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for the basic part of question 2.
