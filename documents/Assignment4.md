@@ -15,9 +15,10 @@ Computers store data in the binary form.
 
 YeeTone is a student of CS major but not good at solving binary number arithmetic problems, so he asks you for help. 
 Fortunately, he is very familiar with Java Programming.
-If you can design a class and gives the solution by designing a class in Java, he will be very happy to give you extra bonus points on your assignment!
+If you can help YeeTone solve problems by designing a class in Java, he will be very happy to give you extra bonus points on your assignment!
 
-Please design a Java class named BigBinary to give a hand to YeeTone. Notice that in order to let YeeTone really trust you can help him solve the problems, YeeTone does not want you to use libraries of Java such as ```java.math``` in this problem. 
+Please design a Java class named BigBinary to give a hand to YeeTone. 
+Notice that in order to let YeeTone really trust you have the ability to help him solve the problems, YeeTone does not want you to use some libraries of Java such as ```java.math``` in this problem. 
 
 ### Constructor
 ```java
