@@ -8,6 +8,7 @@
 > Document:
 > 
 > Test:
+
 ## Question 1. BigBinary
 
 Computers store data in binary form.
@@ -22,14 +23,14 @@ public BigBinary(int[] bits, boolean positive);
 ```
 
 Design a constructor with two parameters:
-* An int array ```bits``` consisting of 0s and 1s, meaning the corresponding bit values. 0 <= ```bits.length``` <= 1e4
+* An int array ```bits``` consisting of 0s and 1s, meaning the corresponding bit values. ```0 <= bits.length <= 1e4```
 * A boolean ```positive```, indicating whether the sign of BigBinary object is positive.
 
 **Example 1**
 ```java
 bits = {0,1,0,1,1,0}, positive = false
 ```
-The bigBinary can express the binary number ```-10110```, whose decimal number is -(2^4^ + 2^2^ + 2^1^) = -22.
+The bigBinary can express the binary number ```-10110```, whose decimal number is ```-(2^4^ + 2^2^ + 2^1^) = -22```.
 
 **Example 2**
 ```java
@@ -41,7 +42,7 @@ The bigBinary can express the binary number ```0```, whose decimal number is ```
 ```java
 bits = {1,0,0,0,1,1}, positive = true
 ```
-The bigBinary can express the binary number ```100011```, whose decimal number is 2^5^ + 2^1^ + 2^0^ = 34.
+The bigBinary can express the binary number ```100011```, whose decimal number is ```2^5^ + 2^1^ + 2^0^ = 34```.
 
 
 ### Methods
@@ -114,13 +115,13 @@ Online shopping has becoming more and more convenient these days. Basically, cus
 ### 2.1 Product
 #### Attributes
 ```java
-private static int idCnt; // initialized to 0, and increase 1 if the constructor is called.
+private static int idCnt; // initialized to 0, and increase 1 when the constructor is called.
 private int id; // unique for each product, and the value is from idCnt.
 private String name;
 private float price;
-private float rating = 0; //default
+private ArrayList<Integer> ratings;
 ```
-Note that for `price` and `rating`, let's keep 1 decimal place.
+Note that for `price`, let's keep 1 decimal place.
 
 #### Constructor
 ```java
@@ -129,12 +130,21 @@ public Product(String name, float price)
 
 #### Methods
 ```java
-public void setRating(float rating);
+public void setRating(int rating)
+public float getAvgRating()
 public String toString()
 ```
-`public void setRating(float rating)`
+`public void setRating(int rating)`
 
-A customer can rate a product using this method. The rating of a product is computed as the average rating given all the ratings its has received so far. For simplicity, *a customer can give different ratings to the same product multiple times*. For example, if a product has got two different ratings, 5.0 and 4.0, from Alice and Bob respectively, then its rating is 4.5; if a product has got two different ratings, 5.0 and 4.0, both from Alice, then its rating is still 4.5.
+A customer can rate a product using this method. The `rating` will be added to this product's rating list `ratings`. Note that
+* A `rating` should be within the range [1,5]; in other words, there are only 5 possible values for `rating`.
+* For simplicity, *a customer can give different ratings to the same product multiple times*.
+
+`public float getAvgRating()`
+
+Return the average rating of this product, which is computed as the average rating given all the ratings its has received so far. The result should only have 1 decimal place.
+
+Again, for simplicity, *a customer can give different ratings to the same product multiple times*. For example, if a product has got two different ratings, 5 and 4, from Alice and Bob respectively, then its rating is 4.5; if a product has got two different ratings, 5 and 4, both from Alice, then its rating is still 4.5.
 
 `public String toString()`
 
@@ -143,8 +153,8 @@ Return a string description of this product, in the format of "Product ID id, na
 ### 2.2 Store
 #### Attributes
 ```java
-private static int idCnt; // initialized to 0, and increase 1 if the constructor is called.
-private int id;  // unique for each store, and the value is from idCnt.
+private static int idCnt; // initialized to 0, and increase 1 when the constructor is called.
+private int id; // unique for each store, and the value is from idCnt.
 private String name;
 private ArrayList<Product> productList;
 ```
@@ -184,8 +194,8 @@ Return `true` if this store has the given `product`; otherwise, return `false`.
 ### 2.3 Customer
 #### Attributes
 ```java
-private static int idCnt; // initialized to 0, and increase 1 if the constructor is called.
-private int id;  // unique for each customer, and the value is from idCnt.
+private static int idCnt; // initialized to 0, and increase 1 when the constructor is called.
+private int id; // unique for each customer, and the value is from idCnt.
 private String name;
 private ArrayList<Product> shoppingCart; // default empty
 ```
