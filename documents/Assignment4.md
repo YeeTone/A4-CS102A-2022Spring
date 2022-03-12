@@ -112,23 +112,24 @@ After executing the method, the return value should be the difference between Bi
 
 ## Question 2. Online store
 
+
 Online shopping has becoming more and more convenient these days. Basically, customers could go to different online stores, each of which provides a list of products for customers to buy. In this question, you'll design three classes, `Customer`, `Store`, and `Product`, to implement the online shopping process. The details of each class is described below.
 
 ### 2.1 Product
 #### Attributes
 ```java
-private static int idCnt; // initialized to 0, and increase 1 when the constructor is called.
-private int id; // unique for each product, and the value is from idCnt.
+private static int cnt = 0;
+private int id; // unique for each product
 private String name;
 private float price;
-private ArrayList<Integer> ratings;
+private ArrayList<Integer> ratings; // default empty
 ```
-Note that for `price`, let's keep 1 decimal place.
 
 #### Constructor
 ```java
 public Product(String name, float price)
 ```
+The id of the first product is 1.
 
 #### Methods
 ```java
@@ -144,19 +145,19 @@ A customer can rate a product using this method. The `rating` will be added to t
 
 `public float getAvgRating()`
 
-Return the average rating of this product, which is computed as the average rating given all the ratings its has received so far. The result should only have 1 decimal place.
-
+Return the average rating of this product, which is computed as the average rating given all the ratings its has received so far.   
 Again, for simplicity, *a customer can give different ratings to the same product multiple times*. For example, if a product has got two different ratings, 5 and 4, from Alice and Bob respectively, then its rating is 4.5; if a product has got two different ratings, 5 and 4, both from Alice, then its rating is still 4.5.
 
 `public String toString()`
 
-Return a string description of this product, in the format of "Product ID id, name, RMB price, Rating rating", e.g., "Product ID 12345, Laptop, RMB 10000, Rating 4.5".
+Return a string description of this product, in the format of `Product ID id, name, RMB price, Rating rating`, e.g., `Product ID 12345, Laptop, RMB 10000.0, Rating 4.50`.   
+Note that for `price`, let's keep 1 decimal place. For `rating`, keep 2 decimal place.
 
 ### 2.2 Store
 #### Attributes
 ```java
-private static int idCnt; // initialized to 0, and increase 1 when the constructor is called.
-private int id; // unique for each store, and the value is from idCnt.
+private static int cnt = 0;
+private int id; // unique for each store
 private String name;
 private ArrayList<Product> productList;
 ```
@@ -165,6 +166,7 @@ private ArrayList<Product> productList;
 ```java
 public Store(String name, ArrayList<Product> productList)
 ```
+The id of the first store is 1.
 #### Methods
 ```java
 public boolean addProduct(Product product)
@@ -196,8 +198,8 @@ Return `true` if this store has the given `product`; otherwise, return `false`.
 ### 2.3 Customer
 #### Attributes
 ```java
-private static int idCnt; // initialized to 0, and increase 1 when the constructor is called.
-private int id; // unique for each customer, and the value is from idCnt.
+private static int cnt = 0;
+private int id;  // unique for each customer
 private String name;
 private ArrayList<Product> shoppingCart; // default empty
 ```
@@ -205,13 +207,14 @@ private ArrayList<Product> shoppingCart; // default empty
 ```java
 public Customer(String name)
 ```
+The id of the first customer is 1.
 #### Methods
 ```java
-public void rateProduct(Product product, float rating)
+public void rateProduct(Product product, int rating)
 public boolean purchaseProduct(Store store, Product product)
 public void viewShoppingCart(SortBy sortMethod)
 ```
-`public void rateProduct(Product product, int rating)`
+`public void rateProduct(Product product, float rating)`
 
 Set the rating of the given `product` to `rating`.
 
@@ -233,7 +236,7 @@ public enum SortBy {
 
 Suppose a customer Alice has purchase a few products from different stores.
 ```java
-Customer alice = new Customer(1, "Alice");
+Customer alice = new Customer(1, "Alice")
 // code for creating stores and products are ommitted
 alice.purchaseProduct(store1, product_laptop);
 alice.purchaseProduct(store1, product_table);
@@ -242,37 +245,38 @@ alice.purchaseProduct(store3, product_phone);
 ```
 Then, calling
 ```java
-alice.viewShoppingCart(SortBy.PurchaseTime);
+alice.viewShoppingCart(SortBy.PurchaseTime)
 ```
 will display (see `Product.toString()` for the format)
 ```
-Product ID 2, Laptop, RMB 10000.0, Rating 4.5
-Product ID 4, Table, RMB 300.0, Rating 5.5
-Product ID 3, Mouse, RMB 100.0, Rating 3.0
-Product ID 1, Phone, RMB 7000.0, Rating 4.5
+Product ID 2, Laptop, RMB 10000.0, Rating 4.50
+Product ID 4, Table, RMB 300.0, Rating 5.50
+Product ID 3, Mouse, RMB 100.0, Rating 3.00
+Product ID 1, Phone, RMB 7000.0, Rating 4.50
 ```
 Calling
 ```java
-alice.viewShoppingCart(SortBy.Rating);
+alice.viewShoppingCart(SortBy.Rating)
 ```
 will display
 ```
-Product ID 3, Mouse, RMB 100.0, Rating 3.0
-Product ID 2, Laptop, RMB 10000.0, Rating 4.5
-Product ID 1, Phone, RMB 7000.0, Rating 4.5
-Product ID 4, Table, RMB 300.0, Rating 5.5
+Product ID 3, Mouse, RMB 100.0, Rating 3.00
+Product ID 2, Laptop, RMB 10000.0, Rating 4.50
+Product ID 1, Phone, RMB 7000.0, Rating 4.50
+Product ID 4, Table, RMB 300.0, Rating 5.50
 ```
+Note that when having the same rating, the purchased products will be displayed by the purchase time.   
 Calling
 ```java
-alice.viewShoppingCart(SortBy.Price);
+alice.viewShoppingCart(SortBy.Price)
 ```
 will display
 ```
-Product ID 3, Mouse, RMB 100.0, Rating 3.0
-Product ID 4, Table, RMB 300.0, Rating 5.5
-Product ID 1, Phone, RMB 7000.0, Rating 4.5
-Product ID 2, Laptop, RMB 10000.0, Rating 4.5
+Product ID 3, Mouse, RMB 100.0, Rating 3.00
+Product ID 4, Table, RMB 300.0, Rating 5.50
+Product ID 1, Phone, RMB 7000.0, Rating 4.50
+Product ID 2, Laptop, RMB 10000.0, Rating 4.50
 ```
-
+Note that when having the same price, the purchased products will be displayed by the purchase time.
 ## Submission
-You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for question 2.
+You'll submit `BigBinary.java` for question 1, `Product.java`, `Store.java` and `Customer.java` for question 2.
