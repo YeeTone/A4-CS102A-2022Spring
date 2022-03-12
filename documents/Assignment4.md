@@ -1,13 +1,13 @@
 # Assignment 4
-> Contributor List:
+## Contributor List:
 > 
-> Design: 
+> Design: Yitong WANG, Yida TAO
 > 
-> JUnit:
+> JUnit: Yitong WANG, Dingyuan XUE
 > 
-> Document:
+> Document: Yida TAO
 > 
-> Test:
+> Test: Siyi WANG, Sicen LIU
 
 ## Question 1. BigBinary
 
@@ -161,7 +161,7 @@ private ArrayList<Product> productList;
 
 #### Constructors
 ```java
-public Store(String name, ArrayList<Product>)
+public Store(String name, ArrayList<Product> productList)
 ```
 #### Methods
 ```java
@@ -209,7 +209,7 @@ public void rateProduct(Product product, float rating)
 public boolean purchaseProduct(Store store, Product product)
 public void viewShoppingCart(SortBy sortMethod)
 ```
-`public void rateProduct(Product product, float rating)`
+`public void rateProduct(Product product, int rating)`
 
 Set the rating of the given `product` to `rating`.
 
@@ -231,7 +231,7 @@ public enum SortBy {
 
 Suppose a customer Alice has purchase a few products from different stores.
 ```java
-Customer alice = new Customer(1, "Alice")
+Customer alice = new Customer(1, "Alice");
 // code for creating stores and products are ommitted
 alice.purchaseProduct(store1, product_laptop);
 alice.purchaseProduct(store1, product_table);
@@ -240,7 +240,7 @@ alice.purchaseProduct(store3, product_phone);
 ```
 Then, calling
 ```java
-alice.viewShoppingCart(SortBy.PurchaseTime)
+alice.viewShoppingCart(SortBy.PurchaseTime);
 ```
 will display (see `Product.toString()` for the format)
 ```
@@ -251,7 +251,7 @@ Product ID 1, Phone, RMB 7000.0, Rating 4.5
 ```
 Calling
 ```java
-alice.viewShoppingCart(SortBy.Rating)
+alice.viewShoppingCart(SortBy.Rating);
 ```
 will display
 ```
@@ -262,7 +262,7 @@ Product ID 4, Table, RMB 300.0, Rating 5.5
 ```
 Calling
 ```java
-alice.viewShoppingCart(SortBy.Price)
+alice.viewShoppingCart(SortBy.Price);
 ```
 will display
 ```
