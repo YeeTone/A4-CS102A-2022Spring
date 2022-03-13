@@ -14,7 +14,7 @@
 Computers store data in the binary form.
 
 YeeTone is a student of CS major but not good at solving binary number arithmetic problems, so he asks you for help. 
-Fortunately, he is very familiar with Java Programming.
+Fortunately, he is very familiar with Java programming.
 If you can help YeeTone solve problems by designing a class in Java, he will be very happy to give you extra bonus points on your assignment!
 
 Please design a Java class named BigBinary to give a hand to YeeTone. 
