@@ -20,7 +20,7 @@ public class TestBigBinaryOfficial {
         public void checkPackageAccess(String pkg) {
             super.checkPackageAccess(pkg);
             if (pkg.equals("java.math")) {
-                throw new RuntimeException("You cannot use java.math.BigInteger or java.math.BigDecimal in this problem!");
+                throw new BigIntegerBannedException("You cannot use java.math.BigInteger or java.math.BigDecimal in this problem!");
             }
         }
 
@@ -36,6 +36,15 @@ public class TestBigBinaryOfficial {
 
         public void setAbleResetManager(boolean resetAble) {
             ableResetManager = resetAble;
+        }
+
+
+    }
+
+    private static final class BigIntegerBannedException extends RuntimeException {
+
+        public BigIntegerBannedException(String message) {
+            super(message);
         }
     }
 
@@ -218,8 +227,6 @@ public class TestBigBinaryOfficial {
             addJudgement(cases, bitLength, randomPositive(), randomPositive(), selectRandom);
             reverseSignJudge(reverseCases, bitLength);
         });
-
-
     }
 
     private void addJudgement(int cases, int bitLength, boolean positive1, boolean positive2, String randomParameter) {
@@ -237,18 +244,20 @@ public class TestBigBinaryOfficial {
                 banBigInteger();
                 Object addStaticResult = addStaticMethod.invoke(null, bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildAddAnswer(bits1, p1, bits2, p2), addStaticResult.toString());
-                assertEquals(bigBinary1.toString(), buildBigInteger(bits1, p1).toString(2));
-                assertEquals(bigBinary2.toString(), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(buildAddAnswer(bits1, p1, bits2, p2), bigBinaryToString(addStaticResult));
+                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(bits1, p1).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
 
                 banBigInteger();
                 Object addResult = addMethod.invoke(bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildAddAnswer(bits1, p1, bits2, p2), addResult.toString());
-                assertEquals(bigBinary1.toString(), addResult.toString());
-                assertEquals(bigBinary2.toString(), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(buildAddAnswer(bits1, p1, bits2, p2), bigBinaryToString(addResult));
+                assertEquals(bigBinaryToString(bigBinary1), bigBinaryToString(addResult));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
 
             }
+        } catch (BigIntegerBannedException e) {
+            fail(e.getMessage());
         } catch (Exception e) {
             fail(exceptionMessage);
         } catch (AssertionError ae) {
@@ -271,15 +280,19 @@ public class TestBigBinaryOfficial {
                 banBigInteger();
                 Object addStaticResult = addStaticMethod.invoke(null, bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals("0", addStaticResult.toString());
-                assertEquals(bigBinary1.toString(), buildBigInteger(bits, positive1).toString(2));
-                assertEquals(bigBinary2.toString(), buildBigInteger(bitsClone, positive2).toString(2));
+                assertEquals("0", bigBinaryToString(addStaticResult));
+                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(bits, positive1).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bitsClone, positive2).toString(2));
 
+                banBigInteger();
                 Object addResult = addMethod.invoke(bigBinary1, bigBinary2);
-                assertEquals("0", addResult.toString());
-                assertEquals("0", bigBinary1.toString());
-                assertEquals(bigBinary2.toString(), buildBigInteger(bitsClone, positive2).toString(2));
+                allowBigInteger();
+                assertEquals("0", bigBinaryToString(addResult));
+                assertEquals("0", bigBinaryToString(bigBinary1));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bitsClone, positive2).toString(2));
             }
+        } catch (BigIntegerBannedException e) {
+            fail(e.getMessage());
         } catch (Exception e) {
             fail(exceptionMessage);
         } catch (AssertionError e) {
@@ -361,19 +374,21 @@ public class TestBigBinaryOfficial {
                 banBigInteger();
                 Object minusStaticResult = minusStaticMethod.invoke(null, bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildMinusAnswer(bits1, p1, bits2, p2), minusStaticResult.toString());
-                assertEquals(bigBinary1.toString(), buildBigInteger(bits1, p1).toString(2));
-                assertEquals(bigBinary2.toString(), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(buildMinusAnswer(bits1, p1, bits2, p2), bigBinaryToString(minusStaticResult));
+                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(bits1, p1).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
 
                 banBigInteger();
                 Object minusResult = minusMethod.invoke(bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildMinusAnswer(bits1, p1, bits2, p2), minusResult.toString());
-                assertEquals(bigBinary1.toString(), minusResult.toString());
-                assertEquals(bigBinary2.toString(), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(buildMinusAnswer(bits1, p1, bits2, p2), bigBinaryToString(minusResult));
+                assertEquals(bigBinaryToString(bigBinary1), bigBinaryToString(minusResult));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
 
             }
-        } catch (Exception e) {
+        }catch (BigIntegerBannedException e) {
+            fail(e.getMessage());
+        }  catch (Exception e) {
             fail(exceptionMessage);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
@@ -404,18 +419,20 @@ public class TestBigBinaryOfficial {
                 banBigInteger();
                 Object addStaticResult = minusStaticMethod.invoke(null, bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals("0", addStaticResult.toString());
-                assertEquals(bigBinary1.toString(), buildBigInteger(bits, sameSign).toString(2));
-                assertEquals(bigBinary2.toString(), buildBigInteger(bitsClone, sameSign).toString(2));
+                assertEquals("0", bigBinaryToString(addStaticResult));
+                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(bits, sameSign).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bitsClone, sameSign).toString(2));
 
                 banBigInteger();
                 Object addResult = minusMethod.invoke(bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals("0", addResult.toString());
-                assertEquals("0", bigBinary1.toString());
-                assertEquals(bigBinary2.toString(), buildBigInteger(bitsClone, sameSign).toString(2));
+                assertEquals("0", bigBinaryToString(addResult));
+                assertEquals("0", bigBinaryToString(bigBinary1));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bitsClone, sameSign).toString(2));
             }
-        } catch (Exception e) {
+        }catch (BigIntegerBannedException e) {
+            fail(e.getMessage());
+        }  catch (Exception e) {
             fail(exceptionMessage);
         } catch (AssertionError e) {
             fail(assertionFailMessage);
@@ -453,18 +470,20 @@ public class TestBigBinaryOfficial {
                 banBigInteger();
                 Object multiplyStaticResult = multiplyStaticMethod.invoke(null, bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildMultiplyAnswer(bits1, p1, bits2, p2), multiplyStaticResult.toString());
-                assertEquals(bigBinary1.toString(), buildBigInteger(bits1, p1).toString(2));
-                assertEquals(bigBinary2.toString(), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(buildMultiplyAnswer(bits1, p1, bits2, p2), bigBinaryToString(multiplyStaticResult));
+                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(bits1, p1).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
 
                 banBigInteger();
                 Object multiplyResult = multiplyMethod.invoke(bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildMultiplyAnswer(bits1, p1, bits2, p2), multiplyResult.toString());
-                assertEquals(bigBinary1.toString(), multiplyResult.toString());
-                assertEquals(bigBinary2.toString(), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(buildMultiplyAnswer(bits1, p1, bits2, p2), bigBinaryToString(multiplyResult));
+                assertEquals(bigBinaryToString(bigBinary1), bigBinaryToString(multiplyResult));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
 
             }
+        } catch (BigIntegerBannedException e) {
+            fail(e.getMessage());
         } catch (Exception e) {
             fail(exceptionMessage);
         } catch (AssertionError ae) {
@@ -494,7 +513,6 @@ public class TestBigBinaryOfficial {
         ((BigIntegerBanner) bigIntegerBanner).setAbleResetManager(false);
     }
 
-
     private void mul0Judgement(int cases, int bitLength) {
         try {
             for (int i = 0; i < cases; i++) {
@@ -506,21 +524,35 @@ public class TestBigBinaryOfficial {
                 Object bigBinary1 = onlyConstructor.newInstance(bits1, p1);
                 Object bigBinary2 = onlyConstructor.newInstance(bits2, p2);
 
+                banBigInteger();
                 Object multiplyStaticResult = multiplyStaticMethod.invoke(null, bigBinary1, bigBinary2);
-                assertEquals("0", multiplyStaticResult.toString());
-                assertEquals(bigBinary1.toString(), buildBigInteger(bits1, p1).toString(2));
-                assertEquals("0", bigBinary2.toString());
+                allowBigInteger();
+                assertEquals("0", bigBinaryToString(multiplyStaticResult));
+                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(bits1, p1).toString(2));
+                assertEquals("0", bigBinaryToString(bigBinary2));
 
+                banBigInteger();
                 Object multiplyResult = multiplyMethod.invoke(bigBinary1, bigBinary2);
-                assertEquals("0", multiplyResult.toString());
-                assertEquals("0", bigBinary1.toString());
-                assertEquals(bigBinary2.toString(), buildBigInteger(bits2, p2).toString(2));
+                allowBigInteger();
+                assertEquals("0", bigBinaryToString(multiplyResult));
+                assertEquals("0", bigBinaryToString(bigBinary1));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
 
             }
+        } catch (BigIntegerBannedException e) {
+            fail(e.getMessage());
         } catch (Exception e) {
             fail(exceptionMessage);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
         }
+    }
+
+    private static String bigBinaryToString(Object bigBinary) {
+        banBigInteger();
+        String result = bigBinary == null ? null : bigBinary.toString();
+        allowBigInteger();
+
+        return result;
     }
 }
