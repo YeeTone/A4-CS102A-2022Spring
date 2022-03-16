@@ -26,14 +26,16 @@ public BigBinary(int[] bits, boolean positive);
 ```
 
 Design a constructor with two parameters:
-* An int array ```bits``` consisting of 0s and 1s, meaning the corresponding bit values. ```0 <= bits.length <= 1e4```
+* An int array ```bits``` consisting of 0s and 1s, meaning the corresponding bit values. ```0 <= bits.length <= 1e4```. Notice that in order to ensure the data security, you should not copy the reference but the values of ```bits```.
 * A boolean ```positive```, indicating whether the sign of BigBinary object is positive.
+
+In the following examples, ```^``` means power in math instead of XOR. For instance, 3^5 = 3\*3\*3\*3\*3=243.
 
 **Example 1**
 ```java
 bits = {0,1,0,1,1,0}, positive = false
 ```
-The bigBinary can express the binary number ```-10110```, whose decimal number is ```-(2^4^ + 2^2^ + 2^1^) = -22```.
+The bigBinary can express the binary number ```-10110```, whose decimal number is ```-(2^4 + 2^2 + 2^1) = -22```.
 
 **Example 2**
 ```java
@@ -45,7 +47,7 @@ The bigBinary can express the binary number ```0```, whose decimal number is ```
 ```java
 bits = {1,0,0,0,1,1}, positive = true
 ```
-The bigBinary can express the binary number ```100011```, whose decimal number is ```2^5^ + 2^1^ + 2^0^ = 35```.
+The bigBinary can express the binary number ```100011```, whose decimal number is ```2^5 + 2^1 + 2^0 = 35```.
 
 
 ### Methods

@@ -38,11 +38,9 @@ public class TestBigBinaryOfficial {
             ableResetManager = resetAble;
         }
 
-
     }
 
     private static final class BigIntegerBannedException extends RuntimeException {
-
         public BigIntegerBannedException(String message) {
             super(message);
         }
@@ -145,7 +143,6 @@ public class TestBigBinaryOfficial {
         }
     }
 
-
     private int[] generateBits(int length) {
         int[] bits = new int[length];
         for (int i = 0; i < length; i++) {
@@ -234,26 +231,29 @@ public class TestBigBinaryOfficial {
             boolean isRandom = randomParameter.equalsIgnoreCase(selectRandom);
             for (int i = 0; i < cases; i++) {
                 int[] bits1 = generateBits(bitLength);
+                int[] b1Clone = bits1.clone();
                 boolean p1 = isRandom ? randomPositive() : positive1;
                 int[] bits2 = generateBits(bitLength);
+                int[] b2Clone =bits2.clone();
                 boolean p2 = isRandom ? randomPositive() : positive2;
 
                 Object bigBinary1 = onlyConstructor.newInstance(bits1, p1);
                 Object bigBinary2 = onlyConstructor.newInstance(bits2, p2);
 
                 banBigInteger();
+                bitsRandomMutation(bits1);
                 Object addStaticResult = addStaticMethod.invoke(null, bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildAddAnswer(bits1, p1, bits2, p2), bigBinaryToString(addStaticResult));
-                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(bits1, p1).toString(2));
-                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(buildAddAnswer(b1Clone, p1, b2Clone, p2), bigBinaryToString(addStaticResult));
+                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(b1Clone, p1).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(b2Clone, p2).toString(2));
 
                 banBigInteger();
                 Object addResult = addMethod.invoke(bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildAddAnswer(bits1, p1, bits2, p2), bigBinaryToString(addResult));
+                assertEquals(buildAddAnswer(b1Clone, p1, b2Clone, p2), bigBinaryToString(addResult));
                 assertEquals(bigBinaryToString(bigBinary1), bigBinaryToString(addResult));
-                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(b2Clone, p2).toString(2));
 
             }
         } catch (BigIntegerBannedException e) {
@@ -364,26 +364,29 @@ public class TestBigBinaryOfficial {
             boolean isRandom = randomParameter.equalsIgnoreCase(selectRandom);
             for (int i = 0; i < cases; i++) {
                 int[] bits1 = generateBits(bitLength);
+                int[] b1Clone = bits1.clone();
                 boolean p1 = isRandom ? randomPositive() : positive1;
                 int[] bits2 = generateBits(bitLength);
+                int[] b2Clone = bits2.clone();
                 boolean p2 = isRandom ? randomPositive() : positive2;
 
                 Object bigBinary1 = onlyConstructor.newInstance(bits1, p1);
                 Object bigBinary2 = onlyConstructor.newInstance(bits2, p2);
 
                 banBigInteger();
+                bitsRandomMutation(bits1);
                 Object minusStaticResult = minusStaticMethod.invoke(null, bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildMinusAnswer(bits1, p1, bits2, p2), bigBinaryToString(minusStaticResult));
-                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(bits1, p1).toString(2));
-                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(buildMinusAnswer(b1Clone, p1, b2Clone, p2), bigBinaryToString(minusStaticResult));
+                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(b1Clone, p1).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(b2Clone, p2).toString(2));
 
                 banBigInteger();
                 Object minusResult = minusMethod.invoke(bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildMinusAnswer(bits1, p1, bits2, p2), bigBinaryToString(minusResult));
+                assertEquals(buildMinusAnswer(b1Clone, p1, b2Clone, p2), bigBinaryToString(minusResult));
                 assertEquals(bigBinaryToString(bigBinary1), bigBinaryToString(minusResult));
-                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(b2Clone, p2).toString(2));
 
             }
         }catch (BigIntegerBannedException e) {
@@ -460,26 +463,29 @@ public class TestBigBinaryOfficial {
         try {
             for (int i = 0; i < cases; i++) {
                 int[] bits1 = generateBits(bitLength);
+                int[] b1Clone = bits1.clone();
                 boolean p1 = randomPositive();
                 int[] bits2 = generateBits(bitLength);
+                int[] b2Clone = bits2.clone();
                 boolean p2 = randomPositive();
 
                 Object bigBinary1 = onlyConstructor.newInstance(bits1, p1);
                 Object bigBinary2 = onlyConstructor.newInstance(bits2, p2);
 
                 banBigInteger();
+                bitsRandomMutation(bits1);
                 Object multiplyStaticResult = multiplyStaticMethod.invoke(null, bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildMultiplyAnswer(bits1, p1, bits2, p2), bigBinaryToString(multiplyStaticResult));
-                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(bits1, p1).toString(2));
-                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(buildMultiplyAnswer(b1Clone, p1, b2Clone, p2), bigBinaryToString(multiplyStaticResult));
+                assertEquals(bigBinaryToString(bigBinary1), buildBigInteger(b1Clone, p1).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(b2Clone, p2).toString(2));
 
                 banBigInteger();
                 Object multiplyResult = multiplyMethod.invoke(bigBinary1, bigBinary2);
                 allowBigInteger();
-                assertEquals(buildMultiplyAnswer(bits1, p1, bits2, p2), bigBinaryToString(multiplyResult));
+                assertEquals(buildMultiplyAnswer(b1Clone, p1, b2Clone, p2), bigBinaryToString(multiplyResult));
                 assertEquals(bigBinaryToString(bigBinary1), bigBinaryToString(multiplyResult));
-                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
+                assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(b2Clone, p2).toString(2));
 
             }
         } catch (BigIntegerBannedException e) {
@@ -554,5 +560,15 @@ public class TestBigBinaryOfficial {
         allowBigInteger();
 
         return result;
+    }
+
+    private static void bitsRandomMutation(int[] bits){
+        for (int i = 0; i < bits.length; i++) {
+            if(generator.nextBoolean()){
+                bits[i] = 1;
+            }else {
+                bits[i] = 0;
+            }
+        }
     }
 }

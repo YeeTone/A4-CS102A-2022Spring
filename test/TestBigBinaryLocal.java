@@ -1,3 +1,4 @@
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -80,6 +81,7 @@ public class TestBigBinaryLocal {
             assertFalse(Modifier.isAbstract(m.getModifiers()));
             assertFalse(Modifier.isFinal(m.getModifiers()));
             assertFalse(Modifier.isNative(m.getModifiers()));
+
             m.setAccessible(true);
         }
 
@@ -218,7 +220,7 @@ public class TestBigBinaryLocal {
     @Test
     public void specialAddCases() throws Throwable {
 
-        assertTimeoutPreemptively(Duration.ofMillis(2000), () -> {
+        assertTimeoutPreemptively(Duration.ofMillis(1000), () -> {
             Object empty0 = transIntoBigBinary("");
 
             String binaryString = Integer.toBinaryString(0xfee1dead);
@@ -234,11 +236,37 @@ public class TestBigBinaryLocal {
             assertEquals(binaryString, binary.toString());
         });
 
+        assertTimeoutPreemptively(Duration.ofMillis(1000), () -> {
+            int[] b1 = {1, 0, 0, 0 ,0};
+            int[] b2 = {1, 1, 1, 1, 1};
+
+            Object bigBinary1 = onlyConstructor.newInstance(b1, true);
+            Object bigBinary2 = onlyConstructor.newInstance(b2, true);
+
+            flip(b1);
+            flip(b2);
+
+            assertEquals("10000", bigBinary1.toString());
+            assertEquals("11111", bigBinary2.toString());
+
+            assertEquals("101111", addStaticMethod.invoke(null, bigBinary1, bigBinary2).toString());
+            assertEquals("101111", addMethod.invoke(bigBinary1, bigBinary2).toString());
+            assertEquals("101111", bigBinary1.toString());
+            assertEquals("11111", bigBinary2.toString());
+
+        });
+
+    }
+
+    private void flip(int[] b){
+        for (int i = 0; i < b.length; i++) {
+            b[i] = (b[i] == 1 ? 0: 1);
+        }
     }
 
     @Test
     public void specialMinusCases() throws Throwable {
-        assertTimeoutPreemptively(Duration.ofMillis(2000), () -> {
+        assertTimeoutPreemptively(Duration.ofMillis(1000), () -> {
             String binaryString = Integer.toBinaryString(0xdeadbeef);
             Object binary_1 = transIntoBigBinary("00000" + binaryString);
             Object binary_2 = transIntoBigBinary("0000000000" + binaryString);
@@ -253,12 +281,32 @@ public class TestBigBinaryLocal {
             assertEquals(binaryString, binary_2.toString());
         });
 
+        assertTimeoutPreemptively(Duration.ofMillis(1000), () -> {
+            int[] b1 = {1, 0, 0, 0 ,0};
+            int[] b2 = {1, 1, 1, 1, 1};
+
+            Object bigBinary1 = onlyConstructor.newInstance(b1, true);
+            Object bigBinary2 = onlyConstructor.newInstance(b2, true);
+
+            flip(b1);
+            flip(b2);
+
+            assertEquals("10000", bigBinary1.toString());
+            assertEquals("11111", bigBinary2.toString());
+
+            assertEquals("-1111", minusStaticMethod.invoke(null, bigBinary1, bigBinary2).toString());
+            assertEquals("-1111", minusMethod.invoke(bigBinary1, bigBinary2).toString());
+            assertEquals("-1111", bigBinary1.toString());
+            assertEquals("11111", bigBinary2.toString());
+
+        });
+
     }
 
     @Test
     public void specialMultiplyCases() throws Throwable {
 
-        assertTimeoutPreemptively(Duration.ofMillis(2000), () -> {
+        assertTimeoutPreemptively(Duration.ofMillis(1000), () -> {
             Object empty0 = transIntoBigBinary("");
 
             String binaryString = Integer.toBinaryString(0xfacef00d);
@@ -272,6 +320,26 @@ public class TestBigBinaryLocal {
             assertEquals("0", multiplyMethod.invoke(binary, empty0).toString());
             assertEquals("0", empty0.toString());
             assertEquals("0", binary.toString());
+        });
+
+        assertTimeoutPreemptively(Duration.ofMillis(1000), () -> {
+            int[] b1 = {1, 0, 0, 0 ,0};
+            int[] b2 = {1, 1, 1, 1, 1};
+
+            Object bigBinary1 = onlyConstructor.newInstance(b1, true);
+            Object bigBinary2 = onlyConstructor.newInstance(b2, true);
+
+            flip(b1);
+            flip(b2);
+
+            assertEquals("10000", bigBinary1.toString());
+            assertEquals("11111", bigBinary2.toString());
+
+            assertEquals("111110000", multiplyStaticMethod.invoke(null, bigBinary1, bigBinary2).toString());
+            assertEquals("111110000", multiplyMethod.invoke(bigBinary1, bigBinary2).toString());
+            assertEquals("111110000", bigBinary1.toString());
+            assertEquals("11111", bigBinary2.toString());
+
         });
 
     }
