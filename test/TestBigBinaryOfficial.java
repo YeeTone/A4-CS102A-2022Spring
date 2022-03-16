@@ -76,7 +76,7 @@ public class TestBigBinaryOfficial {
     private static final String selectRandom = "RANDOM";
     private static final String selectNotRandom = "NOT-RANDOM";
 
-    private static final long DURATION_MILL = 2000;
+    private static final long DURATION_MILL = 3000;
 
     @BeforeAll
     static void checkBigBinaryDefinition() throws InterruptedException {
