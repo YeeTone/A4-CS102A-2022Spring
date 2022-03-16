@@ -3,7 +3,7 @@ public class BigBinary {
     private boolean positive;
 
     public BigBinary(int[] bits, boolean isPositive){
-        this.bits=bits;
+        this.bits=bits.clone();
         this.positive=isPositive;
     }
 
