@@ -162,6 +162,7 @@ private static int cnt; //intialized to 0, and will increase by 1 when the const
 private int id;  // unique for each store and the value is from cnt.
 private String name;
 private ArrayList<Product> productList;
+private float income;
 ```
 
 #### Constructors
@@ -175,6 +176,8 @@ public boolean addProduct(Product product)
 public boolean removeProduct(Product product)
 public ArrayList<Product> getProductList()
 public boolean hasProduct(Product product)
+public float getIncome()
+public boolean setIncome(float income)
 ```
 
 `public boolean addProduct(Product product)`
@@ -196,6 +199,14 @@ Return `productList`.
 `public boolean hasProduct(Product product)`
 
 Return `true` if this store has the given `product`; otherwise, return `false`.
+
+`public float getIncome()`
+
+Get the current income of this store.
+
+`public boolean setIncome(float income)`
+
+Update the income.
 
 ### 2.3 Customer
 #### Attributes
