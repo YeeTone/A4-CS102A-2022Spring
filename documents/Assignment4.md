@@ -206,7 +206,7 @@ Get the current income of this store.
 
 `public boolean setIncome(float income)`
 
-Update the income.
+Update the income. Return `false` if the income is not valid.
 
 ### 2.3 Customer
 #### Attributes
@@ -215,17 +215,21 @@ private static int cnt; //intialized to 0, and will increase by 1 when the const
 private int id;  // unique for each customer and the value is from cnt.
 private String name;
 private ArrayList<Product> shoppingCart; // default empty
+private float wallet; 
 ```
 #### Constructor
 ```java
 public Customer(String name)
+public Customer(String name, float wallet)
 ```
 The id of the first customer is 1.
 #### Methods
 ```java
 public void rateProduct(Product product, int rating)
 public boolean purchaseProduct(Store store, Product product)
+public boolean updateWallet(float amount)
 public void viewShoppingCart(SortBy sortMethod)
+public boolean refundProduct(Product product); 
 ```
 `public void rateProduct(Product product, int rating)`
 
@@ -233,13 +237,17 @@ Set the rating of the given `product` to `rating`.
 
 `public boolean purchaseProduct(Store store, Product product)`
 
-Purchase `product` from `store`; return `true` if the `store` has this `product` and return `false` otherwise. Note that the shoping cart of this customer as well as the product list for the store should be updated accordingly.
+Purchase `product` from `store`; return `true` if the `store` has this `product` and the customer has enough money in the wallet to purchase this product; return `false` otherwise. Note that the shopping cart of this customer as well as the product list for the store should be updated accordingly.
 
 For simplicity, **suppose a customer can purchase the same product only once**.
 
+`public boolean updateWallet(float amount)`
+
+Update the wallet of this customer. The amount could be positive (gaining money) or negative (consuming money).
+
 `public void viewShoppingCart(SortBy sortMethod)`
 
-**(Bonus)** Display the purchased products in the shopping cart of this customer. The order of displaying is specified by `sortMethod`. We provide an Enum `SortBy`, which says that sorting could be performed by the purchase time, rating, or the price of products.
+Display the purchased products in the shopping cart of this customer. The order of displaying is specified by `sortMethod`. We provide an Enum `SortBy`, which says that sorting could be performed by the purchase time, rating, or the price of products.
 
 ```Java
 public enum SortBy {
@@ -291,5 +299,12 @@ Product ID 1, Phone, RMB 7000.0, Rating 4.50
 Product ID 2, Laptop, RMB 10000.0, Rating 4.50
 ```
 Note that when having the same price, the purchased products will be displayed by the purchase time.
+
+`public boolean refundProduct(Product product)`
+
+**Bonus** Return the product to its store and get the money back. Return `true` if this customer has indeed purchased this product before. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly; In addition, the `productList` and `income` of the corresponding store should also be updated (suppose that the store adds this product back to its product list and could re-sell this product).
+
+Tip: to associate a product and its corresponding store, you may use a `HashMap` to map their IDs (`<productID, storeID>`).
+
 ## Submission
 You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for question 2.
