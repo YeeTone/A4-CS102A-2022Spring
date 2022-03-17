@@ -135,14 +135,14 @@ The id of the first product is 1.
 
 #### Methods
 ```java
-public void setRating(int rating)
+public boolean setRating(int rating)
 public float getAvgRating()
 public String toString()
 ```
-`public void setRating(int rating)`
+`public boolean setRating(int rating)`
 
 A customer can rate a product using this method. The `rating` will be added to this product's rating list `ratings`. Note that
-* A `rating` should be within the range [1,5]; in other words, there are only 5 possible values for `rating`.
+* A `rating` should be within the range [1,5]; in other words, there are only 5 possible values for `rating`. If `rating` is not in this range, then do not add into `rating` and return false.
 * For simplicity, *a customer can give different ratings to the same product multiple times*.
 
 `public float getAvgRating()`
@@ -225,15 +225,15 @@ public Customer(String name, float wallet)
 The id of the first customer is 1.
 #### Methods
 ```java
-public void rateProduct(Product product, int rating)
+public boolean rateProduct(Product product, int rating)
 public boolean purchaseProduct(Store store, Product product)
 public boolean updateWallet(float amount)
 public void viewShoppingCart(SortBy sortMethod)
 public boolean refundProduct(Product product); 
 ```
-`public void rateProduct(Product product, int rating)`
+`public boolean rateProduct(Product product, int rating)`
 
-Set the rating of the given `product` to `rating`.
+Set the rating of the given `product` to `rating`. For the invalid argument, return false; otherwise return true.
 
 `public boolean purchaseProduct(Store store, Product product)`
 
