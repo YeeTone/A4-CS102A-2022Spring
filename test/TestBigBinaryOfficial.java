@@ -76,7 +76,9 @@ public class TestBigBinaryOfficial {
     private static final String selectRandom = "RANDOM";
     private static final String selectNotRandom = "NOT-RANDOM";
 
-    private static final long DURATION_MILL = 3000;
+    private static final long DURATION_MILL = 2000;
+    private static final int addMinusLength = 15000;
+    private static final int multiplyLength = 1500;
 
     @BeforeAll
     static void checkBigBinaryDefinition() throws InterruptedException {
@@ -144,6 +146,7 @@ public class TestBigBinaryOfficial {
     }
 
     private int[] generateBits(int length) {
+        length = generator.nextInt(length);
         int[] bits = new int[length];
         for (int i = 0; i < length; i++) {
             if (generator.nextBoolean()) {
@@ -184,7 +187,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void add01() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 150, bitLength = 10000;
+            int cases = 150, bitLength = addMinusLength;
             addJudgement(cases, bitLength, true, true, selectNotRandom);
         });
     }
@@ -192,7 +195,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void add02() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 150, bitLength = 10000;
+            int cases = 150, bitLength = addMinusLength;
             addJudgement(cases, bitLength, false, false, selectNotRandom);
         });
 
@@ -201,16 +204,16 @@ public class TestBigBinaryOfficial {
     @Test
     public void add03() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 120, reverseCases = 30, bitLength = 10000;
+            int cases = 120, reverseCases = 30, bitLength = addMinusLength;
             addJudgement(cases, bitLength, true, false, selectNotRandom);
-            reverseSignJudge(reverseCases, bitLength);
+            reverseSignJudge(reverseCases, addMinusLength);
         });
     }
 
     @Test
     public void add04() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 120, reverseCases = 30, bitLength = 10000;
+            int cases = 120, reverseCases = 30, bitLength = addMinusLength;
             addJudgement(cases, bitLength, false, true, selectNotRandom);
             reverseSignJudge(reverseCases, bitLength);
         });
@@ -220,7 +223,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void add05() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 120, reverseCases = 30, bitLength = 10000;
+            int cases = 120, reverseCases = 30, bitLength = addMinusLength;
             addJudgement(cases, bitLength, randomPositive(), randomPositive(), selectRandom);
             reverseSignJudge(reverseCases, bitLength);
         });
@@ -234,7 +237,7 @@ public class TestBigBinaryOfficial {
                 int[] b1Clone = bits1.clone();
                 boolean p1 = isRandom ? randomPositive() : positive1;
                 int[] bits2 = generateBits(bitLength);
-                int[] b2Clone =bits2.clone();
+                int[] b2Clone = bits2.clone();
                 boolean p2 = isRandom ? randomPositive() : positive2;
 
                 Object bigBinary1 = onlyConstructor.newInstance(bits1, p1);
@@ -314,7 +317,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void minus01() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 120, sameAbsCases = 30, bitLength = 10000;
+            int cases = 120, sameAbsCases = 30, bitLength = addMinusLength;
             minusJudgement(cases, bitLength, true, true, selectNotRandom);
             sameAbsoluteJudge(sameAbsCases, bitLength);
         });
@@ -323,7 +326,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void minus02() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 120, sameAbsCases = 30, bitLength = 10000;
+            int cases = 120, sameAbsCases = 30, bitLength = addMinusLength;
             minusJudgement(cases, bitLength, false, false, selectNotRandom);
             sameAbsoluteJudge(sameAbsCases, bitLength);
         });
@@ -334,7 +337,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void minus03() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 150, bitLength = 10000;
+            int cases = 150, bitLength = addMinusLength;
             minusJudgement(cases, bitLength, true, false, selectNotRandom);
         });
 
@@ -344,7 +347,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void minus04() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 150, bitLength = 10000;
+            int cases = 150, bitLength = addMinusLength;
             minusJudgement(cases, bitLength, false, true, selectNotRandom);
         });
     }
@@ -352,7 +355,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void minus05() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 150, bitLength = 10000;
+            int cases = 150, bitLength = addMinusLength;
             minusJudgement(cases, bitLength, randomPositive(), randomPositive(), selectRandom);
         });
 
@@ -389,9 +392,9 @@ public class TestBigBinaryOfficial {
                 assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(b2Clone, p2).toString(2));
 
             }
-        }catch (BigIntegerBannedException e) {
+        } catch (BigIntegerBannedException e) {
             fail(e.getMessage());
-        }  catch (Exception e) {
+        } catch (Exception e) {
             fail(exceptionMessage);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
@@ -433,9 +436,9 @@ public class TestBigBinaryOfficial {
                 assertEquals("0", bigBinaryToString(bigBinary1));
                 assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bitsClone, sameSign).toString(2));
             }
-        }catch (BigIntegerBannedException e) {
+        } catch (BigIntegerBannedException e) {
             fail(e.getMessage());
-        }  catch (Exception e) {
+        } catch (Exception e) {
             fail(exceptionMessage);
         } catch (AssertionError e) {
             fail(assertionFailMessage);
@@ -445,7 +448,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void bonusMultiply01() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 150, bitLength = 1000;
+            int cases = 150, bitLength = multiplyLength;
             multiplyJudgement(cases, bitLength);
         });
     }
@@ -453,7 +456,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void bonusMultiply02() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 100, mul0Cases = 50, bitLength = 1000;
+            int cases = 100, mul0Cases = 50, bitLength = multiplyLength;
             multiplyJudgement(cases, bitLength);
             mul0Judgement(mul0Cases, bitLength);
         });
@@ -562,11 +565,11 @@ public class TestBigBinaryOfficial {
         return result;
     }
 
-    private static void bitsRandomMutation(int[] bits){
+    private static void bitsRandomMutation(int[] bits) {
         for (int i = 0; i < bits.length; i++) {
-            if(generator.nextBoolean()){
+            if (generator.nextBoolean()) {
                 bits[i] = 1;
-            }else {
+            } else {
                 bits[i] = 0;
             }
         }

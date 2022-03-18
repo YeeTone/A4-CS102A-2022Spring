@@ -18,7 +18,7 @@ Fortunately, he is very familiar with Java programming.
 If you can help YeeTone solve problems by designing a class in Java, he will be very happy to give you extra bonus points on your assignment!
 
 Please design a Java class named BigBinary to give a hand to YeeTone. 
-Notice that in order to let YeeTone really trust you have the ability to help him solve the problems, YeeTone does not want you to use some libraries of Java such as ```java.math``` in this problem. 
+Notice that in order to let YeeTone really trust you have the ability to help him solve the problems, YeeTone does not want you to use some classes in the libraries of Java such as ```java.math.BigInteger``` in this problem. 
 
 ### Constructor
 ```java
@@ -26,7 +26,7 @@ public BigBinary(int[] bits, boolean positive);
 ```
 
 Design a constructor with two parameters:
-* An int array ```bits``` consisting of 0s and 1s, meaning the corresponding bit values. ```0 <= bits.length <= 1e4```. Notice that in order to ensure the data security, you should not copy the reference but the values of ```bits```.
+* An int array ```bits``` consisting of 0s and 1s, meaning the corresponding bit values. ```0 <= bits.length <= 1,5000```. Notice that in order to ensure the data security, you should not copy the reference but the values of ```bits```.
 * A boolean ```positive```, indicating whether the sign of BigBinary object is positive.
 
 In the following examples, ```^``` means power in math instead of XOR. For instance, 3^5 = 3\*3\*3\*3\*3=243.
