@@ -172,7 +172,7 @@ public Store(String name, ArrayList<Product> productList);
 The id of the first store is 1.
 #### Methods
 ```java
-public boolean addProduct(Product product)
+public boolean addProduct(Product product);
 public boolean removeProduct(Product product);
 public ArrayList<Product> getProductList();
 public boolean hasProduct(Product product);
