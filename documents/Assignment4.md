@@ -113,6 +113,8 @@ After executing the method, the return value should be the difference between Bi
 
 **(Bonus)** After executing the method, the return value should be the product of BigBinary ```b1``` and BigBinary ```b2```(i.e. ```b1``` * ```b2```). BigBinary ```b1``` and ```b2``` should not be changed.
 
+**Hint for Bonus** Considering the data scale, the simple implementation may cause **TLE(Time Limit Exceeded)** and cannot pass the testcases. Please think about how to improve the efficiency of multiplication!
+
 ## Question 2. Online Store [Medium, 60 + 12 Points]
 
 Online Store is one of the project topics in the course OOAD(Object-Oriented Analysis and Design) in 2021Fall semester. In the basic part of project requirement, customers could go to different online stores, each of which provides a list of products for customers to buy. In this question, you'll contribute to the project by designing three classes, `Customer`, `Store`, and `Product`, to implement the online shopping process. The details of each class is described below.
