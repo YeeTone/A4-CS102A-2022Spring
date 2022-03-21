@@ -74,7 +74,7 @@ public class TestBigBinaryOfficial {
     private static final String selectRandom = "RANDOM";
     private static final String selectNotRandom = "NOT-RANDOM";
 
-    private static final long DURATION_MILL = 2000;
+    private static final long DURATION_MILL = 2500;
     private static final int addMinusLength = 15000;
     private static final int multiplyLength = 15000;
 
@@ -451,7 +451,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void bonusMultiply01() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 50, bitLength = multiplyLength;
+            int cases = 100, bitLength = multiplyLength;
             multiplyJudgement(cases, bitLength);
         });
     }
@@ -460,7 +460,7 @@ public class TestBigBinaryOfficial {
     public void bonusMultiply02() {
 
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 40, mul0Cases = 10, bitLength = multiplyLength;
+            int cases = 80, mul0Cases = 20, bitLength = multiplyLength;
             multiplyJudgement(cases, bitLength);
             mul0Judgement(mul0Cases, bitLength);
         });
