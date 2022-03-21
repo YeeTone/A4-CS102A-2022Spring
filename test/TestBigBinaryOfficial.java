@@ -1,4 +1,7 @@
+import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
@@ -34,7 +37,7 @@ public class TestBigBinaryOfficial {
             }
         }
 
-        public void setAbleResetManager(boolean resetAble) {
+        public static void setAbleResetManager(boolean resetAble) {
             ableResetManager = resetAble;
         }
 
@@ -78,10 +81,11 @@ public class TestBigBinaryOfficial {
 
     private static final long DURATION_MILL = 2000;
     private static final int addMinusLength = 15000;
-    private static final int multiplyLength = 1500;
+    private static final int multiplyLength = 15000;
 
     @BeforeAll
     static void checkBigBinaryDefinition() throws InterruptedException {
+        BigIntegerBanner.setAbleResetManager(true);
         try {
             checkExist();
             checkType();
@@ -89,6 +93,13 @@ public class TestBigBinaryOfficial {
         } catch (Throwable e) {
             fail(definitionErrorMessage);
         }
+
+
+    }
+
+    @BeforeEach
+    public void initEach(){
+        allowBigInteger();
     }
 
     private static void checkExist() throws Throwable {
@@ -331,7 +342,6 @@ public class TestBigBinaryOfficial {
             sameAbsoluteJudge(sameAbsCases, bitLength);
         });
 
-
     }
 
     @Test
@@ -358,6 +368,7 @@ public class TestBigBinaryOfficial {
             int cases = 150, bitLength = addMinusLength;
             minusJudgement(cases, bitLength, randomPositive(), randomPositive(), selectRandom);
         });
+
 
 
     }
@@ -448,7 +459,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void bonusMultiply01() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 150, bitLength = multiplyLength;
+            int cases = 50, bitLength = multiplyLength;
             multiplyJudgement(cases, bitLength);
         });
     }
@@ -456,7 +467,7 @@ public class TestBigBinaryOfficial {
     @Test
     public void bonusMultiply02() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 100, mul0Cases = 50, bitLength = multiplyLength;
+            int cases = 40, mul0Cases = 10, bitLength = multiplyLength;
             multiplyJudgement(cases, bitLength);
             mul0Judgement(mul0Cases, bitLength);
         });
@@ -512,14 +523,14 @@ public class TestBigBinaryOfficial {
     }
 
     private static void allowBigInteger() {
-        ((BigIntegerBanner) bigIntegerBanner).setAbleResetManager(true);
+        BigIntegerBanner.setAbleResetManager(true);
         System.setSecurityManager(bigIntegerAllower);
     }
 
     private static void banBigInteger() {
-        ((BigIntegerBanner) bigIntegerBanner).setAbleResetManager(true);
+        BigIntegerBanner.setAbleResetManager(true);
         System.setSecurityManager(bigIntegerBanner);
-        ((BigIntegerBanner) bigIntegerBanner).setAbleResetManager(false);
+        BigIntegerBanner.setAbleResetManager(false);
     }
 
     private void mul0Judgement(int cases, int bitLength) {
@@ -573,5 +584,10 @@ public class TestBigBinaryOfficial {
                 bits[i] = 0;
             }
         }
+    }
+
+    @AfterEach
+    public void resetSecurityManager(){
+        allowBigInteger();
     }
 }
