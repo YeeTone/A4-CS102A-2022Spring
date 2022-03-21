@@ -74,7 +74,7 @@ public class TestBigBinaryOfficial {
     private static final String selectRandom = "RANDOM";
     private static final String selectNotRandom = "NOT-RANDOM";
 
-    private static final long DURATION_MILL = 1600;
+    private static final long DURATION_MILL = 2000;
     private static final int addMinusLength = 15000;
     private static final int multiplyLength = 15000;
 
