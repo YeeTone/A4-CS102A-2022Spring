@@ -9,7 +9,7 @@
 > 
 > Solution & Test: Siyi WANG, Sicen LIU
 
-## Question 1. BigBinary
+## Question 1. BigBinary [Medium, 40 + 8 Points]
 
 Computers store data in the binary form.
 
@@ -113,9 +113,9 @@ After executing the method, the return value should be the difference between Bi
 
 **(Bonus)** After executing the method, the return value should be the product of BigBinary ```b1``` and BigBinary ```b2```(i.e. ```b1``` * ```b2```). BigBinary ```b1``` and ```b2``` should not be changed.
 
-## Question 2. Online store
+## Question 2. Online Store [Medium, 60 + 12 Points]
 
-Online shopping has becoming more and more convenient these days. Basically, customers could go to different online stores, each of which provides a list of products for customers to buy. In this question, you'll design three classes, `Customer`, `Store`, and `Product`, to implement the online shopping process. The details of each class is described below.
+Online Store is one of the project topics in the course OOAD(Object-Oriented Analysis and Design) in 2021Fall semester. In the basic part of project requirement, customers could go to different online stores, each of which provides a list of products for customers to buy. In this question, you'll contribute to the project by designing three classes, `Customer`, `Store`, and `Product`, to implement the online shopping process. The details of each class is described below.
 
 ### 2.1 Product
 #### Attributes
