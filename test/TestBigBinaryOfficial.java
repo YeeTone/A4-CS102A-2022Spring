@@ -10,10 +10,12 @@ import java.math.BigInteger;
 import java.security.Permission;
 import java.time.Duration;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestBigBinaryOfficial {
+    private static final AtomicBoolean ableResetManager = new AtomicBoolean(false);
 
     private static final class BigIntegerBanner extends SecurityManager {
 
@@ -23,10 +25,14 @@ public class TestBigBinaryOfficial {
             if (pkg.equals("java.math")) {
                 throw new BigIntegerBannedException("You cannot use java.math.BigInteger or java.math.BigDecimal in this problem!");
             }
+
         }
 
         @Override
         public void checkPermission(Permission perm) {
+            if (perm.getName().equals("setSecurityManager") && !ableResetManager.get()) {
+                throw new RuntimeException("Do not reset SecurityManager!");
+            }
 
         }
 
@@ -509,12 +515,21 @@ public class TestBigBinaryOfficial {
         return result;
     }
 
-    private static void allowBigInteger() {
-        System.setSecurityManager(bigIntegerAllower);
+    private void allowBigInteger() {
+        synchronized (ableResetManager) {
+            ableResetManager.set(true);
+            System.setSecurityManager(bigIntegerAllower);
+        }
+
     }
 
-    private static void banBigInteger() {
-        System.setSecurityManager(bigIntegerBanner);
+    private void banBigInteger() {
+        synchronized (ableResetManager) {
+            ableResetManager.set(true);
+            System.setSecurityManager(bigIntegerBanner);
+            ableResetManager.set(false);
+        }
+
     }
 
     private void mul0Judgement(int cases, int bitLength) {
@@ -552,7 +567,7 @@ public class TestBigBinaryOfficial {
         }
     }
 
-    private static String bigBinaryToString(Object bigBinary) {
+    private String bigBinaryToString(Object bigBinary) {
         banBigInteger();
         String result = bigBinary == null ? null : bigBinary.toString();
         allowBigInteger();
@@ -573,5 +588,7 @@ public class TestBigBinaryOfficial {
     @AfterEach
     public void resetSecurityManager() {
         allowBigInteger();
+
+
     }
 }
