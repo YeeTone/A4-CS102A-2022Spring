@@ -9,7 +9,7 @@
 > 
 > Solution & Test: Siyi WANG, Sicen LIU
 
-## Question 1. BigBinary
+## Question 1. BigBinary [Medium, 40 + 8 Points]
 
 Computers store data in the binary form.
 
@@ -113,9 +113,9 @@ After executing the method, the return value should be the difference between Bi
 
 **(Bonus)** After executing the method, the return value should be the product of BigBinary ```b1``` and BigBinary ```b2```(i.e. ```b1``` * ```b2```). BigBinary ```b1``` and ```b2``` should not be changed.
 
-## Question 2. Online store
+## Question 2. Online Store [Medium, 60 + 12 Points]
 
-Online shopping has becoming more and more convenient these days. Basically, customers could go to different online stores, each of which provides a list of products for customers to buy. In this question, you'll design three classes, `Customer`, `Store`, and `Product`, to implement the online shopping process. The details of each class is described below.
+Online Store is one of the project topics in the course OOAD(Object-Oriented Analysis and Design) in 2021Fall semester. In the basic part of project requirement, customers could go to different online stores, each of which provides a list of products for customers to buy. In this question, you'll contribute to the project by designing three classes, `Customer`, `Store`, and `Product`, to implement the online shopping process. The details of each class is described below.
 
 ### 2.1 Product
 #### Attributes
@@ -129,28 +129,28 @@ private ArrayList<Integer> ratings; // default empty
 
 #### Constructor
 ```java
-public Product(String name, float price)
+public Product(String name, float price);
 ```
 The id of the first product is 1.
 
 #### Methods
 ```java
-public boolean setRating(int rating)
-public float getAvgRating()
-public String toString()
+public boolean setRating(int rating);
+public float getAvgRating();
+public String toString();
 ```
-`public boolean setRating(int rating)`
+`public boolean setRating(int rating);`
 
 A customer can rate a product using this method. The `rating` will be added to this product's rating list `ratings`. Note that
 * A `rating` should be within the range [1,5]; in other words, there are only 5 possible values for `rating`. If `rating` is not in this range, then do not add into `rating` and return false.
 * For simplicity, *a customer can give different ratings to the same product multiple times*.
 
-`public float getAvgRating()`
+`public float getAvgRating();`
 
 Return the average rating of this product, which is computed as the average rating given all the ratings its has received so far.   
 Again, for simplicity, *a customer can give different ratings to the same product multiple times*. For example, if a product has got two different ratings, 5 and 4, from Alice and Bob respectively, then its rating is 4.5; if a product has got two different ratings, 5 and 4, both from Alice, then its rating is still 4.5.
 
-`public String toString()`
+`public String toString();`
 
 Return a string description of this product, in the format of `Product ID id, name, RMB price, Rating rating`, e.g., `Product ID 12345, Laptop, RMB 10000.0, Rating 4.50`.   
 Note that for `price`, let's keep 1 decimal place. For `rating`, keep 2 decimal place.
@@ -167,44 +167,44 @@ private float income;
 
 #### Constructors
 ```java
-public Store(String name, ArrayList<Product> productList)
+public Store(String name, ArrayList<Product> productList);
 ```
 The id of the first store is 1.
 #### Methods
 ```java
-public boolean addProduct(Product product)
-public boolean removeProduct(Product product)
-public ArrayList<Product> getProductList()
-public boolean hasProduct(Product product)
-public float getIncome()
-public boolean setIncome(float income)
+public boolean addProduct(Product product);
+public boolean removeProduct(Product product);
+public ArrayList<Product> getProductList();
+public boolean hasProduct(Product product);
+public float getIncome();
+public boolean setIncome(float income);
 ```
 
-`public boolean addProduct(Product product)`
+`public boolean addProduct(Product product);`
 
 Add `product` to the `productList`; return a boolean indicating whether the operation succeeds. Note that:
 * For simplicity, suppose each product, which is uniquely identified by its `id`, could only appear once in the `productList`.
 * So if `product` already exists in `productList` (i.e., there is a product in `productList` that has the same `id` as `product`), return `false` and `productList` remains the same; otherwise, add `product` to the end of `productList` and return `true`.
 
-`public boolean removeProduct(Product product)`
+`public boolean removeProduct(Product product);`
 
 Remove `product` from `productList`; return a boolean indicating whether the operation succeeds. Note that:
 * If `product` exists in `productList`, remove it from `productList` and return `true`.
 * Otherwise, return `false` and `productList` remains the same.
 
-`public ArrayList<Product> getProductList()`
+`public ArrayList<Product> getProductList();`
 
 Return `productList`.
 
-`public boolean hasProduct(Product product)`
+`public boolean hasProduct(Product product);`
 
 Return `true` if this store has the given `product`; otherwise, return `false`.
 
-`public float getIncome()`
+`public float getIncome();`
 
 Get the current income of this store.
 
-`public boolean setIncome(float income)`
+`public boolean setIncome(float income);`
 
 Update the income. Return `false` if the income is not valid.
 
@@ -219,16 +219,16 @@ private float wallet;
 ```
 #### Constructor
 ```java
-public Customer(String name)
-public Customer(String name, float wallet)
+public Customer(String name);
+public Customer(String name, float wallet);
 ```
 The id of the first customer is 1.
 #### Methods
 ```java
-public boolean rateProduct(Product product, int rating)
-public boolean purchaseProduct(Store store, Product product)
-public boolean updateWallet(float amount)
-public void viewShoppingCart(SortBy sortMethod)
+public boolean rateProduct(Product product, int rating);
+public boolean purchaseProduct(Store store, Product product);
+public boolean updateWallet(float amount);
+public void viewShoppingCart(SortBy sortMethod);
 public boolean refundProduct(Product product); 
 ```
 `public boolean rateProduct(Product product, int rating)`
@@ -241,11 +241,11 @@ Purchase `product` from `store`; return `true` if the `store` has this `product`
 
 For simplicity, **suppose a customer can purchase the same product only once**.
 
-`public boolean updateWallet(float amount)`
+`public boolean updateWallet(float amount);`
 
 Update the wallet of this customer. The amount could be positive (gaining money) or negative (consuming money).
 
-`public void viewShoppingCart(SortBy sortMethod)`
+`public void viewShoppingCart(SortBy sortMethod);`
 
 Display the purchased products in the shopping cart of this customer. The order of displaying is specified by `sortMethod`. We provide an Enum `SortBy`, which says that sorting could be performed by the purchase time, rating, or the price of products.
 
