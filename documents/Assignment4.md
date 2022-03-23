@@ -88,28 +88,28 @@ public static void main(String[] args) {
 -1
 ```
 
-- ```public BigBinary add(BigBinary bigbinary)```
+- ```public BigBinary add(BigBinary bigbinary);```
 
 After executing the method, the original BigBinary and the return value should be the sum of this BigBinary and the parameter `bigbinary`(i.e. this BigBinary + `bigBinary`).
 
-- ```public BigBinary minus(BigBinary bigbinary)```
+- ```public BigBinary minus(BigBinary bigbinary);```
 
 After executing the method, the original BigBinary and the return value should be the difference between this BigBinary and the parameter `bigbinary`(i.e. this BigBinary - `bigBinary`).
 
-- ```public BigBinary multiply(BigBinary bigbinary)```
+- ```public BigBinary multiply(BigBinary bigbinary);```
 
 **(Bonus)** After executing the method, the original BigBinary and the return value should be the product of this BigBinary and the parameter `bigbinary`(i.e. this BigBinary * `bigBinary`).
 
-- ```public static BigBinary add(BigBinary b1, BigBinary b2)```
+- ```public static BigBinary add(BigBinary b1, BigBinary b2);```
 
 After executing the method, the return value should be the sum of BigBinary ```b1``` and BigBinary ```b2```(i.e. ```b1``` + ```b2```). BigBinary ```b1``` and ```b2``` should not be changed.
 
-- ```public static BigBinary minus(BigBinary b1, BigBinary b2)```
+- ```public static BigBinary minus(BigBinary b1, BigBinary b2);```
 
 After executing the method, the return value should be the difference between BigBinary ```b1``` and BigBinary ```b2```(i.e. ```b1``` - ```b2```). BigBinary ```b1``` and ```b2``` should not be changed.
 
 
-- ```public static BigBinary multiply(BigBinary b1, BigBinary b2)```
+- ```public static BigBinary multiply(BigBinary b1, BigBinary b2);```
 
 **(Bonus)** After executing the method, the return value should be the product of BigBinary ```b1``` and BigBinary ```b2```(i.e. ```b1``` * ```b2```). BigBinary ```b1``` and ```b2``` should not be changed.
 
