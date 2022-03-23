@@ -122,7 +122,7 @@ Online Store is one of the project topics in the course OOAD(Object-Oriented Ana
 ### 2.1 Product
 #### Attributes
 ```java
-private static int cnt; //intialized to 0, and will increase by 1 when the constructor is called.
+private static int cnt; // initialized to 0, and will increase by 1 when the constructor is called.
 private int id;  // unique for each product and the value is from cnt.
 private String name;
 private float price;
@@ -154,13 +154,13 @@ Again, for simplicity, *a customer can give different ratings to the same produc
 
 `public String toString();`
 
-Return a string description of this product, in the format of `Product ID id, name, RMB price, Rating rating`, e.g., `Product ID 12345, Laptop, RMB 10000.0, Rating 4.50`.   
-Note that for `price`, let's keep 1 decimal place. For `rating`, keep 2 decimal place.
+Return a string description of this product, in the format of `Product ID id, name, RMB price, Rating rating`, e.g., `Product ID 12345, Laptop, RMB 10000.00, Rating 4.5`.   
+Note that for `price`, let's keep 2 decimal place. For `rating`, keep 1 decimal place.
 
 ### 2.2 Store
 #### Attributes
 ```java
-private static int cnt; //intialized to 0, and will increase by 1 when the constructor is called.
+private static int cnt; // initialized to 0, and will increase by 1 when the constructor is called.
 private int id;  // unique for each store and the value is from cnt.
 private String name;
 private ArrayList<Product> productList;
@@ -168,8 +168,10 @@ private float income;
 ```
 
 #### Constructors
+There are two constructors. One for a new store, with income 0 and nothing in productList. The other for an existed store with given income and productList.
 ```java
-public Store(String name, ArrayList<Product> productList);
+public Store(String name);
+public Store(String name, ArrayList<Product> productList, float income);
 ```
 The id of the first store is 1.
 #### Methods
@@ -178,8 +180,7 @@ public boolean addProduct(Product product);
 public boolean removeProduct(Product product);
 public ArrayList<Product> getProductList();
 public boolean hasProduct(Product product);
-public float getIncome();
-public boolean setIncome(float income);
+public void transact(Product product, int method);
 ```
 
 `public boolean addProduct(Product product);`
@@ -187,6 +188,7 @@ public boolean setIncome(float income);
 Add `product` to the `productList`; return a boolean indicating whether the operation succeeds. Note that:
 * For simplicity, suppose each product, which is uniquely identified by its `id`, could only appear once in the `productList`.
 * So if `product` already exists in `productList` (i.e., there is a product in `productList` that has the same `id` as `product`), return `false` and `productList` remains the same; otherwise, add `product` to the end of `productList` and return `true`.
+* If the `price` of `product` is less than 0, the product is invalid and should not be added to productList. Return `false` for this case. 
 
 `public boolean removeProduct(Product product);`
 
@@ -202,18 +204,16 @@ Return `productList`.
 
 Return `true` if this store has the given `product`; otherwise, return `false`.
 
-`public float getIncome();`
+`public void transact(Product product, int method)`
 
-Get the current income of this store.
-
-`public boolean setIncome(float income);`
-
-Update the income. Return `false` if the income is not valid.
+Method for transaction.
+* method == 0 means purchasing product from the store. The product should be removed from the productList and the income of the store will increase by an amount equal to the price of the product.
+* method == 1 means refunding product to the store. The productList and income of the store should also be updated (suppose that the store adds this product back to its product list and could re-sell this product).
 
 ### 2.3 Customer
 #### Attributes
 ```java
-private static int cnt; //intialized to 0, and will increase by 1 when the constructor is called.
+private static int cnt; // initialized to 0, and will increase by 1 when the constructor is called.
 private int id;  // unique for each customer and the value is from cnt.
 private String name;
 private ArrayList<Product> shoppingCart; // default empty
@@ -221,7 +221,6 @@ private float wallet;
 ```
 #### Constructor
 ```java
-public Customer(String name);
 public Customer(String name, float wallet);
 ```
 The id of the first customer is 1.
@@ -229,21 +228,21 @@ The id of the first customer is 1.
 ```java
 public boolean rateProduct(Product product, int rating);
 public boolean purchaseProduct(Store store, Product product);
-public boolean updateWallet(float amount);
+public void updateWallet(float amount);
 public void viewShoppingCart(SortBy sortMethod);
 public boolean refundProduct(Product product); 
 ```
 `public boolean rateProduct(Product product, int rating)`
 
-Set the rating of the given `product` to `rating`. For the invalid argument, return false; otherwise return true.
+Set the rating of the given `product` to `rating`. For the invalid argument, return `false`; otherwise return `true`.
 
 `public boolean purchaseProduct(Store store, Product product)`
 
-Purchase `product` from `store`; return `true` if the `store` has this `product` and the customer has enough money in the wallet to purchase this product; return `false` otherwise. Note that the shopping cart of this customer as well as the product list for the store should be updated accordingly.
+Purchase `product` from `store`; return `true` if the `store` has this `product` and the product is valid and the customer has enough money in the wallet to purchase this product; return `false` otherwise. Note that the shopping cart of this customer as well as the product list for the store should be updated accordingly.
 
 For simplicity, **suppose a customer can purchase the same product only once**.
 
-`public boolean updateWallet(float amount);`
+`public void updateWallet(float amount);`
 
 Update the wallet of this customer. The amount could be positive (gaining money) or negative (consuming money).
 
@@ -272,10 +271,10 @@ alice.viewShoppingCart(SortBy.PurchaseTime);
 ```
 will display (see `Product.toString()` for the format)
 ```
-Product ID 2, Laptop, RMB 10000.0, Rating 4.50
-Product ID 4, Table, RMB 300.0, Rating 5.50
-Product ID 3, Mouse, RMB 100.0, Rating 3.00
-Product ID 1, Phone, RMB 7000.0, Rating 4.50
+Product ID 2, Laptop, RMB 10000.00, Rating 4.5
+Product ID 4, Table, RMB 300.00, Rating 5.5
+Product ID 3, Mouse, RMB 100.00, Rating 3.0
+Product ID 1, Phone, RMB 7000.00, Rating 4.5
 ```
 Calling
 ```java
@@ -283,10 +282,10 @@ alice.viewShoppingCart(SortBy.Rating);
 ```
 will display
 ```
-Product ID 3, Mouse, RMB 100.0, Rating 3.00
-Product ID 2, Laptop, RMB 10000.0, Rating 4.50
-Product ID 1, Phone, RMB 7000.0, Rating 4.50
-Product ID 4, Table, RMB 300.0, Rating 5.50
+Product ID 3, Mouse, RMB 100.00, Rating 3.0
+Product ID 2, Laptop, RMB 10000.00, Rating 4.5
+Product ID 1, Phone, RMB 7000.00, Rating 4.5
+Product ID 4, Table, RMB 300.00, Rating 5.5
 ```
 Note that when having the same rating, the purchased products will be displayed by the purchase time.   
 Calling
@@ -295,18 +294,18 @@ alice.viewShoppingCart(SortBy.Price);
 ```
 will display
 ```
-Product ID 3, Mouse, RMB 100.0, Rating 3.00
-Product ID 4, Table, RMB 300.0, Rating 5.50
-Product ID 1, Phone, RMB 7000.0, Rating 4.50
-Product ID 2, Laptop, RMB 10000.0, Rating 4.50
+Product ID 3, Mouse, RMB 100.00, Rating 3.0
+Product ID 4, Table, RMB 300.00, Rating 5.5
+Product ID 1, Phone, RMB 7000.00, Rating 4.5
+Product ID 2, Laptop, RMB 10000.00, Rating 4.5
 ```
 Note that when having the same price, the purchased products will be displayed by the purchase time.
 
 `public boolean refundProduct(Product product)`
 
-**Bonus** Return the product to its store and get the money back. Return `true` if this customer has indeed purchased this product before. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly; In addition, the `productList` and `income` of the corresponding store should also be updated (suppose that the store adds this product back to its product list and could re-sell this product).
+**Bonus** Return the product to its store and get the money back. Return `true` if this customer has indeed purchased this product before. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly; In addition, the corresponding store should enable the refund process to update the `productList` and `income`.
 
-Tip: to associate a product and its corresponding store, you may use a `HashMap` to map their IDs (`<productID, storeID>`).
+Tip: to associate a product and its corresponding store, you may use a `HashMap` to map their IDs (`<productID, storeID>`).  **??**
 
 ## Submission
 You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for question 2.
