@@ -1,7 +1,3 @@
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class BigBinary {
     private int[] bits;
     private boolean positive;
@@ -29,101 +25,84 @@ public class BigBinary {
         else return "-"+sb;
 
     }
+
     public BigBinary add(BigBinary bigbinary){
-        if (bigbinary.toString().equals("0")) return this;
-        else if (positive&& bigbinary.positive||!positive&&!bigbinary.positive){
-            int length=Math.max(bits.length,bigbinary.bits.length);
-            int[] b_bits=new int[length];
-            int[] original_bits=new int[length];
-            if (bigbinary.bits.length<length){
-                System.arraycopy(bigbinary.bits,0,b_bits,length-bigbinary.bits.length,bigbinary.bits.length);
-                original_bits=bits;
-            }else{
-                System.arraycopy(bits,0,original_bits,length-bits.length,bits.length);
-                b_bits=bigbinary.bits;
+        if (positive&& bigbinary.positive||!positive&&!bigbinary.positive) {
+            int[] b_bit = bigbinary.bits;
+            int[] fin = new int[Math.max(b_bit.length, bits.length) + 1];
+            int i = 0;
+            for (; i < Math.min(b_bit.length, bits.length); i++) {
+                fin[fin.length - 1 - i] = b_bit[b_bit.length - 1 - i] + bits[bits.length - i - 1];
             }
-
-            int carry=0;
-            StringBuilder sb= new StringBuilder();
-            for (int i=length-1;i>=0;i--){
-                int current=b_bits[i]+original_bits[i]+carry;
-                if (current<2){
-                    sb.insert(0, current);
-                    carry=0;
-                }else {
-                    carry=1;
-                    sb.insert(0,current-2);
-                }
+            for (; i <b_bit.length ; i++) {
+                fin[fin.length-1-i]=b_bit[b_bit.length-1-i];
             }
-            if (carry==1){
-                sb.insert(0,carry);
+            for (;i< bits.length;i++){
+                fin[fin.length-1-i]=bits[bits.length-1-i];
             }
-
-            String [] strings=sb.toString().split("");
-            int[] newBits=new int[strings.length];
-            for (int j = 0; j < strings.length; j++) {
-                newBits[j]=Integer.parseInt(strings[j]);
+            int carry = 0;
+            for (int j = fin.length - 1; j >= 0; j--) {
+                int temp = carry + fin[j];
+                carry = temp / 2;
+                fin[j] = temp % 2;
             }
-
-
-            bits=newBits;
-            return new BigBinary(newBits,positive);
-
+            this.bits = fin;
+            return new BigBinary(fin,this.positive);
         }else {
-            return minus(new BigBinary(bigbinary.bits, !bigbinary.positive));
+            return this.minus(new BigBinary(bigbinary.bits,!bigbinary.positive));
         }
 
     }
+
 
 
     public BigBinary minus(BigBinary bigbinary){
-        if (bigbinary.toString().equals("0")) return this;
-        else if (positive&& bigbinary.positive||!positive&&!bigbinary.positive){
-            int length;
-            int[] small_bits;
-            int[] big_bits;
-            if (compareBigger(this,bigbinary)){
-                length=bits.length;
-               small_bits=new int[length];
-                bigbinary.bits=convert(bigbinary.toString().split(""));
-                System.arraycopy(bigbinary.bits,0, small_bits,length-bigbinary.bits.length,bigbinary.bits.length);
-                big_bits=bits;
-            }else {
-                length=bigbinary.bits.length;
-                small_bits=new int[length];
-                bits=convert(this.toString().split(""));
-                System.arraycopy(bits,0, small_bits,length-bits.length,bits.length);
-                big_bits =bigbinary.bits;
-                positive=!positive;
-            }
+       if (positive&& bigbinary.positive||!positive&&!bigbinary.positive){
+           int[] small_bits;
+           int[] great_bits;
+           boolean isPositive;
+           if(compareBigger(this,bigbinary)){
+               small_bits=bigbinary.bits;
+               great_bits=bits;
+               isPositive=this.positive;
+           }else {
+               small_bits=bits;
+               great_bits=bigbinary.bits;
+               isPositive=!this.positive;
+           }
 
-            int carry=0;
-            StringBuilder sb= new StringBuilder();
-            for (int i=length-1;i>=0;i--){
-                int currrent=big_bits[i]- small_bits[i]-carry;
-                if (currrent<0){
-                    sb.insert(0,currrent+2);
-                    carry=1;
-                }else {
-                    sb.insert(0,currrent);
-                    carry=0;
-                }
-            }
-
-            String [] strings=sb.toString().split("");
-            int[] newBits=new int[strings.length];
-            for (int j = 0; j < strings.length; j++) {
-                newBits[j]=Integer.parseInt(strings[j]);
-            }
-            bits=newBits;
-
-                return new BigBinary(newBits,positive);
-
+           int[] fin = new int[Math.max(small_bits.length, great_bits.length)];
+           int i = 0;
+           for (; i < Math.min(small_bits.length,great_bits.length); i++) {
+               fin[fin.length - 1 - i] =  great_bits[great_bits.length - i - 1]- small_bits[small_bits.length - 1 - i];
+           }
+           for (; i <small_bits.length ; i++) {
+               fin[fin.length-1-i]=small_bits[small_bits.length-1-i];
+           }
+           for (;i< great_bits.length;i++){
+               fin[fin.length-1-i]=great_bits[great_bits.length-1-i];
+           }
+           int carry = 0;
+           for (int j = fin.length - 1; j >= 0; j--) {
+               int temp =   fin[j]-carry;
+               if (temp<0) {
+                   carry = 1;
+                   fin[j] = 2+temp;
+               }else {
+                   fin[j]=temp;
+                   carry=0;
+               }
+           }
+           this.bits = fin;
+           this.positive=isPositive;
+           return new BigBinary(fin,isPositive);
 
         }else {
-            return add(new BigBinary(bigbinary.bits,!bigbinary.positive));
+            return this.add(new BigBinary(bigbinary.bits,!bigbinary.positive));
         }
     }
+
+
     //将二进制转为256进制 取八位变一位
     public static int[] conversion2_256(int[] A){
         int[] B=new int[A.length/8+1];
@@ -195,38 +174,23 @@ public class BigBinary {
 
     //bits>bit2 true else false
     public boolean compareBigger(BigBinary b1,BigBinary b2){
-        int[] bits1=convert(b1.toString().split(""));
-        int[] bits2=convert(b2.toString().split(""));
-        if (bits1.length> bits2.length)return true;
-        else if (bits1.length<bits2.length)return false;
+        if (b1.toString().length()> b2.toString().length())return true;
+        else if (b1.toString().length()<b2.toString().length())return false;
         else {
-            for (int i = 0; i < bits1.length; i++) {
-                if (bits1[i]>bits2[i]){
+            String[] bits1=b1.toString().split("");
+            String[] bits2=b2.toString().split("");
+            int i=b1.positive?0:1;
+            for (; i <bits1.length; i++) {
+                if (Integer.parseInt(bits1[i])>Integer.parseInt(bits2[i])){
                     return true;
-                }else if (bits1[i]<bits2[i]){
+                }else if (Integer.parseInt(bits1[i])<Integer.parseInt(bits2[i])){
                     return false;
                 }
             }
         }
-        return false;
+        return true;
     }
 
-    //删去bits前面多余的0
-    public int[] convert(String[] strings){
-        int[] newBits;
-        if (strings[0].equals("-")){
-            newBits=new int[strings.length-1];
-            for (int j = 0; j < strings.length-1; j++) {
-                newBits[j]=Integer.parseInt(strings[j+1]);
-            }
-        }else {
-            newBits = new int[strings.length];
-            for (int j = 0; j < strings.length; j++) {
-                newBits[j] = Integer.parseInt(strings[j]);
-            }
-        }
-        return newBits;
-    }
 
     public static BigBinary add(BigBinary b1, BigBinary b2){
         BigBinary bigBinary=new BigBinary(b1.bits, b1.positive);
