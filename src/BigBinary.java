@@ -1,3 +1,7 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class BigBinary {
     private int[] bits;
     private boolean positive;
@@ -120,27 +124,56 @@ public class BigBinary {
             return add(new BigBinary(bigbinary.bits,!bigbinary.positive));
         }
     }
+    //将二进制转为256进制 取八位变一位
+    public static int[] conversion2_256(int[] A){
+        int[] B=new int[A.length/8+1];
+        int index=0;
+        if (A.length/8>0) {
+            for (int i = 7; i < A.length; i += 8) {
+                for (int j = 0; j <8; j++) {
+                    B[B.length - index - 1] = A[A.length - 1 - i + j] + B[B.length - index - 1] * 2;
+                }
+                index++;
+            }
+        }
+        for (int i = 0; i < A.length%8; i++) {
+            B[B.length-index-1]=A[i]+B[B.length-index-1]*2;
+        }
+        return B;
+
+    }
+
+    //将256进制转化为二进制，取一位变八位
+    public static int[] conversion256_2(int[] A){
+        int[] B=new int[A.length*8];
+        for (int i = 0; i <A.length; i++) {
+            for (int j = 0; j < 8; j++) {
+                B[B.length-8*i-j-1]=A[A.length-i-1]%2;
+                A[A.length-1-i]=A[A.length-i-1]/2;
+            }
+        }
+        return B;
+    }
 
 
-    public BigBinary multiply(BigBinary bigbinary){
+        public BigBinary multiply(BigBinary bigbinary){
         if (bigbinary.toString().equals("0")){
             bits=new int[]{0};
             return new BigBinary(bits,true);
         }
-        int[] bit=convert(this.toString().split(""));
-        int[] b_bit=convert(bigbinary.toString().split(""));
+        int[] bit=conversion2_256(this.bits);
+        int[] b_bit=conversion2_256(bigbinary.bits);
         int length=bit.length+b_bit.length;
         int[] fin=new int[length];
         int index=0;
         for (int i= b_bit.length-1;i>=0;i--){
             if (b_bit[i]==0){
                 index++;
-                continue;
             }
             else {
                 for (int j =0 ; j <bit.length ; j++) {
 
-                    fin[length-1-index-j]+=bit[bit.length-1-j];
+                    fin[length-1-index-j]+=bit[bit.length-1-j]*b_bit[i];
                 }
                 index++;
             }
@@ -148,21 +181,17 @@ public class BigBinary {
         int carry=0;
         for (int i = length-1; i >=0 ; i--) {
             int temp=carry+fin[i];
-            if (temp<2){
-                fin[i]=temp;
-                carry=0;
-            }
-            else {
-                carry=temp/2;
-                fin[i]=temp%2;
-            }
+                carry=temp/256;
+                fin[i]=temp%256;
         }
-        bits=fin;
+        int[]ans=conversion256_2(fin);
+        this.bits=ans;
         boolean isPositive=positive&& bigbinary.positive||!positive&&!bigbinary.positive;
         positive=isPositive;
-        return new BigBinary(fin,isPositive);
+        return new BigBinary(ans,isPositive);
 
     }
+
 
     //bits>bit2 true else false
     public boolean compareBigger(BigBinary b1,BigBinary b2){
