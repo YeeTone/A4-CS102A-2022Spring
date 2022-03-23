@@ -204,7 +204,7 @@ Return `productList`.
 
 Return `true` if this store has the given `product`; otherwise, return `false`.
 
-`public void transact(Product product, int method)`
+`public void transact(Product product, int method);`
 
 Method for transaction.
 * method == 0 means purchasing product from the store. The product should be removed from the productList and the income of the store will increase by an amount equal to the price of the product.
@@ -232,11 +232,11 @@ public void updateWallet(float amount);
 public void viewShoppingCart(SortBy sortMethod);
 public boolean refundProduct(Product product); 
 ```
-`public boolean rateProduct(Product product, int rating)`
+`public boolean rateProduct(Product product, int rating);`
 
 Set the rating of the given `product` to `rating`. For the invalid argument, return `false`; otherwise return `true`.
 
-`public boolean purchaseProduct(Store store, Product product)`
+`public boolean purchaseProduct(Store store, Product product);`
 
 Purchase `product` from `store`; return `true` if the `store` has this `product` and the product is valid and the customer has enough money in the wallet to purchase this product; return `false` otherwise. Note that the shopping cart of this customer as well as the product list for the store should be updated accordingly.
 
@@ -301,7 +301,7 @@ Product ID 2, Laptop, RMB 10000.00, Rating 4.5
 ```
 Note that when having the same price, the purchased products will be displayed by the purchase time.
 
-`public boolean refundProduct(Product product)`
+`public boolean refundProduct(Product product);`
 
 **Bonus** Return the product to its store and get the money back. Return `true` if this customer has indeed purchased this product before. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly; In addition, the corresponding store should enable the refund process to update the `productList` and `income`.
 
