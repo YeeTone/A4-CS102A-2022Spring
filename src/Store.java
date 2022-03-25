@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Store {
     private static int cnt = 0; // initialized to 0, and will increase by 1 when the constructor is called.
-    private int id; // unique for each store and the value is from cnt.
+    private int id; // unique for each store and the value is set to cnt.
     private String name;
     private ArrayList<Product> productList;
     private float income;
@@ -24,7 +24,7 @@ public class Store {
     }
 
     public boolean addProduct(Product product) {
-        if (product.getPrice() < 0 || hasProduct(product))
+        if (hasProduct(product))
             return false;
         productList.add(product);
         return true;
