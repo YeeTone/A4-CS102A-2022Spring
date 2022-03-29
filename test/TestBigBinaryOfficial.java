@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.math.BigInteger;
@@ -31,7 +32,7 @@ public class TestBigBinaryOfficial {
         @Override
         public void checkPermission(Permission perm) {
             if (perm.getName().equals("setSecurityManager") && !ableResetManager.get()) {
-                throw new RuntimeException("Do not reset SecurityManager!");
+                throw new ResetSecurityException("Do not reset SecurityManager!");
             }
 
         }
@@ -40,6 +41,12 @@ public class TestBigBinaryOfficial {
 
     private static final class BigIntegerBannedException extends RuntimeException {
         public BigIntegerBannedException(String message) {
+            super(message);
+        }
+    }
+
+    private static final class ResetSecurityException extends RuntimeException {
+        public ResetSecurityException(String message) {
             super(message);
         }
     }
@@ -74,7 +81,7 @@ public class TestBigBinaryOfficial {
     private static final String selectRandom = "RANDOM";
     private static final String selectNotRandom = "NOT-RANDOM";
 
-    private static final long DURATION_MILL = 3000;
+    private static final long DURATION_MILL = 1500;
     private static final int addMinusLength = 15000;
     private static final int multiplyLength = 15000;
 
@@ -87,8 +94,6 @@ public class TestBigBinaryOfficial {
         } catch (Throwable e) {
             fail(definitionErrorMessage);
         }
-
-
     }
 
     @BeforeEach
@@ -264,14 +269,26 @@ public class TestBigBinaryOfficial {
                 assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(b2Clone, p2).toString(2));
 
             }
-        } catch (BigIntegerBannedException e) {
-            fail(e.getMessage());
         } catch (Exception e) {
-            fail(exceptionMessage);
+            handleException(e);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
         }
 
+    }
+
+    private void handleException(Exception e){
+        if(e instanceof InvocationTargetException){
+            InvocationTargetException ite = (InvocationTargetException) e;
+            Throwable targetException = ite.getTargetException();
+            if(targetException instanceof ResetSecurityException || targetException instanceof BigIntegerBannedException){
+                fail(targetException.getMessage());
+            }else {
+                fail(exceptionMessage);
+            }
+        }else{
+            fail(exceptionMessage);
+        }
     }
 
     private void reverseSignJudge(int cases, int bitLength) {
@@ -299,10 +316,8 @@ public class TestBigBinaryOfficial {
                 assertEquals("0", bigBinaryToString(bigBinary1));
                 assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bitsClone, positive2).toString(2));
             }
-        } catch (BigIntegerBannedException e) {
-            fail(e.getMessage());
         } catch (Exception e) {
-            fail(exceptionMessage);
+            handleException(e);
         } catch (AssertionError e) {
             fail(assertionFailMessage);
         }
@@ -395,10 +410,8 @@ public class TestBigBinaryOfficial {
                 assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(b2Clone, p2).toString(2));
 
             }
-        } catch (BigIntegerBannedException e) {
-            fail(e.getMessage());
         } catch (Exception e) {
-            fail(exceptionMessage);
+            handleException(e);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
         }
@@ -439,10 +452,8 @@ public class TestBigBinaryOfficial {
                 assertEquals("0", bigBinaryToString(bigBinary1));
                 assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bitsClone, sameSign).toString(2));
             }
-        } catch (BigIntegerBannedException e) {
-            fail(e.getMessage());
         } catch (Exception e) {
-            fail(exceptionMessage);
+            handleException(e);
         } catch (AssertionError e) {
             fail(assertionFailMessage);
         }
@@ -495,10 +506,8 @@ public class TestBigBinaryOfficial {
                 assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(b2Clone, p2).toString(2));
 
             }
-        } catch (BigIntegerBannedException e) {
-            fail(e.getMessage());
         } catch (Exception e) {
-            fail(exceptionMessage);
+            handleException(e);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
         }
@@ -558,10 +567,8 @@ public class TestBigBinaryOfficial {
                 assertEquals(bigBinaryToString(bigBinary2), buildBigInteger(bits2, p2).toString(2));
 
             }
-        } catch (BigIntegerBannedException e) {
-            fail(e.getMessage());
         } catch (Exception e) {
-            fail(exceptionMessage);
+            handleException(e);
         } catch (AssertionError ae) {
             fail(assertionFailMessage);
         }
