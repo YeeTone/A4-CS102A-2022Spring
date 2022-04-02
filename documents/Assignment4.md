@@ -11,7 +11,7 @@
 
 ## Question 1. BigBinary [Medium, 40 + 8 Points]
 
-Computers store data in the binary form.
+In the course CS202: Computer Organization, it is introduced that computers store data in the binary form.
 
 YeeTone is a student of CS major but not good at solving binary number arithmetic problems, so he asks you for help. 
 Fortunately, he is very familiar with Java programming.
