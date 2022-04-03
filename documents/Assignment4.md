@@ -207,7 +207,7 @@ Return `true` if this store has the given `product`; otherwise, return `false`.
 
 `public void transact(Product product, int method);`
 
-This is the interface exposed to customers to purchase or refund a product.
+This is the interface exposed to customers to purchase or refund a product. We suppose that the arguments are valid here.
 * method = 0 means purchasing the `product` from this store. The product should be removed from the `productList` and the income of this store should increase by an amount equal to the price of the product.
 * method = 1 means refunding the `product` to the store. The `productList` and `income` of the store should also be updated accordingly (suppose that the store adds this product back to its `productList` and could re-sell this product).
 
@@ -239,13 +239,13 @@ Set the rating of the given `product` to `rating`. For invalid arguments, return
 
 `public boolean purchaseProduct(Store store, Product product);`
 
-Purchase `product` from `store`; return `true` if the `store` has this `product` and the customer has enough money in the wallet to purchase this product; return `false` otherwise. Note that the shopping cart of this customer as well as his/her wallet should be updated accordingly.
+Purchase `product` from `store`; return `true` if the `store` has this `product` and the customer has enough money in the wallet to purchase this product; return `false` otherwise. Note that the shopping cart of this customer as well as his/her wallet should be updated accordingly.In this method, use `updateWallet(float amount)` to update the wallet.
 
 For simplicity, **suppose a customer can purchase the same product only once**.
 
 `public void updateWallet(float amount);`
 
-Update the wallet of this customer. The amount could be positive (gaining money) or negative (consuming money).
+Update the wallet of this customer. The amount could be positive (gaining money) or negative (consuming money). Assume that arguments are always valid.
 
 `public void viewShoppingCart(SortBy sortMethod);`
 
@@ -259,7 +259,7 @@ public enum SortBy {
 
 Suppose a customer Alice has purchase a few products from different stores.
 ```java
-Customer alice = new Customer(1, "Alice");
+Customer alice = new Customer("Alice",100);
 // code for creating stores and products are ommitted
 alice.purchaseProduct(store1, product_laptop);
 alice.purchaseProduct(store1, product_table);
