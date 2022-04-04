@@ -462,13 +462,37 @@ public class TestBigBinaryOfficial {
     @Test
     public void bonusMultiply01() {
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
-            int cases = 50, bitLength = multiplyLength;
+            int cases = 50, bitLength = multiplyLength >> 3;
             multiplyJudgement(cases, bitLength);
         });
     }
 
     @Test
     public void bonusMultiply02() {
+        assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
+            int cases = 50, bitLength = multiplyLength >> 2;
+            multiplyJudgement(cases, bitLength);
+        });
+    }
+
+    @Test
+    public void bonusMultiply03() {
+        assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
+            int cases = 50, bitLength = multiplyLength >> 1;
+            multiplyJudgement(cases, bitLength);
+        });
+    }
+
+    @Test
+    public void bonusMultiply04() {
+        assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
+            int cases = 50, bitLength = multiplyLength;
+            multiplyJudgement(cases, bitLength);
+        });
+    }
+
+    @Test
+    public void bonusMultiply05() {
 
         assertTimeoutPreemptively(Duration.ofMillis(DURATION_MILL), () -> {
             int cases = 40, mul0Cases = 10, bitLength = multiplyLength;
