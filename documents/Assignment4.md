@@ -9,7 +9,7 @@
 > 
 > Solution & Test: Siyi WANG, Sicen LIU
 
-## Question 1. BigBinary [Medium, 40 + 8 Points]
+## Question 1. BigBinary [Medium, 40 + 15 Points]
 > Contributors: Yitong WANG, Siyi WANG
 
 In the course CS202: Computer Organization, it is introduced that computers store data in the binary form.
@@ -34,7 +34,7 @@ In the following examples, ```^``` means power in math instead of XOR. For insta
 
 **Example 1**
 ```java
-bits = {0,1,0,1,1,0}, positive = false
+bits = {0, 1, 0, 1, 1, 0}, positive = false
 ```
 The bigBinary can express the binary number ```-10110```, whose decimal number is ```-(2^4 + 2^2 + 2^1) = -22```.
 
@@ -46,7 +46,7 @@ The bigBinary can express the binary number ```0```, whose decimal number is ```
 
 **Example 3**
 ```java
-bits = {1,0,0,0,1,1}, positive = true
+bits = {1, 0, 0, 0, 1, 1}, positive = true
 ```
 The bigBinary can express the binary number ```100011```, whose decimal number is ```2^5 + 2^1 + 2^0 = 35```.
 
@@ -116,7 +116,7 @@ After executing the method, the return value should be the difference between Bi
 
 **Hint for Bonus** Considering the data scale, the simple implementation may cause **TLE(Time Limit Exceeded)** and cannot pass the testcases. Please think about how to improve the efficiency of multiplication!
 
-## Question 2. Online Shopping [Medium, 60 + 12 Points] (&#x1F4D9;TODO: we might need to adjust the scores given the final test cases)
+## Question 2. Online Shopping [Medium, 60 + 5 Points] (&#x1F4D9;TODO: we might need to adjust the scores given the final test cases)
 > Contributors: Yida TAO, Sicen LIU, Dingyuan XUE
 
 The advance in E-commerce has made online-shopping a pervasive and convenient daily experience. Customers could browse different online stores, each of which provides a list of products for customers to buy. In this question, you'll design three classes, `Customer`, `Store`, and `Product`, to implement the online shopping process. The detail of each class is described below.
