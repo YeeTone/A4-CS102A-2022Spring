@@ -1,15 +1,16 @@
 # Assignment 4
 ## Contributor List:
 > 
-> Design: YeeTone WANG, Yida TAO
+> Design: Yitong WANG, Yida TAO
 > 
-> JUnit: YeeTone WANG, Dingyuan XUE
+> JUnit: Yitong WANG, Dingyuan XUE
 > 
 > Document: Yida TAO
 > 
 > Solution & Test: Siyi WANG, Sicen LIU
 
 ## Question 1. BigBinary [Medium, 40 + 8 Points]
+> Contributors: Yitong WANG, Siyi WANG
 
 In the course CS202: Computer Organization, it is introduced that computers store data in the binary form.
 
@@ -116,6 +117,7 @@ After executing the method, the return value should be the difference between Bi
 **Hint for Bonus** Considering the data scale, the simple implementation may cause **TLE(Time Limit Exceeded)** and cannot pass the testcases. Please think about how to improve the efficiency of multiplication!
 
 ## Question 2. Online Shopping [Medium, 60 + 12 Points] (&#x1F4D9;TODO: we might need to adjust the scores given the final test cases)
+> Contributors: Yida TAO, Sicen LIU, Dingyuan XUE
 
 The advance in E-commerce has made online-shopping a pervasive and convenient daily experience. Customers could browse different online stores, each of which provides a list of products for customers to buy. In this question, you'll design three classes, `Customer`, `Store`, and `Product`, to implement the online shopping process. The detail of each class is described below.
 
