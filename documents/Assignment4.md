@@ -120,7 +120,7 @@ After executing the method, the return value should be the difference between Bi
 > Contributors: Yida TAO, Sicen LIU, Dingyuan XUE
 
 The advance in E-commerce has made online-shopping a pervasive and convenient daily experience. Customers could browse different online stores, each of which provides a list of products for customers to buy.   
-In this question, you'll build three classes, `Product`, `Store`, and `Customer`, according to the requirements below, to implement the online shopping process. Note that to implement the required functionality, you are free to add variables and methods that are not mentioned in this document, but remember never change the names, keywords and parameters of any variables or methods that we have specified.
+In this question, you'll build three classes, `Product`, `Store`, and `Customer`, according to the requirements below, to implement the online shopping process. Note that to implement the required functionality, you are free to add variables and methods that are not mentioned in this document, but remember never change the names, keywords and parameters of any variables or methods that we have specified. 
 
 ### 2.1 Product
 #### Attributes
@@ -147,7 +147,7 @@ public String toString();
 ```
 `public boolean setRating(int rating);`
 
-Set  `rating` to the product.  The `rating` would be added to the end of this product's rating list `ratings`.
+Set  `rating` to the product.  The `rating` would be added to this product's rating list `ratings`.
 * A `rating` should be within the range [1,5]; in other words, there are only 5 possible values for `rating`. If `rating` is not in this range, do not add it into `rating` and return `false`.
 
 `public float getAvgRating();`
@@ -193,7 +193,7 @@ A method to determine whether this store has the given `product` . Return `true`
 
 Add `product` to the `productList`; return a boolean indicating whether the operation succeeds.
 * Suppose each `product`, which is uniquely identified by its `id`, could only appear once in the `productList` of a particular store. That is, the same `product` does not exist in the `productList` of different stores (this kind of invalid case will not happen), and in the same `productList`, it appears not more than once.
-* If a `product` already exists in `productList`, return `false` and `productList` remains the same; otherwise, add `product` to the end of `productList` and return `true`.
+* If a `product` already exists in `productList`, return `false` and `productList` remains the same; otherwise, add `product` to `productList` and return `true`.
 
 `public boolean removeProduct(Product product);`
 
@@ -286,9 +286,9 @@ alice.viewShoppingCart(SortBy.Rating);
 will display
 ```
 Product ID 3, Mouse, RMB 100.00, Rating 3.0
+Product ID 4, Table, RMB 300.00, Rating 4.3
 Product ID 2, Laptop, RMB 10000.00, Rating 4.5
 Product ID 1, Phone, RMB 7000.00, Rating 4.5
-Product ID 4, Table, RMB 300.00, Rating 4.3
 ```
 * If the actual average rating is different, but the same after reserving one decimal place as required, sort by the actual average rating.
 * If products exactly have the same average rating, they should be sorted by the purchase time.  
@@ -308,8 +308,7 @@ Product ID 2, Laptop, RMB 10000.00, Rating 4.5
 
 `public boolean refundProduct(Product product);`
 
-**(Bonus) Note: Even if you don't implement this bonus method, you still need to put this method in the Customer class, otherwise it would cause a compile error.**  
-Return the `product` to the store where it was sold and get the money back. Return `true` if this customer has indeed purchased this product before and `false` otherwise. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly. In addition, the corresponding store should enable the refund process to update the `productList` and `income`.
+**(Bonus)** Return the `product` to the store where it was sold and get the money back. Return `true` if this customer has indeed purchased this product before and `false` otherwise. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly. In addition, the corresponding store should enable the refund process to update the `productList` and `income`.
 
 
 ## Submission

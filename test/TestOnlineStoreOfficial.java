@@ -9,6 +9,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -32,7 +33,7 @@ class Data {
 
         ArrayList<ProductOfficial> foods_origin = new ArrayList<>();
         foods_origin.add(new ProductOfficial("tomato", 1.5f));
-        foods_origin.add(new ProductOfficial("apple", 2.5f));
+        foods_origin.add(new ProductOfficial("apple", 1.5f));
         foods_origin.add(new ProductOfficial("banana", 5.5f));
         foods_origin.add(new ProductOfficial("orange", 3f));
         foods_origin.add(new ProductOfficial("pumpkin", 8f));
@@ -88,7 +89,7 @@ class Data {
 
     public void ProductSetRantingValid() {
         int[] tomatoRanting = {4, 5, 4, 3, 5};
-        int[] appleRanting = {5};
+        int[] appleRanting = {4, 5, 4, 3, 5};
         int[] bananaRanting = {3, 2, 4};
         int[] orangeRanting = {4, 2, 2};
         int[] pumpkinRanting = {5, 5, 5, 5};
@@ -144,11 +145,11 @@ class Data {
     }
 
     public void CustomerRateProductValid() {
-        int[] pipi1 = {4, 5, 4, 3, 5};
-        int[] pipi2 = {5, 4, 3, 2, 1};
+        int[] pipi1 = {5, 5, 4, 3, 5};
+        int[] pipi2 = {5, 5, 3, 2, 1};
         int[] mengge2 = {5, 4, 3, 2, 1};
-        int[] hanhan1 = {3, 2, 4, 4, 5};
-        int[] xuelao1 = {4, 5, 3, 2, 1};
+        int[] hanhan1 = {3, 3, 4, 4, 5};
+        int[] xuelao1 = {4, 4, 3, 2, 1};
         int[] xuelao2 = {5, 5, 5, 5, 5};
         for (int i = 0; i < stores.get("food_store").productList.size(); i++) {
             customers.get("PiPi").rateProduct(stores.get("food_store").productList.get(i), pipi1[i]);
@@ -167,7 +168,7 @@ class Data {
         int[] pipi2 = {5, 9, 6, 2, 1};
         int[] mengge2 = {0, 0, 0, 0, 0};
         int[] hanhan1 = {0, 99, 5, 4, 5};
-        int[] xuelao1 = {4, 123, 7, -100, 1};
+        int[] xuelao1 = {20, 123, 7, -100, 1};
         int[] xuelao2 = {5, 5, 5, 5, 5};
         for (int i = 0; i < stores.get("food_store").productList.size(); i++) {
             customers.get("HanHan").rateProduct(stores.get("food_store").productList.get(i), hanhan1[i]);
@@ -286,7 +287,7 @@ public class TestOnlineStoreOfficial {
 
             ArrayList<Product> foods_origin = new ArrayList<>();
             foods_origin.add(productConstructor.newInstance("tomato", 1.5f));
-            foods_origin.add(productConstructor.newInstance("apple", 2.5f));
+            foods_origin.add(productConstructor.newInstance("apple", 1.5f));
             foods_origin.add(productConstructor.newInstance("banana", 5.5f));
             foods_origin.add(productConstructor.newInstance("orange", 3f));
             foods_origin.add(productConstructor.newInstance("pumpkin", 8f));
@@ -353,7 +354,7 @@ public class TestOnlineStoreOfficial {
             ratings.setAccessible(true);
 
             int[] tomatoRanting = {4, 5, 4, 3, 5};
-            int[] appleRanting = {5};
+            int[] appleRanting = {4, 5, 4, 3, 5};
             int[] bananaRanting = {3, 2, 4};
             int[] orangeRanting = {4, 2, 2};
             int[] pumpkinRanting = {5, 5, 5, 5};
@@ -391,8 +392,11 @@ public class TestOnlineStoreOfficial {
 
             data.ProductSetRantingValid();
 
-            for (int i = 0; i < products.get("foods_origin").size(); i++)
-                assertEquals(data.products.get("foods_origin").get(i).ratings, ratings.get(products.get("foods_origin").get(i)));
+            for (int i = 0; i < products.get("foods_origin").size(); i++) {
+                assertTrue(data.products.get("foods_origin").get(i).ratings.containsAll((Collection<?>) ratings.get(products.get("foods_origin").get(i))));
+                assertEquals(data.products.get("foods_origin").get(i).ratings.size(), ((ArrayList) ratings.get(products.get("foods_origin").get(i))).size());
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -449,8 +453,10 @@ public class TestOnlineStoreOfficial {
 
             data.ProductSetRantingInvalid();
 
-            for (int i = 0; i < products.get("clothes_origin").size(); i++)
-                assertEquals(data.products.get("clothes_origin").get(i).ratings, ratings.get(products.get("clothes_origin").get(i)));
+            for (int i = 0; i < products.get("clothes_origin").size(); i++) {
+                assertTrue(data.products.get("clothes_origin").get(i).ratings.containsAll((Collection<?>) ratings.get(products.get("clothes_origin").get(i))));
+                assertEquals(data.products.get("clothes_origin").get(i).ratings.size(), ((ArrayList) ratings.get(products.get("clothes_origin").get(i))).size());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -905,19 +911,16 @@ public class TestOnlineStoreOfficial {
             Method purchaseProduct = Customer.class.getDeclaredMethod("purchaseProduct", Store.class, Product.class);
             Method updateWallet = Customer.class.getDeclaredMethod("updateWallet", float.class);
             Method viewShoppingCart = Customer.class.getDeclaredMethod("viewShoppingCart", SortBy.class);
-            Method refundProduct = Customer.class.getDeclaredMethod("refundProduct", Product.class);
 
             assertEquals(boolean.class, rateProduct.getReturnType());
             assertEquals(boolean.class, purchaseProduct.getReturnType());
             assertEquals(void.class, updateWallet.getReturnType());
             assertEquals(void.class, viewShoppingCart.getReturnType());
-            assertEquals(boolean.class, refundProduct.getReturnType());
 
             assertTrue(Modifier.isPublic(rateProduct.getModifiers()));
             assertTrue(Modifier.isPublic(purchaseProduct.getModifiers()));
             assertTrue(Modifier.isPublic(updateWallet.getModifiers()));
             assertTrue(Modifier.isPublic(viewShoppingCart.getModifiers()));
-            assertTrue(Modifier.isPublic(refundProduct.getModifiers()));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             fail("method not meet requirement");
@@ -975,11 +978,11 @@ public class TestOnlineStoreOfficial {
             productList.setAccessible(true);
             ratings.setAccessible(true);
 
-            int[] pipi1 = {4, 5, 4, 3, 5};
-            int[] pipi2 = {5, 4, 3, 2, 1};
+            int[] pipi1 = {5, 5, 4, 3, 5};
+            int[] pipi2 = {5, 5, 3, 2, 1};
             int[] mengge2 = {5, 4, 3, 2, 1};
-            int[] hanhan1 = {3, 2, 4, 4, 5};
-            int[] xuelao1 = {4, 5, 3, 2, 1};
+            int[] hanhan1 = {3, 3, 4, 4, 5};
+            int[] xuelao1 = {4, 4, 3, 2, 1};
             int[] xuelao2 = {5, 5, 5, 5, 5};
 
             for (int i = 0; i < ((ArrayList) productList.get(stores.get("food_store"))).size(); i++) {
@@ -988,25 +991,19 @@ public class TestOnlineStoreOfficial {
                 rateProduct.invoke(customers.get("HanHan"), ((ArrayList<Product>) productList.get(stores.get("food_store"))).get(i), hanhan1[i]);
                 rateProduct.invoke(customers.get("XueLao"), ((ArrayList<Product>) productList.get(stores.get("food_store"))).get(i), xuelao1[i]);
             }
-            //tomato: 45435 4534:4.11
-            //apple: 5 5425:4.2
-            //banana: 324 4325:3.29
-            //orange: 422 3242:2.71
-            //pumpkin: 5555 5151:4
             for (int i = 0; i < ((ArrayList) productList.get(stores.get("clothes_store"))).size(); i++) {
                 rateProduct.invoke(customers.get("MengGe"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), mengge2[i]);
                 rateProduct.invoke(customers.get("XueLao"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), xuelao2[i]);
             }
-            //jacket: 55:5
-            //coat: 45:4.5
-            //socks: 35:4
-            //dress: 25:3.5
-            //boots: 15:3
             data.CustomerRateProductValid();
 
-            for (String key : products.keySet())
-                for (int i = 0; i < products.get(key).size(); i++)
-                    assertEquals(data.products.get(key).get(i).ratings, ratings.get(products.get(key).get(i)));
+            for (String key : products.keySet()) {
+                for (int i = 0; i < products.get(key).size(); i++) {
+
+                    assertTrue(data.products.get(key).get(i).ratings.containsAll((Collection<?>) ratings.get(products.get(key).get(i))));
+                    assertEquals(data.products.get(key).get(i).ratings.size(), ((ArrayList) ratings.get(products.get(key).get(i))).size());
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -1031,34 +1028,30 @@ public class TestOnlineStoreOfficial {
             int[] pipi2 = {5, 9, 6, 2, 1};
             int[] mengge2 = {0, 0, 0, 0, 0};
             int[] hanhan1 = {0, 99, 5, 4, 5};
-            int[] xuelao1 = {4, 123, 7, -100, 1};
+            int[] xuelao1 = {20, 123, 7, -100, 1};
             int[] xuelao2 = {5, 5, 5, 5, 5};
 
             for (int i = 0; i < ((ArrayList) productList.get(stores.get("food_store"))).size(); i++) {
                 rateProduct.invoke(customers.get("HanHan"), ((ArrayList<Product>) productList.get(stores.get("food_store"))).get(i), hanhan1[i]);
                 rateProduct.invoke(customers.get("XueLao"), ((ArrayList<Product>) productList.get(stores.get("food_store"))).get(i), xuelao1[i]);
             }
-            //tomato: 45435 4534 4:4.1
-            //apple: 5 5425:4.2
-            //banana: 324 4325 5:3.5
-            //orange: 422 3242 4:2.875
-            //pumpkin: 5555 5151 51:3.8
+
             for (int i = 0; i < ((ArrayList) productList.get(stores.get("clothes_store"))).size(); i++) {
                 rateProduct.invoke(customers.get("PiPi"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), pipi1[i]);
                 rateProduct.invoke(customers.get("PiPi"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), pipi2[i]);
                 rateProduct.invoke(customers.get("MengGe"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), mengge2[i]);
                 rateProduct.invoke(customers.get("XueLao"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), xuelao2[i]);
             }
-            //jacket: 55 455:4.8
-            //coat: 45 55:4.75
-            //socks: 35 5:4.33
-            //dress: 25 25:3.5
-            //boots: 15 515:3.4
+
             data.CustomerRateProductInvalid();
 
-            for (String key : products.keySet())
-                for (int i = 0; i < products.get(key).size(); i++)
-                    assertEquals(data.products.get(key).get(i).ratings, ratings.get(products.get(key).get(i)));
+            for (String key : products.keySet()) {
+                for (int i = 0; i < products.get(key).size(); i++) {
+
+                    assertTrue(data.products.get(key).get(i).ratings.containsAll((Collection<?>) ratings.get(products.get(key).get(i))));
+                    assertEquals(data.products.get(key).get(i).ratings.size(), ((ArrayList) ratings.get(products.get(key).get(i))).size());
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -1082,10 +1075,6 @@ public class TestOnlineStoreOfficial {
             productList.setAccessible(true);
             income.setAccessible(true);
 
-            // foods_origin: tomato 1.5, apple 2.5, banana 5.5, orange 3, pumpkin 8
-            // clothes_extend: jacket 40, coat 40, socks 5, dress 30, boots 35
-            // pipi 150, mengge 120, hanhan 80, xuelao 20
-
             for (int i = 0; i < 2; i++) {
                 assertEquals(data.customers.get("PiPi").purchaseProduct(data.stores.get("clothes_store"), data.products.get("clothes_extend").get(i)),
                         purchaseProduct.invoke(customers.get("PiPi"), stores.get("clothes_store"), products.get("clothes_extend").get(i)));
@@ -1096,10 +1085,6 @@ public class TestOnlineStoreOfficial {
                 assertEquals(data.customers.get("HanHan").purchaseProduct(data.stores.get("food_store"), data.products.get("foods_origin").get(i)),
                         purchaseProduct.invoke(customers.get("HanHan"), stores.get("food_store"), products.get("foods_origin").get(i)));
             }
-            // pipi: jacket, tomato, coat, apple, 66
-            // hanhan: orange, pumpkin, 69
-            // food_store: banana, 300+15==315
-            // clothes_store: socks, dress, boots, 500+80==580
             for (String key : data.customers.keySet()) {
                 assertTrue(productListEquals(data.customers.get(key).shoppingCart, (ArrayList<Product>) shoppingCart.get(customers.get(key))));
                 assertEquals(data.customers.get(key).wallet, wallet.get(customers.get(key)));
@@ -1141,8 +1126,6 @@ public class TestOnlineStoreOfficial {
                 assertEquals(data.customers.get("XueLao").purchaseProduct(data.stores.get("clothes_store"), data.products.get("clothes_extend").get(i)),
                         purchaseProduct.invoke(customers.get("XueLao"), stores.get("clothes_store"), products.get("clothes_extend").get(i)));
             }
-            //xuelao: socks, 15
-            //clothes_store: dress, boots, 585
             for (String key : data.customers.keySet()) {
                 assertTrue(productListEquals(data.customers.get(key).shoppingCart, (ArrayList<Product>) shoppingCart.get(customers.get(key))));
                 assertEquals(data.customers.get(key).wallet, wallet.get(customers.get(key)));
@@ -1200,7 +1183,6 @@ public class TestOnlineStoreOfficial {
             System.setOut(new PrintStream(outContent2));
             viewShoppingCart.invoke(customers.get("PiPi"), SortBy.PurchaseTime);
             assertEquals(outContent1.toString(), outContent2.toString());
-            // jacket, tomato, coat, apple
             System.setOut(System.out);
         } catch (Exception e) {
             e.printStackTrace();
@@ -1223,7 +1205,6 @@ public class TestOnlineStoreOfficial {
             System.setOut(new PrintStream(outContent2));
             viewShoppingCart.invoke(customers.get("PiPi"), SortBy.Rating);
             assertEquals(outContent1.toString(), outContent2.toString());
-            // tomato, apple, coat, jacket
             System.setOut(System.out);
         } catch (Exception e) {
             e.printStackTrace();
@@ -1245,7 +1226,6 @@ public class TestOnlineStoreOfficial {
             System.setOut(new PrintStream(outContent2));
             viewShoppingCart.invoke(customers.get("PiPi"), SortBy.Price);
             assertEquals(outContent1.toString(), outContent2.toString());
-            // tomato, apple, jacket, coat
             System.setOut(System.out);
         } catch (Exception e) {
             e.printStackTrace();

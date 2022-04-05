@@ -12,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class TestOnlineStoreLocal {
-    private static Product product1;//1.5
-    private static Product product2;//2
-    private static Product product3;//3.5
-    private static Product product4;//10000
-    private static Product product5;//1
+    private static Product product1;
+    private static Product product2;
+    private static Product product3;
+    private static Product product4;
+    private static Product product5;
     private static Constructor<Product> productConstructor;
     private static Store store1;
     private static Store store2;
@@ -93,32 +93,22 @@ public class TestOnlineStoreLocal {
             productConstructor = Product.class.getConstructor(parameters);
             product1 = productConstructor.newInstance(args);
 
-            //test cnt++;
-            Field cnt = product1.getClass().getDeclaredField("cnt");
-            cnt.setAccessible(true);
-            assertEquals(1, cnt.getInt(product1));
-
-            //test this.id = cnt;
             Field id = product1.getClass().getDeclaredField("id");
             id.setAccessible(true);
             assertEquals(1, id.getInt(product1));
 
-            //test this.name = name;
             Field name = product1.getClass().getDeclaredField("name");
             name.setAccessible(true);
             assertEquals("P1", name.get(product1));
 
-            //test this.price = price;
             Field price = product1.getClass().getDeclaredField("price");
             price.setAccessible(true);
             assertEquals(1.5, price.getFloat(product1));
 
-            //test this.ratings = new ArrayList<>();
             Field ratings = product1.getClass().getDeclaredField("ratings");
             ratings.setAccessible(true);
             assertEquals(new ArrayList<Integer>(), ratings.get(product1));
 
-            //test cnt++
             args = new Object[]{"P2", 2f};
             product2 = productConstructor.newInstance(args);
             Field cnt1 = product2.getClass().getDeclaredField("cnt");
@@ -605,9 +595,6 @@ public class TestOnlineStoreLocal {
             Field shoppingCart = customer1.getClass().getDeclaredField("shoppingCart");
             shoppingCart.setAccessible(true);
             ArrayList<Product> cart = (ArrayList<Product>) (shoppingCart.get(customer1));
-//            cart.add(new Product("2",10f));
-//            cart.add(new Product("1",20f));
-//            cart.add(new Product("3",15f));
             cart.add(productConstructor.newInstance("2", 10f));
             cart.add(productConstructor.newInstance("1", 20f));
             cart.add(productConstructor.newInstance("3", 15f));
