@@ -120,7 +120,7 @@ After executing the method, the return value should be the difference between Bi
 > Contributors: Yida TAO, Sicen LIU, Dingyuan XUE
 
 The advance in E-commerce has made online-shopping a pervasive and convenient daily experience. Customers could browse different online stores, each of which provides a list of products for customers to buy.   
-In this question, you'll build three classes, `Product`, `Store`, and `Customer`, according to the requirements below, to implement the online shopping process. Note that to implement the required functionality, you are free to add variables and methods that are not mentioned in this document, but remember never change the names, keywords and parameters of any variables or methods that we have specified.
+In this question, you'll build three classes, `Product`, `Store`, and `Customer`, to implement the online shopping process. See below for detailed requirements. Note that to implement the required functionality, you are free to add variables and methods that are not mentioned in this document; however, please **DO NOT** change the definitions of the existing variables and methods that we have specified in this document.
 
 ### 2.1 Product
 #### Attributes
@@ -136,7 +136,7 @@ private ArrayList<Integer> ratings; // ratings from different customers; default
 ```java
 public Product(String name, float price);
 ```
-The constructor of `Product` class.
+The constructor of the `Product` class.
 * The `id` of the first product is 1. The given `price` is always valid.
 
 #### Methods
@@ -156,7 +156,7 @@ Return the average rating of this product, which is computed as the average of a
 
 `public String toString();`
 
-Return a string description of this product, in the format of `Product ID id, name, RMB price, Rating average rating`, e.g., `Product ID 12345, Laptop, RMB 10000.00, Rating 4.5`.   
+Return a string description of this product, in the format of `Product ID id, name, RMB price, Rating average-rating`, e.g., `Product ID 12345, Laptop, RMB 10000.00, Rating 4.5`.   
 * For `price`, let's keep 2 decimal places following rounding. For `rating`, keep 1 decimal place following rounding.
 
 ### 2.2 Store
@@ -174,7 +174,7 @@ private float income;
 public Store(String name);
 public Store(String name, ArrayList<Product> productList, float income);
 ```
-There are two constructors of `Store` class. One for constructing a new store, with `income = 0` and nothing in the `productList`. The other constructs an existing store with given `income` and `productList`.
+There are two constructors of the `Store` class. One for constructing a new store, with `income = 0` and nothing in the `productList`. The other constructs an existing store with given `income` and `productList`.
 * The `id` of the first store is 1. The given `income` and `productList`are always valid.
 
 #### Methods
@@ -192,7 +192,7 @@ A method to determine whether this store has the given `product` . Return `true`
 `public boolean addProduct(Product product);`
 
 Add `product` to the `productList`; return a boolean indicating whether the operation succeeds.
-* Suppose each `product`, which is uniquely identified by its `id`, could only appear once in the `productList` of a particular store. That is, the same `product` does not exist in the `productList` of different stores (this kind of invalid case will not happen), and in the same `productList`, it appears not more than once.
+* Suppose each `product`, which is uniquely identified by its `id`, could only appear once in the `productList` of a particular store. That is, the same `product` will not appear in the `productList` of multiple stores (this kind of invalid case will not happen); and in the same `productList`, a product appears not more than once.
 * If a `product` already exists in `productList`, return `false` and `productList` remains the same; otherwise, add `product` to the end of `productList` and return `true`.
 
 `public boolean removeProduct(Product product);`
@@ -206,9 +206,9 @@ Return `productList`.
 
 `public void transact(Product product, int method);`
 
-This is an interface for store to handle customer purchase or refund a `product`. Suppose that the arguments are valid here.
+This is an interface method for stores to handle customers' purchases or refunds. Suppose that all the arguments are valid here.
 * `method = 0` means purchasing the `product` from this store. The `product` should be removed from the `productList` and the `income` of this store should increase by an amount equal to the `price` of the `product`.
-* (Bonus)`method = 1` means refunding the `product` to the store. The `productList` and `income` of the store should also be updated accordingly (suppose that the store adds this product back to its `productList` and could re-sell this product).
+* (Bonus) `method = 1` means refunding the `product` to the store. The `productList` and `income` of the store should also be updated accordingly (suppose that the store adds this product back to its `productList` and could re-sell this product).
 
 ### 2.3 Customer
 #### Attributes
@@ -224,7 +224,7 @@ private float wallet;
 ```java
 public Customer(String name, float wallet);
 ```
-The constructor of `Product` class.
+The constructor of the `Customer` class.
 * The `id` of the first customer is 1. The given `wallet` is always valid.
 
 #### Methods
