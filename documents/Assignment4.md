@@ -147,7 +147,7 @@ public String toString();
 ```
 `public boolean setRating(int rating);`
 
-Set  `rating` to the product.  The `rating` would be added to this product's rating list `ratings`.
+Set  `rating` to the product.  The `rating` would be added to the end of this product's rating list `ratings`.
 * A `rating` should be within the range [1,5]; in other words, there are only 5 possible values for `rating`. If `rating` is not in this range, do not add it into `rating` and return `false`.
 
 `public float getAvgRating();`
