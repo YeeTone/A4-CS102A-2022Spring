@@ -395,6 +395,7 @@ public class TestOnlineStoreOfficial {
                 assertEquals(data.products.get("foods_origin").get(i).ratings, ratings.get(products.get("foods_origin").get(i)));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong ratings");
@@ -452,6 +453,7 @@ public class TestOnlineStoreOfficial {
                 assertEquals(data.products.get("clothes_origin").get(i).ratings, ratings.get(products.get("clothes_origin").get(i)));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong ratings");
@@ -467,6 +469,7 @@ public class TestOnlineStoreOfficial {
                 assertEquals(data.products.get("foods_origin").get(i).getAvgRating(), getAvgRating.invoke(products.get("foods_origin").get(i)));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong average rating");
@@ -482,6 +485,7 @@ public class TestOnlineStoreOfficial {
                 assertEquals(data.products.get("clothes_origin").get(i).getAvgRating(), getAvgRating.invoke(products.get("clothes_origin").get(i)));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong average rating");
@@ -505,6 +509,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             fail("wrong toString");
         }
@@ -663,6 +668,7 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             fail("wrong productList");
         }
@@ -690,6 +696,7 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             fail("wrong productList");
         }
@@ -715,6 +722,7 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             fail("wrong productList");
         }
@@ -740,6 +748,7 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             fail("wrong productList");
         }
@@ -757,6 +766,7 @@ public class TestOnlineStoreOfficial {
                 assertTrue(productListEquals(data.stores.get(key).getProductList(), (ArrayList<Product>) getProductList.invoke(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong productList");
@@ -776,6 +786,7 @@ public class TestOnlineStoreOfficial {
                 assertTrue((Boolean) hasProduct.invoke(stores.get("clothes_store"), product));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong productList");
@@ -793,6 +804,7 @@ public class TestOnlineStoreOfficial {
                 assertFalse((Boolean) hasProduct.invoke(stores.get("clothes_store"), product));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong productList");
@@ -820,6 +832,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong purchase");
@@ -847,6 +860,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("Bonus: wrong refund");
@@ -995,6 +1009,7 @@ public class TestOnlineStoreOfficial {
                     assertEquals(data.products.get(key).get(i).ratings, ratings.get(products.get(key).get(i)));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong ratings");
@@ -1046,6 +1061,7 @@ public class TestOnlineStoreOfficial {
                     assertEquals(data.products.get(key).get(i).ratings, ratings.get(products.get(key).get(i)));
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong ratings");
@@ -1088,12 +1104,13 @@ public class TestOnlineStoreOfficial {
                 assertTrue(productListEquals(data.customers.get(key).shoppingCart, (ArrayList<Product>) shoppingCart.get(customers.get(key))));
                 assertEquals(data.customers.get(key).wallet, wallet.get(customers.get(key)));
             }
-            for (String key : data.stores.keySet()) {
+            for (String key : new String[]{"food_store", "clothes_store"}) {
                 assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
                 assertEquals(data.stores.get(key).income, income.get(stores.get(key)));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong purchase");
@@ -1130,12 +1147,13 @@ public class TestOnlineStoreOfficial {
                 assertTrue(productListEquals(data.customers.get(key).shoppingCart, (ArrayList<Product>) shoppingCart.get(customers.get(key))));
                 assertEquals(data.customers.get(key).wallet, wallet.get(customers.get(key)));
             }
-            for (String key : data.stores.keySet()) {
+            for (String key : new String[]{"food_store", "clothes_store"}) {
                 assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
                 assertEquals(data.stores.get(key).income, income.get(stores.get(key)));
             }
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong purchase");
@@ -1162,6 +1180,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong wallet");
@@ -1185,6 +1204,7 @@ public class TestOnlineStoreOfficial {
             System.setOut(System.out);
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             fail("wrong shoppingCart");
         }
@@ -1207,6 +1227,7 @@ public class TestOnlineStoreOfficial {
             System.setOut(System.out);
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             fail("wrong shoppingCart");
         }
@@ -1228,6 +1249,7 @@ public class TestOnlineStoreOfficial {
             System.setOut(System.out);
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             fail("wrong shoppingCart");
         }
@@ -1316,6 +1338,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            fail();
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("Bonus: wrong refund");

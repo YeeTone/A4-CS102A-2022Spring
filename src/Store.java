@@ -23,6 +23,14 @@ public class Store {
         this.income = income;
     }
 
+    public boolean hasProduct(Product product) {
+        for (Product value : productList) {
+            if (value.getId() == product.getId())
+                return true;
+        }
+        return false;
+    }
+
     public boolean addProduct(Product product) {
         if (hasProduct(product))
             return false;
@@ -39,14 +47,6 @@ public class Store {
 
     public ArrayList<Product> getProductList() {
         return productList;
-    }
-
-    public boolean hasProduct(Product product) {
-        for (Product value : productList) {
-            if (value.getId() == product.getId())
-                return true;
-        }
-        return false;
     }
 
     public void transact(Product product, int method){

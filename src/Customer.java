@@ -19,6 +19,10 @@ public class Customer {
         return product.setRating(rating);
     }
 
+    public void updateWallet(float amount) {
+        wallet += amount;
+    }
+
     public boolean purchaseProduct(Store store, Product product) {
         if (!store.hasProduct(product) || wallet < product.getPrice())
             return false;
@@ -27,10 +31,6 @@ public class Customer {
         shoppingCart.add(product);
         updateWallet(-product.getPrice());
         return true;
-    }
-
-    public void updateWallet(float amount) {
-        wallet += amount;
     }
 
     public boolean refundProduct(Product product) {
