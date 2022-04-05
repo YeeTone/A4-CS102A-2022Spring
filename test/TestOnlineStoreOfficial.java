@@ -189,6 +189,7 @@ public class TestOnlineStoreOfficial {
     static Map<String, ArrayList<Product>> products = new Hashtable<>();
     static Map<String, Store> stores = new Hashtable<>();
     static Map<String, Customer> customers = new Hashtable<>();
+    static Product product;
 
     private static Constructor<Product> productConstructor;
     private static Constructor<Store> storeConstructor1;
@@ -328,6 +329,7 @@ public class TestOnlineStoreOfficial {
             products.put("clothes_origin", clothes_origin);
             products.put("clothes_extend", clothes_extend);
 
+            product = productConstructor.newInstance("0rating", 5.5f);
             for (String key : products.keySet()) {
                 for (int i = 0; i < products.get(key).size(); i++) {
                     assertEquals(data.products.get(key).get(i).id, id.get(products.get(key).get(i)));
@@ -1179,6 +1181,11 @@ public class TestOnlineStoreOfficial {
             ByteArrayOutputStream outContent1 = new ByteArrayOutputStream();
             ByteArrayOutputStream outContent2 = new ByteArrayOutputStream();
             System.setOut(new PrintStream(outContent1));
+            Field shoppingCart = Customer.class.getDeclaredField("shoppingCart");
+            shoppingCart.setAccessible(true);
+            ((ArrayList)shoppingCart.get(customers.get("PiPi"))).add(product);
+            data.customers.get("PiPi").shoppingCart.add(new ProductOfficial("0rating",5.5f));
+
             data.customers.get("PiPi").viewShoppingCart(SortByOfficial.PurchaseTime);
             System.setOut(new PrintStream(outContent2));
             viewShoppingCart.invoke(customers.get("PiPi"), SortBy.PurchaseTime);

@@ -602,20 +602,17 @@ public class TestOnlineStoreLocal {
             ratings.setAccessible(true);
             ratings.set(cart.get(0), new ArrayList<>(Arrays.asList(1,2,3)));
             ratings.set(cart.get(1), new ArrayList<>(Arrays.asList(1,1,1)));
+            ratings.set(cart.get(2), new ArrayList<>(Arrays.asList(0,0,0)));
             ByteArrayOutputStream outContent = new ByteArrayOutputStream();
             System.setOut(new PrintStream(outContent));
             viewShoppingCart.invoke(customer1, SortBy.Price);
             viewShoppingCart.invoke(customer1, SortBy.Rating);
-            viewShoppingCart.invoke(customer1, SortBy.PurchaseTime);
             assertEquals("Product ID 6, 2, RMB 10.00, Rating 2.0" + System.lineSeparator() +
                     "Product ID 8, 3, RMB 15.00, Rating 0.0" + System.lineSeparator() +
                     "Product ID 7, 1, RMB 20.00, Rating 1.0" + System.lineSeparator() +
                     "Product ID 8, 3, RMB 15.00, Rating 0.0" + System.lineSeparator() +
                     "Product ID 7, 1, RMB 20.00, Rating 1.0" + System.lineSeparator() +
-                    "Product ID 6, 2, RMB 10.00, Rating 2.0" + System.lineSeparator() +
-                    "Product ID 6, 2, RMB 10.00, Rating 2.0" + System.lineSeparator() +
-                    "Product ID 7, 1, RMB 20.00, Rating 1.0" + System.lineSeparator() +
-                    "Product ID 8, 3, RMB 15.00, Rating 0.0" + System.lineSeparator(), outContent.toString());
+                    "Product ID 6, 2, RMB 10.00, Rating 2.0" + System.lineSeparator(), outContent.toString());
             System.setOut(System.out);
         } catch (Exception e) {
             System.setOut(System.out);
@@ -665,7 +662,7 @@ public class TestOnlineStoreLocal {
             assertTrue((Boolean) refundProduct.invoke(customer,product3));
             answer_shoppingCart.remove(product3);
             answer_productList.add(product3);
-//
+
             assertTrue(answer_shoppingCart.containsAll((ArrayList)shoppingCart.get(customer)));
             assertEquals(answer_shoppingCart.size(), ((ArrayList)shoppingCart.get(customer)).size());
             assertEquals(current_wallet + price.getFloat(product3), wallet.get(customer));
