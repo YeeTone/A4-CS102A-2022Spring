@@ -116,10 +116,11 @@ After executing the method, the return value should be the difference between Bi
 
 **Hint for Bonus** Considering the data scale, the simple implementation may cause **TLE(Time Limit Exceeded)** and cannot pass the testcases. Please think about how to improve the efficiency of multiplication!
 
-## Question 2. Online Shopping [Medium, 60 + 5 Points] (&#x1F4D9;TODO: we might need to adjust the scores given the final test cases)
+## Question 2. Online Shopping [Medium, 60 + 5 Points]
 > Contributors: Yida TAO, Sicen LIU, Dingyuan XUE
 
-The advance in E-commerce has made online-shopping a pervasive and convenient daily experience. Customers could browse different online stores, each of which provides a list of products for customers to buy. In this question, you'll design three classes, `Customer`, `Store`, and `Product`, to implement the online shopping process. The detail of each class is described below.
+The advance in E-commerce has made online-shopping a pervasive and convenient daily experience. Customers could browse different online stores, each of which provides a list of products for customers to buy.   
+In this question, you'll build three classes, `Product`, `Store`, and `Customer`, according to the requirements below, to implement the online shopping process. Note that to implement the required functionality, you are free to add variables and methods that are not mentioned in this document, but remember never change the names, keywords and parameters of any variables or methods that we have specified.
 
 ### 2.1 Product
 #### Attributes
@@ -135,8 +136,8 @@ private ArrayList<Integer> ratings; // ratings from different customers; default
 ```java
 public Product(String name, float price);
 ```
-The id of the first product is 1.
-If the `price` is less than 0, the product is invalid and should not be created. 
+The constructor of `Product` class.
+* The `id` of the first product is 1. The given `price` is always valid.
 
 #### Methods
 ```java
@@ -146,19 +147,17 @@ public String toString();
 ```
 `public boolean setRating(int rating);`
 
-A customer can rate a product using this method. The `rating` will be added to this product's rating list `ratings`. Note that
+Set  `rating` to the product.  The `rating` would be added to this product's rating list `ratings`.
 * A `rating` should be within the range [1,5]; in other words, there are only 5 possible values for `rating`. If `rating` is not in this range, do not add it into `rating` and return `false`.
-* For simplicity, *a customer can give different ratings to the same product multiple times*.
 
 `public float getAvgRating();`
 
-Return the average rating of this product, which is computed as the average rating given all the ratings its has received so far.   
-Again, for simplicity, *a customer can give different ratings to the same product multiple times*. For example, if a product has got two different ratings, 5 and 4, from Alice and Bob respectively, then its rating is 4.5; if a product has got two different ratings, 5 and 4, both from Alice, then its rating is still 4.5.
+Return the average rating of this product, which is computed as the average of all the ratings it has received so far.
 
 `public String toString();`
 
-Return a string description of this product, in the format of `Product ID id, name, RMB price, Rating rating`, e.g., `Product ID 12345, Laptop, RMB 10000.00, Rating 4.5`.   
-Note that for `price`, let's keep 2 decimal places. For `rating`, keep 1 decimal place.
+Return a string description of this product, in the format of `Product ID id, name, RMB price, Rating average rating`, e.g., `Product ID 12345, Laptop, RMB 10000.00, Rating 4.5`.   
+* For `price`, let's keep 2 decimal places following rounding. For `rating`, keep 1 decimal place following rounding.
 
 ### 2.2 Store
 #### Attributes
@@ -171,47 +170,45 @@ private float income;
 ```
 
 #### Constructors
-There are two constructors. One for constructing a new store, with income=0 and nothing in the productList. The other constructs an existing store with given income and productList.
 ```java
 public Store(String name);
 public Store(String name, ArrayList<Product> productList, float income);
 ```
-The id of the first store is 1.
+There are two constructors of `Store` class. One for constructing a new store, with `income = 0` and nothing in the `productList`. The other constructs an existing store with given `income` and `productList`.
+* The `id` of the first store is 1. The given `income` and `productList`are always valid.
+
 #### Methods
 ```java
+public boolean hasProduct(Product product);
 public boolean addProduct(Product product);
 public boolean removeProduct(Product product);
 public ArrayList<Product> getProductList();
-public boolean hasProduct(Product product);
 public void transact(Product product, int method);
 ```
+`public boolean hasProduct(Product product);`
+
+A method to determine whether this store has the given `product` . Return `true` if the `product` in the `productList` of the store; otherwise, return `false`.
 
 `public boolean addProduct(Product product);`
 
-Add `product` to the `productList`; return a boolean indicating whether the operation succeeds. Note that:
-* For simplicity, suppose each product, which is uniquely identified by its `id`, could only appear once in the `productList`.
-* So if `product` already exists in `productList` (i.e., there is a product in `productList` that has the same `id` as `product`), return `false` and `productList` remains the same; otherwise, add `product` to the end of `productList` and return `true`.
-
+Add `product` to the `productList`; return a boolean indicating whether the operation succeeds.
+* Suppose each `product`, which is uniquely identified by its `id`, could only appear once in the `productList` of a particular store. That is, the same `product` does not exist in the `productList` of different stores (this kind of invalid case will not happen), and in the same `productList`, it appears not more than once.
+* If a `product` already exists in `productList`, return `false` and `productList` remains the same; otherwise, add `product` to the end of `productList` and return `true`.
 
 `public boolean removeProduct(Product product);`
 
-Remove `product` from `productList`; return a boolean indicating whether the operation succeeds. Note that:
-* If `product` exists in `productList`, remove it from `productList` and return `true`.
-* Otherwise, return `false` and `productList` remains the same.
+Remove `product` from `productList`; return a boolean indicating whether the operation succeeds.
+* If `product` exists in `productList`, remove it from `productList` and return `true`; otherwise, return `false` and `productList` remains the same.
 
 `public ArrayList<Product> getProductList();`
 
 Return `productList`.
 
-`public boolean hasProduct(Product product);`
-
-Return `true` if this store has the given `product`; otherwise, return `false`.
-
 `public void transact(Product product, int method);`
 
-This is the interface exposed to customers to purchase or refund a product. We suppose that the arguments are valid here.
-* method = 0 means purchasing the `product` from this store. The product should be removed from the `productList` and the income of this store should increase by an amount equal to the price of the product.
-* method = 1 means refunding the `product` to the store. The `productList` and `income` of the store should also be updated accordingly (suppose that the store adds this product back to its `productList` and could re-sell this product).
+This is an interface for store to handle customer purchase or refund a `product`. Suppose that the arguments are valid here.
+* `method = 0` means purchasing the `product` from this store. The `product` should be removed from the `productList` and the `income` of this store should increase by an amount equal to the `price` of the `product`.
+* (Bonus)`method = 1` means refunding the `product` to the store. The `productList` and `income` of the store should also be updated accordingly (suppose that the store adds this product back to its `productList` and could re-sell this product).
 
 ### 2.3 Customer
 #### Attributes
@@ -222,36 +219,39 @@ private String name;
 private ArrayList<Product> shoppingCart; // The list of purchased products; default is empty.
 private float wallet; 
 ```
+
 #### Constructor
 ```java
 public Customer(String name, float wallet);
 ```
-The id of the first customer is 1.
+The constructor of `Product` class.
+* The `id` of the first customer is 1. The given `wallet` is always valid.
+
 #### Methods
 ```java
 public boolean rateProduct(Product product, int rating);
-public boolean purchaseProduct(Store store, Product product);
 public void updateWallet(float amount);
+public boolean purchaseProduct(Store store, Product product);
 public void viewShoppingCart(SortBy sortMethod);
 public boolean refundProduct(Product product); 
 ```
 `public boolean rateProduct(Product product, int rating);`
 
-Set the rating of the given `product` to `rating`. For invalid arguments, return `false`; otherwise return `true`.
-
-`public boolean purchaseProduct(Store store, Product product);`
-
-Purchase `product` from `store`; return `true` if the `store` has this `product` and the customer has enough money in the wallet to purchase this product; return `false` otherwise. Note that the shopping cart of this customer as well as his/her wallet should be updated accordingly.In this method, use `updateWallet(float amount)` to update the wallet.
-
-For simplicity, **suppose a customer can purchase the same product only once**.
+A customer can rate a `product` using this method. 
+* For invalid `rating`, return `false`; otherwise return `true`.
 
 `public void updateWallet(float amount);`
 
-Update the wallet of this customer. The amount could be positive (gaining money) or negative (consuming money). Assume that arguments are always valid.
+Update the `wallet` of this customer. The `amount` could be positive (gaining money) or negative (consuming money). Assume that arguments are always valid.
+
+`public boolean purchaseProduct(Store store, Product product);`
+
+Purchase `product` from `store`.
+* Return `true` if the `store` has this `product` and the customer has enough money in the `wallet` to purchase this `product`; return `false` otherwise. Note that the `shoppingCart` of this customer as well as his/her `wallet` should be updated accordingly.
 
 `public void viewShoppingCart(SortBy sortMethod);`
 
-Display the purchased products in the shopping cart of this customer. The order of displaying is specified by `sortMethod`. We provide an Enum `SortBy`, which says that sorting could be performed by the purchase time, rating, or the price of products.
+Display the purchased products in the `shoppingCart` of this customer. The order of displaying is specified by `sortMethod`. Below we provide an Enum `SortBy`, which says that sorting could be performed by the `PurchaseTime`,  `Rating`, or the `Price` of products. You can add methods to `SortBy` if necessary, but remember never change the constant values that we have specified.
 
 ```Java
 public enum SortBy {
@@ -259,9 +259,9 @@ public enum SortBy {
 }
 ```
 
-Suppose a customer Alice has purchase a few products from different stores.
+Suppose a customer Alice has purchased a few products from different stores.
 ```java
-Customer alice = new Customer("Alice",100);
+Customer alice = new Customer("Alice", 20000);
 // code for creating stores and products are ommitted
 alice.purchaseProduct(store1, product_laptop);
 alice.purchaseProduct(store1, product_table);
@@ -275,7 +275,7 @@ alice.viewShoppingCart(SortBy.PurchaseTime);
 will display (see `Product.toString()` for the format)
 ```
 Product ID 2, Laptop, RMB 10000.00, Rating 4.5
-Product ID 4, Table, RMB 300.00, Rating 5.5
+Product ID 4, Table, RMB 300.00, Rating 4.3
 Product ID 3, Mouse, RMB 100.00, Rating 3.0
 Product ID 1, Phone, RMB 7000.00, Rating 4.5
 ```
@@ -288,9 +288,11 @@ will display
 Product ID 3, Mouse, RMB 100.00, Rating 3.0
 Product ID 2, Laptop, RMB 10000.00, Rating 4.5
 Product ID 1, Phone, RMB 7000.00, Rating 4.5
-Product ID 4, Table, RMB 300.00, Rating 5.5
+Product ID 4, Table, RMB 300.00, Rating 4.3
 ```
-Note that if products have the same ratings, they should be sorted by the purchase time.   
+* If the actual average rating is different, but the same after reserving one decimal place as required, sort by the actual average rating.
+* If products exactly have the same average rating, they should be sorted by the purchase time.  
+
 Calling
 ```java
 alice.viewShoppingCart(SortBy.Price);
@@ -298,15 +300,16 @@ alice.viewShoppingCart(SortBy.Price);
 will display
 ```
 Product ID 3, Mouse, RMB 100.00, Rating 3.0
-Product ID 4, Table, RMB 300.00, Rating 5.5
+Product ID 4, Table, RMB 300.00, Rating 4.3
 Product ID 1, Phone, RMB 7000.00, Rating 4.5
 Product ID 2, Laptop, RMB 10000.00, Rating 4.5
 ```
-Again, if products have the same prices, they should be sorted by the purchase time.
+* If products have the same price, they should be sorted by the purchase time.
 
 `public boolean refundProduct(Product product);`
 
-**(Bonus)** Return the product to its store and get the money back. Return `true` if this customer has indeed purchased this product before and `false` otherwise. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly. In addition, the corresponding store should enable the refund process to update the `productList` and `income`.
+**(Bonus) Note: Even if you don't implement this bonus method, you still need to put this method in the Customer class, otherwise it would cause a compile error.**  
+Return the `product` to the store where it was sold and get the money back. Return `true` if this customer has indeed purchased this product before and `false` otherwise. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly. In addition, the corresponding store should enable the refund process to update the `productList` and `income`.
 
 
 ## Submission
