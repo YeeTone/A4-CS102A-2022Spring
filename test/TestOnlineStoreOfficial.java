@@ -9,7 +9,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -87,19 +86,12 @@ class Data {
         customers.put("XueLao", customerOfficials[3]);
     }
 
-    public void ProductSetRanting() {
+    public void ProductSetRantingValid() {
         int[] tomatoRanting = {4, 5, 4, 3, 5};
         int[] appleRanting = {5};
         int[] bananaRanting = {3, 2, 4};
-        int[] orangeRanting = {};
+        int[] orangeRanting = {4, 2, 2};
         int[] pumpkinRanting = {5, 5, 5, 5};
-
-        int[] shirtRanting = {5, 6, 7, 8, 5};
-        int[] pantsRanting = {4, 2, 2};
-        int[] shoesRanting = {-3, 0, 12};
-        int[] hatRanting = {4, 0, 7, 5};
-        int[] glassesRanting = {2, 3, 4, 5, 6};
-
         for (int j : tomatoRanting)
             products.get("foods_origin").get(0).setRating(j);
         for (int j : appleRanting)
@@ -110,6 +102,14 @@ class Data {
             products.get("foods_origin").get(3).setRating(j);
         for (int j : pumpkinRanting)
             products.get("foods_origin").get(4).setRating(j);
+    }
+
+    public void ProductSetRantingInvalid() {
+        int[] shirtRanting = {5, 6, 7, 8, 5};
+        int[] pantsRanting = {};
+        int[] shoesRanting = {-3, 0, 12};
+        int[] hatRanting = {4, 0, 7, 5};
+        int[] glassesRanting = {2, 3, 4, 5, 6};
         for (int j : shirtRanting)
             products.get("clothes_origin").get(0).setRating(j);
         for (int j : pantsRanting)
@@ -143,7 +143,7 @@ class Data {
             stores.get("book_store").transact(product, method);
     }
 
-    public void CustomerRateProduct() {
+    public void CustomerRateProductValid() {
         int[] pipi1 = {4, 5, 4, 3, 5};
         int[] pipi2 = {5, 4, 3, 2, 1};
         int[] mengge2 = {5, 4, 3, 2, 1};
@@ -162,11 +162,11 @@ class Data {
         }
     }
 
-    public void CustomerRateProduct2() {
+    public void CustomerRateProductInvalid() {
         int[] pipi1 = {4, 5, 0, -1, 5};
         int[] pipi2 = {5, 9, 6, 2, 1};
         int[] mengge2 = {0, 0, 0, 0, 0};
-        int[] hanhan1 = {0, 99, 5, 4, 4, 5};
+        int[] hanhan1 = {0, 99, 5, 4, 5};
         int[] xuelao1 = {4, 123, 7, -100, 1};
         int[] xuelao2 = {5, 5, 5, 5, 5};
         for (int i = 0; i < stores.get("food_store").productList.size(); i++) {
@@ -180,7 +180,6 @@ class Data {
             customers.get("XueLao").rateProduct(stores.get("clothes_store").productList.get(i), xuelao2[i]);
         }
     }
-
 }
 
 @TestMethodOrder(MethodOrderer.Alphanumeric.class)
@@ -211,8 +210,7 @@ public class TestOnlineStoreOfficial {
             for (Product q : b) {
                 if (p.id == (int) id.get(q)) {
                     if (p.name.equals(name.get(q)) && p.price == (float) price.get(q) &&
-                            p.ratings.containsAll((ArrayList<Integer>) ratings.get(q)) &&
-                            p.ratings.size() == ((ArrayList<Integer>) ratings.get(q)).size())
+                            p.ratings.containsAll((ArrayList<Integer>) ratings.get(q)) && p.ratings.size() == ((ArrayList<Integer>) ratings.get(q)).size())
                         cnt++;
                     else
                         return false;
@@ -223,19 +221,7 @@ public class TestOnlineStoreOfficial {
     }
 
     @Test
-    public void test00() {
-        //ProductConstructorExist
-        Class<?>[] parameters = {String.class, float.class};
-        try {
-            productConstructor = Product.class.getConstructor(parameters);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            fail("The declaration of constructor of class Product doesn't meet the requirement!");
-        }
-    }
-
-    @Test
-    public void test01() {
+    public void test01() { //1
         //ProductFieldExist
         try {
             Field cnt = Product.class.getDeclaredField("cnt");
@@ -258,12 +244,12 @@ public class TestOnlineStoreOfficial {
             assertEquals(ArrayList.class, ratings.getType());
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
-            fail("The declaration of fields of class Product doesn't meet the requirement!");
+            fail("field not meet requirement");
         }
     }
 
     @Test
-    public void test02() {
+    public void test02() { //1
         //ProductMethodExist
         try {
             Method setRating = Product.class.getDeclaredMethod("setRating", int.class);
@@ -279,18 +265,19 @@ public class TestOnlineStoreOfficial {
             assertTrue(Modifier.isPublic(toString.getModifiers()));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            fail("The declaration of methods of class Product doesn't meet the requirement!");
+            fail("method not meet requirement");
         }
     }
 
 
     @Test
-    public void test03() {
+    public void test03() { //2
         //ProductConstructor
+        Class<?>[] parameters = {String.class, float.class};
         try {
+            productConstructor = Product.class.getConstructor(parameters);
 
             ArrayList<Product> books_extend = new ArrayList<>();
-
             books_extend.add(productConstructor.newInstance("magazine", 5.5f));
             books_extend.add(productConstructor.newInstance("textbook", 15f));
             books_extend.add(productConstructor.newInstance("dictionary", 30f));
@@ -329,7 +316,6 @@ public class TestOnlineStoreOfficial {
             Field name = Product.class.getDeclaredField("name");
             Field price = Product.class.getDeclaredField("price");
             Field ratings = Product.class.getDeclaredField("ratings");
-
             id.setAccessible(true);
             name.setAccessible(true);
             price.setAccessible(true);
@@ -351,156 +337,170 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail("Constructor of Product is wrong!");
+            fail("constructor not meet requirement");
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("wrong member variable");
         }
     }
 
     @Test
-    public void test04() {
+    public void test04() { //1.5
         //ProductSetRating(valid)
-        data.ProductSetRanting();
         try {
             Method setRating = Product.class.getDeclaredMethod("setRating", int.class);
-            setRating.setAccessible(true);
+            Field ratings = Product.class.getDeclaredField("ratings");
+            ratings.setAccessible(true);
+
             int[] tomatoRanting = {4, 5, 4, 3, 5};
             int[] appleRanting = {5};
             int[] bananaRanting = {3, 2, 4};
-            int[] orangeRanting = {};
+            int[] orangeRanting = {4, 2, 2};
             int[] pumpkinRanting = {5, 5, 5, 5};
-            for (int j : tomatoRanting) {
+
+            for (int j : tomatoRanting) { //4, 5, 4, 3, 5
                 if (j > 5 || j < 1)
                     assertFalse((Boolean) setRating.invoke(products.get("foods_origin").get(0), j));
                 else
                     assertTrue((Boolean) setRating.invoke(products.get("foods_origin").get(0), j));
             }
-            for (int j : appleRanting) {
+            for (int j : appleRanting) { //5
                 if (j > 5 || j < 1)
                     assertFalse((Boolean) setRating.invoke(products.get("foods_origin").get(1), j));
                 else
                     assertTrue((Boolean) setRating.invoke(products.get("foods_origin").get(1), j));
             }
-            for (int j : bananaRanting) {
+            for (int j : bananaRanting) { //3, 2, 4
                 if (j > 5 || j < 1)
                     assertFalse((Boolean) setRating.invoke(products.get("foods_origin").get(2), j));
                 else
                     assertTrue((Boolean) setRating.invoke(products.get("foods_origin").get(2), j));
             }
-            for (int j : orangeRanting) {
+            for (int j : orangeRanting) { //4, 2, 2
                 if (j > 5 || j < 1)
                     assertFalse((Boolean) setRating.invoke(products.get("foods_origin").get(3), j));
                 else
                     assertTrue((Boolean) setRating.invoke(products.get("foods_origin").get(3), j));
             }
-            for (int j : pumpkinRanting) {
+            for (int j : pumpkinRanting) { //5, 5, 5, 5
                 if (j > 5 || j < 1)
                     assertFalse((Boolean) setRating.invoke(products.get("foods_origin").get(4), j));
                 else
                     assertTrue((Boolean) setRating.invoke(products.get("foods_origin").get(4), j));
             }
 
-            Field ratings = Product.class.getDeclaredField("ratings");
-            ratings.setAccessible(true);
+            data.ProductSetRantingValid();
+
             for (int i = 0; i < products.get("foods_origin").size(); i++)
                 assertEquals(data.products.get("foods_origin").get(i).ratings, ratings.get(products.get("foods_origin").get(i)));
         } catch (Exception e) {
             e.printStackTrace();
         } catch (AssertionError e) {
-            data = new Data();
+            e.printStackTrace();
             fail("wrong ratings");
         }
     }
 
     @Test
-    public void test05() {
+    public void test05() { //1.5
         //ProductSetRating(invalid)
         try {
             Method setRating = Product.class.getDeclaredMethod("setRating", int.class);
-            setRating.setAccessible(true);
+            Field ratings = Product.class.getDeclaredField("ratings");
+            ratings.setAccessible(true);
+
             int[] shirtRanting = {5, 6, 7, 8, 5};
-            int[] pantsRanting = {4, 2, 2};
+            int[] pantsRanting = {};
             int[] shoesRanting = {-3, 0, 12};
             int[] hatRanting = {4, 0, 7, 5};
             int[] glassesRanting = {2, 3, 4, 5, 6};
-            for (int j : shirtRanting) {
+
+            for (int j : shirtRanting) { // 5, 5
                 if (j > 5 || j < 1)
                     assertFalse((Boolean) setRating.invoke(products.get("clothes_origin").get(0), j));
                 else
                     assertTrue((Boolean) setRating.invoke(products.get("clothes_origin").get(0), j));
             }
-            for (int j : pantsRanting) {
+            for (int j : pantsRanting) { //
                 if (j > 5 || j < 1)
                     assertFalse((Boolean) setRating.invoke(products.get("clothes_origin").get(1), j));
                 else
                     assertTrue((Boolean) setRating.invoke(products.get("clothes_origin").get(1), j));
             }
-            for (int j : shoesRanting) {
+            for (int j : shoesRanting) { //
                 if (j > 5 || j < 1)
                     assertFalse((Boolean) setRating.invoke(products.get("clothes_origin").get(2), j));
                 else
                     assertTrue((Boolean) setRating.invoke(products.get("clothes_origin").get(2), j));
             }
-            for (int j : hatRanting) {
+            for (int j : hatRanting) { //4, 5
                 if (j > 5 || j < 1)
                     assertFalse((Boolean) setRating.invoke(products.get("clothes_origin").get(3), j));
                 else
                     assertTrue((Boolean) setRating.invoke(products.get("clothes_origin").get(3), j));
             }
-            for (int j : glassesRanting) {
+            for (int j : glassesRanting) { //2, 3, 4, 5
                 if (j > 5 || j < 1)
                     assertFalse((Boolean) setRating.invoke(products.get("clothes_origin").get(4), j));
                 else
                     assertTrue((Boolean) setRating.invoke(products.get("clothes_origin").get(4), j));
             }
 
-            Field ratings = Product.class.getDeclaredField("ratings");
-            ratings.setAccessible(true);
+            data.ProductSetRantingInvalid();
+
             for (int i = 0; i < products.get("clothes_origin").size(); i++)
                 assertEquals(data.products.get("clothes_origin").get(i).ratings, ratings.get(products.get("clothes_origin").get(i)));
         } catch (Exception e) {
             e.printStackTrace();
         } catch (AssertionError e) {
+            e.printStackTrace();
             fail("wrong ratings");
         }
     }
 
     @Test
-    public void test06() {
+    public void test06() { //1.5
         //ProductAvgRating(size not zero)
         try {
             Method getAvgRating = Product.class.getDeclaredMethod("getAvgRating");
-            getAvgRating.setAccessible(true);
-            for (int i = 0; i < products.get("clothes_origin").size(); i++)
-                assertEquals(data.products.get("clothes_origin").get(i).getAvgRating(), getAvgRating.invoke(products.get("clothes_origin").get(i)));
-        } catch (Exception e) {
-            e.printStackTrace();
-        } catch (AssertionError e) {
-            fail("wrong average rating");
-        }
-    }
-
-    @Test
-    public void test07() {
-        //ProductAvgRating(size zero)
-        try {
-            Method getAvgRating = Product.class.getDeclaredMethod("getAvgRating");
-            getAvgRating.setAccessible(true);
-            for (int i = 0; i < products.get("foods_origin").size(); i++)
+            for (int i = 0; i < products.get("foods_origin").size(); i++) //4.2, 5, 3, 2.67, 5
                 assertEquals(data.products.get("foods_origin").get(i).getAvgRating(), getAvgRating.invoke(products.get("foods_origin").get(i)));
         } catch (Exception e) {
             e.printStackTrace();
         } catch (AssertionError e) {
+            e.printStackTrace();
             fail("wrong average rating");
         }
     }
 
     @Test
-    public void test08() {
+    public void test07() { //1.5
+        //ProductAvgRating(size zero)
+        try {
+            Method getAvgRating = Product.class.getDeclaredMethod("getAvgRating");
+            for (int i = 0; i < products.get("clothes_origin").size(); i++) //5, 0, 0, 4.5, 3.5
+                assertEquals(data.products.get("clothes_origin").get(i).getAvgRating(), getAvgRating.invoke(products.get("clothes_origin").get(i)));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("wrong average rating");
+        }
+    }
+
+    @Test
+    public void test08() { //5
         // ProductToString
         try {
             Method toString = Product.class.getDeclaredMethod("toString");
             for (int i = 0; i < products.get("foods_origin").size(); i++) {
                 String pre = (String) toString.invoke(products.get("foods_origin").get(i));
                 String ans = data.products.get("foods_origin").get(i).toString();
+                assertEquals(ans, pre);
+            }
+            for (int i = 0; i < products.get("clothes_origin").size(); i++) {
+                String pre = (String) toString.invoke(products.get("clothes_origin").get(i));
+                String ans = data.products.get("clothes_origin").get(i).toString();
                 assertEquals(ans, pre);
             }
         } catch (Exception e) {
@@ -510,50 +510,10 @@ public class TestOnlineStoreOfficial {
         }
     }
 
-    @Test
-    public void test09() {
-        // ProductToString
-        try {
-            Method toString = Product.class.getDeclaredMethod("toString");
-            for (int i = 0; i < products.get("clothes_origin").size(); i++) {
-                String pre = (String) toString.invoke(products.get("clothes_origin").get(i));
-                String ans = data.products.get("clothes_origin").get(i).toString();
-                assertEquals(ans, pre);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-//        } catch (AssertionError e) {
-//            fail("wrong toString");
-//        }
-        }
-    }
+    // class Product: 15
 
     @Test
-    public void test10() {
-        //StoreConstructorExist(1)
-        Class<?>[] parameters1 = {String.class};
-        try {
-            storeConstructor1 = Store.class.getConstructor(parameters1);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            fail("The declaration of constructors of class Store doesn't meet the requirement!");
-        }
-    }
-
-    @Test
-    public void test11() {
-        //StoreConstructorExist(2)
-        Class<?>[] parameters2 = {String.class, ArrayList.class, float.class};
-        try {
-            storeConstructor2 = Store.class.getConstructor(parameters2);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-            fail("The declaration of constructors of class Store doesn't meet the requirement!");
-        }
-    }
-
-    @Test
-    public void test12() {
+    public void test09() { //1
         //StoreFieldExist
         try {
             Field cnt = Store.class.getDeclaredField("cnt");
@@ -576,12 +536,12 @@ public class TestOnlineStoreOfficial {
             assertEquals(float.class, income.getType());
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
-            fail("The declaration of fields of class Store doesn't meet the requirement!");
+            fail("field not meet requirement");
         }
     }
 
     @Test
-    public void test13() {
+    public void test10() { //1
         //StoreMethodExist
         try {
             Method addProduct = Store.class.getDeclaredMethod("addProduct", Product.class);
@@ -603,23 +563,23 @@ public class TestOnlineStoreOfficial {
             assertTrue(Modifier.isPublic(transact.getModifiers()));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            fail("The declaration of methods of class Store doesn't meet the requirement!");
+            fail("method not meet requirement");
         }
     }
 
     @Test
-    public void test14() {
+    public void test11() { //1.5
         //StoreConstructor(1)
+        Class<?>[] parameters1 = {String.class};
         try {
+            storeConstructor1 = Store.class.getConstructor(parameters1);
 
-//            Store book_store = new Store("book_store");
             Store book_store = storeConstructor1.newInstance("book_store");
 
             Field id = Store.class.getDeclaredField("id");
             Field name = Store.class.getDeclaredField("name");
             Field productList = Store.class.getDeclaredField("productList");
             Field income = Store.class.getDeclaredField("income");
-
             id.setAccessible(true);
             name.setAccessible(true);
             productList.setAccessible(true);
@@ -633,18 +593,22 @@ public class TestOnlineStoreOfficial {
             assertEquals(data.stores.get("book_store").income, income.get(stores.get("book_store")));
         } catch (Exception e) {
             e.printStackTrace();
-            fail("Constructor(s) of Store is/are wrong!");
+            fail("constructor not meet requirement");
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("wrong member variable");
         }
     }
 
     @Test
-    public void test15() {
+    public void test12() { //2
         //StoreConstructor(2)
+        Class<?>[] parameters2 = {String.class, ArrayList.class, float.class};
         try {
+            storeConstructor2 = Store.class.getConstructor(parameters2);
+
             ArrayList<Product> foods = new ArrayList<>(products.get("foods_origin"));
             ArrayList<Product> clothes = new ArrayList<>(products.get("clothes_origin"));
-//            Store food_store = new Store("food_store", foods, 300);
-//            Store clothes_store = new Store("clothes_store", clothes, 500);
             Store food_store = storeConstructor2.newInstance("food_store", foods, 300);
             Store clothes_store = storeConstructor2.newInstance("clothes_store", clothes, 500);
 
@@ -652,7 +616,6 @@ public class TestOnlineStoreOfficial {
             Field name = Store.class.getDeclaredField("name");
             Field productList = Store.class.getDeclaredField("productList");
             Field income = Store.class.getDeclaredField("income");
-
             id.setAccessible(true);
             name.setAccessible(true);
             productList.setAccessible(true);
@@ -671,16 +634,18 @@ public class TestOnlineStoreOfficial {
             assertEquals(data.stores.get("clothes_store").income, income.get(stores.get("clothes_store")));
         } catch (Exception e) {
             e.printStackTrace();
-            fail("Constructor(s) of Store is/are wrong!");
+            fail("constructor not meet requirement");
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("wrong member variable");
         }
     }
 
     @Test
-    public void test16() {
+    public void test13() { //1.5
         //StoreAddProduct(valid)
         try {
             Method addProduct = Store.class.getDeclaredMethod("addProduct", Product.class);
-            addProduct.setAccessible(true);
             Field productList = Store.class.getDeclaredField("productList");
             productList.setAccessible(true);
 
@@ -698,16 +663,16 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
+        } catch (AssertionError e) {
             fail("wrong productList");
         }
     }
 
     @Test
-    public void test17() {
+    public void test14() { //1.5
         //StoreAddProduct(invalid)
         try {
             Method addProduct = Store.class.getDeclaredMethod("addProduct", Product.class);
-            addProduct.setAccessible(true);
             Field productList = Store.class.getDeclaredField("productList");
             productList.setAccessible(true);
 
@@ -725,16 +690,16 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
+        } catch (AssertionError e) {
             fail("wrong productList");
         }
     }
 
     @Test
-    public void test18() {
+    public void test15() { //1.5
         //StoreRemoveProduct(valid)
         try {
             Method removeProduct = Store.class.getDeclaredMethod("removeProduct", Product.class);
-            removeProduct.setAccessible(true);
             Field productList = Store.class.getDeclaredField("productList");
             productList.setAccessible(true);
 
@@ -750,16 +715,16 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
+        } catch (AssertionError e) {
             fail("wrong productList");
         }
     }
 
     @Test
-    public void test19() {
+    public void test16() { //1.5
         //StoreRemoveProduct(invalid)
         try {
             Method removeProduct = Store.class.getDeclaredMethod("removeProduct", Product.class);
-            removeProduct.setAccessible(true);
             Field productList = Store.class.getDeclaredField("productList");
             productList.setAccessible(true);
 
@@ -775,45 +740,50 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
+        } catch (AssertionError e) {
             fail("wrong productList");
         }
     }
 
     @Test
-    public void test20() {
+    public void test17() { //1.5
         //StoreGetProductList
         try {
             Method getProductList = Store.class.getDeclaredMethod("getProductList");
-            getProductList.setAccessible(true);
             Field productList = Store.class.getDeclaredField("productList");
             productList.setAccessible(true);
+
             for (String key : stores.keySet())
                 assertTrue(productListEquals(data.stores.get(key).getProductList(), (ArrayList<Product>) getProductList.invoke(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
-            fail("wrong productList");
-        }
-    }
-
-    @Test
-    public void test21() {
-        //StoreHasProduct(true)
-        try {
-            Method hasProduct = Store.class.getDeclaredMethod("hasProduct", Product.class);
-            for (Product product : products.get("books_extend"))
-                assertTrue((Boolean) hasProduct.invoke(stores.get("book_store"), product));
-            for (Product product : products.get("foods_origin"))
-                assertTrue((Boolean) hasProduct.invoke(stores.get("food_store"), product));
-            for (Product product : products.get("clothes_extend"))
-                assertTrue((Boolean) hasProduct.invoke(stores.get("clothes_store"), product));
-        } catch (Exception e) {
+        } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong productList");
         }
     }
 
     @Test
-    public void test22() {
+    public void test18() { //1.5
+        //StoreHasProduct(true)
+        try {
+            Method hasProduct = Store.class.getDeclaredMethod("hasProduct", Product.class);
+            for (Product product : products.get("books_extend")) //
+                assertTrue((Boolean) hasProduct.invoke(stores.get("book_store"), product));
+            for (Product product : products.get("foods_origin")) //
+                assertTrue((Boolean) hasProduct.invoke(stores.get("food_store"), product));
+            for (Product product : products.get("clothes_extend")) //
+                assertTrue((Boolean) hasProduct.invoke(stores.get("clothes_store"), product));
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("wrong productList");
+        }
+    }
+
+    @Test
+    public void test19() { //1.5
         //StoreHasProduct(false)
         try {
             Method hasProduct = Store.class.getDeclaredMethod("hasProduct", Product.class);
@@ -823,69 +793,70 @@ public class TestOnlineStoreOfficial {
                 assertFalse((Boolean) hasProduct.invoke(stores.get("clothes_store"), product));
         } catch (Exception e) {
             e.printStackTrace();
+        } catch (AssertionError e) {
+            e.printStackTrace();
             fail("wrong productList");
         }
     }
 
     @Test
-    public void test23() {
+    public void test20() { //4
         //StorePurchase
         try {
             Method transact = Store.class.getDeclaredMethod("transact", Product.class, int.class);
             Field productList = Store.class.getDeclaredField("productList");
-            productList.setAccessible(true);
             Field income = Store.class.getDeclaredField("income");
+            productList.setAccessible(true);
             income.setAccessible(true);
 
             for (Product product : products.get("books_extend"))
                 transact.invoke(stores.get("book_store"), product, 0);
 
             data.StoreTransactProduct(0);
-            productListEquals(data.stores.get("food_store").productList, (ArrayList<Product>) productList.get(stores.get("food_store")));
-            assertEquals(data.stores.get("food_store").income, (float) income.get(stores.get("food_store")));
 
+            for (String key : stores.keySet()) {
+                assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
+                assertEquals(data.stores.get(key).income, (float) income.get(stores.get(key)));
+            }
         } catch (Exception e) {
+            e.printStackTrace();
+        } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong purchase");
         }
     }
 
     @Test
-    public void test25() { //bonus
-        //StoreRefund(productList)
+    public void test21() { //bonus//1
+        //StoreRefund
         try {
             Method transact = Store.class.getDeclaredMethod("transact", Product.class, int.class);
             Field productList = Store.class.getDeclaredField("productList");
+            Field income = Store.class.getDeclaredField("income");
             productList.setAccessible(true);
+            income.setAccessible(true);
 
             for (Product product : products.get("books_extend"))
                 transact.invoke(stores.get("book_store"), product, 1);
 
             data.StoreTransactProduct(1);
-            productListEquals(data.stores.get("food_store").productList, (ArrayList<Product>) productList.get(stores.get("food_store")));
 
+            for (String key : stores.keySet()) {
+                assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
+                assertEquals(data.stores.get(key).income, (float) income.get(stores.get(key)));
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            fail("wrong purchase");
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("Bonus: wrong refund");
         }
     }
 
-    @Test
-    public void test26() {//bonus
-        //StoreRefund(income)
-        try {
-            Field income = Store.class.getDeclaredField("income");
-            income.setAccessible(true);
-            assertEquals(data.stores.get("food_store").income, (float) income.get(stores.get("food_store")));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail("wrong purchase");
-        }
-    }
+    //class Store: 20 + 1
 
     @Test
-    public void test27() {
+    public void test22() { //1
         //CustomerFieldExist
         try {
             Field cnt = Customer.class.getDeclaredField("cnt");
@@ -908,12 +879,12 @@ public class TestOnlineStoreOfficial {
             assertEquals(float.class, wallet.getType());
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
-            fail("The declaration of fields of class Customer doesn't meet the requirement!");
+            fail("field not meet requirement");
         }
     }
 
     @Test
-    public void test28() {
+    public void test23() { //1
         //CustomerMethodExist
         try {
             Method rateProduct = Customer.class.getDeclaredMethod("rateProduct", Product.class, int.class);
@@ -935,20 +906,17 @@ public class TestOnlineStoreOfficial {
             assertTrue(Modifier.isPublic(refundProduct.getModifiers()));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
-            fail("The declaration of methods of Class Customer doesn't meet the requirement!");
+            fail("method not meet requirement");
         }
     }
 
     @Test
-    public void test29() {
+    public void test24() { //2
         //CustomerConstructorExist
         Class<?>[] parameters = {String.class, float.class};
         try {
             customerConstructor = Customer.class.getConstructor(parameters);
-//            Customer pipi = new Customer("PiPi", 150);
-//            Customer mengge = new Customer("MengGe", 120);
-//            Customer hanhan = new Customer("HanHan", 80);
-//            Customer xuelao = new Customer("XueLao", 20);
+
             Customer pipi = customerConstructor.newInstance("PiPi", 150);
             Customer mengge = customerConstructor.newInstance("MengGe", 120);
             Customer hanhan = customerConstructor.newInstance("HanHan", 80);
@@ -958,7 +926,6 @@ public class TestOnlineStoreOfficial {
             Field name = Customer.class.getDeclaredField("name");
             Field shoppingCart = Customer.class.getDeclaredField("shoppingCart");
             Field wallet = Customer.class.getDeclaredField("wallet");
-
             id.setAccessible(true);
             name.setAccessible(true);
             shoppingCart.setAccessible(true);
@@ -977,12 +944,15 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail("Customer Constructor error!");
+            fail("constructor not meet requirement");
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("wrong member variable");
         }
     }
 
     @Test
-    public void test30() {
+    public void test25() { //1.5
         //CustomerRateProduct(valid)
         try {
             Method rateProduct = Customer.class.getDeclaredMethod("rateProduct", Product.class, int.class);
@@ -990,7 +960,6 @@ public class TestOnlineStoreOfficial {
             Field ratings = Product.class.getDeclaredField("ratings");
             productList.setAccessible(true);
             ratings.setAccessible(true);
-            rateProduct.setAccessible(true);
 
             int[] pipi1 = {4, 5, 4, 3, 5};
             int[] pipi2 = {5, 4, 3, 2, 1};
@@ -1005,26 +974,35 @@ public class TestOnlineStoreOfficial {
                 rateProduct.invoke(customers.get("HanHan"), ((ArrayList<Product>) productList.get(stores.get("food_store"))).get(i), hanhan1[i]);
                 rateProduct.invoke(customers.get("XueLao"), ((ArrayList<Product>) productList.get(stores.get("food_store"))).get(i), xuelao1[i]);
             }
+            //tomato: 45435 4534:4.11
+            //apple: 5 5425:4.2
+            //banana: 324 4325:3.29
+            //orange: 422 3242:2.71
+            //pumpkin: 5555 5151:4
             for (int i = 0; i < ((ArrayList) productList.get(stores.get("clothes_store"))).size(); i++) {
                 rateProduct.invoke(customers.get("MengGe"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), mengge2[i]);
                 rateProduct.invoke(customers.get("XueLao"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), xuelao2[i]);
             }
+            //jacket: 55:5
+            //coat: 45:4.5
+            //socks: 35:4
+            //dress: 25:3.5
+            //boots: 15:3
+            data.CustomerRateProductValid();
 
-            data.CustomerRateProduct();
-
-            for (String key : new String[]{"foods_origin", "clothes_extend"}) {
-                for (int i = 0; i < products.get(key).size(); i++) {
+            for (String key : products.keySet())
+                for (int i = 0; i < products.get(key).size(); i++)
                     assertEquals(data.products.get(key).get(i).ratings, ratings.get(products.get(key).get(i)));
-                }
-            }
         } catch (Exception e) {
             e.printStackTrace();
-            fail("rateProduct error!");
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("wrong ratings");
         }
     }
 
     @Test
-    public void test31() {
+    public void test26() { //1.5
         //CustomerRateProduct(invalid)
         try {
             Method rateProduct = Customer.class.getDeclaredMethod("rateProduct", Product.class, int.class);
@@ -1037,7 +1015,7 @@ public class TestOnlineStoreOfficial {
             int[] pipi1 = {4, 5, 0, -1, 5};
             int[] pipi2 = {5, 9, 6, 2, 1};
             int[] mengge2 = {0, 0, 0, 0, 0};
-            int[] hanhan1 = {0, 99, 5, 4, 4, 5};
+            int[] hanhan1 = {0, 99, 5, 4, 5};
             int[] xuelao1 = {4, 123, 7, -100, 1};
             int[] xuelao2 = {5, 5, 5, 5, 5};
 
@@ -1045,111 +1023,127 @@ public class TestOnlineStoreOfficial {
                 rateProduct.invoke(customers.get("HanHan"), ((ArrayList<Product>) productList.get(stores.get("food_store"))).get(i), hanhan1[i]);
                 rateProduct.invoke(customers.get("XueLao"), ((ArrayList<Product>) productList.get(stores.get("food_store"))).get(i), xuelao1[i]);
             }
+            //tomato: 45435 4534 4:4.1
+            //apple: 5 5425:4.2
+            //banana: 324 4325 5:3.5
+            //orange: 422 3242 4:2.875
+            //pumpkin: 5555 5151 51:3.8
             for (int i = 0; i < ((ArrayList) productList.get(stores.get("clothes_store"))).size(); i++) {
                 rateProduct.invoke(customers.get("PiPi"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), pipi1[i]);
                 rateProduct.invoke(customers.get("PiPi"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), pipi2[i]);
                 rateProduct.invoke(customers.get("MengGe"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), mengge2[i]);
                 rateProduct.invoke(customers.get("XueLao"), ((ArrayList<Product>) productList.get(stores.get("clothes_store"))).get(i), xuelao2[i]);
             }
-            data.CustomerRateProduct2();
-            for (String key : new String[]{"foods_origin", "clothes_extend"}) {
-                for (int i = 0; i < products.get(key).size(); i++) {
+            //jacket: 55 455:4.8
+            //coat: 45 55:4.75
+            //socks: 35 5:4.33
+            //dress: 25 25:3.5
+            //boots: 15 515:3.4
+            data.CustomerRateProductInvalid();
+
+            for (String key : products.keySet())
+                for (int i = 0; i < products.get(key).size(); i++)
                     assertEquals(data.products.get(key).get(i).ratings, ratings.get(products.get(key).get(i)));
-                }
-            }
         } catch (Exception e) {
             e.printStackTrace();
-            fail("rateProduct error!");
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("wrong ratings");
         }
     }
 
     @Test
-    public void test32() {
-        //purchaseProduct(valid)
+    public void test27() { //3
+        //CustomerPurchaseProduct(valid)
         try {
             Method purchaseProduct = Customer.class.getDeclaredMethod("purchaseProduct", Store.class, Product.class);
-            purchaseProduct.setAccessible(true);
             Field shoppingCart = Customer.class.getDeclaredField("shoppingCart");
-            shoppingCart.setAccessible(true);
             Field wallet = Customer.class.getDeclaredField("wallet");
-            wallet.setAccessible(true);
             Field productList = Store.class.getDeclaredField("productList");
-            productList.setAccessible(true);
             Field income = Store.class.getDeclaredField("income");
+            wallet.setAccessible(true);
+            shoppingCart.setAccessible(true);
+            productList.setAccessible(true);
             income.setAccessible(true);
+
+            // foods_origin: tomato 1.5, apple 2.5, banana 5.5, orange 3, pumpkin 8
+            // clothes_extend: jacket 40, coat 40, socks 5, dress 30, boots 35
+            // pipi 150, mengge 120, hanhan 80, xuelao 20
 
             for (int i = 0; i < 2; i++) {
                 assertEquals(data.customers.get("PiPi").purchaseProduct(data.stores.get("clothes_store"), data.products.get("clothes_extend").get(i)),
-                        (Boolean) purchaseProduct.invoke(customers.get("PiPi"), stores.get("clothes_store"), products.get("clothes_extend").get(i)));
+                        purchaseProduct.invoke(customers.get("PiPi"), stores.get("clothes_store"), products.get("clothes_extend").get(i)));
                 assertEquals(data.customers.get("PiPi").purchaseProduct(data.stores.get("food_store"), data.products.get("foods_origin").get(i)),
-                        (Boolean) purchaseProduct.invoke(customers.get("PiPi"), stores.get("food_store"), products.get("foods_origin").get(i)));
-            }//PiPi remain 66, buy jacket 40,tomato 1.5 , coat40,,apple,2.5,true
-
+                        purchaseProduct.invoke(customers.get("PiPi"), stores.get("food_store"), products.get("foods_origin").get(i)));
+            }
             for (int i = 3; i < 5; i++) {
                 assertEquals(data.customers.get("HanHan").purchaseProduct(data.stores.get("food_store"), data.products.get("foods_origin").get(i)),
-                        (Boolean) purchaseProduct.invoke(customers.get("HanHan"), stores.get("food_store"), products.get("foods_origin").get(i)));
-            }//HanHan remain 69,buy orange3,pumpkin8 ,true
-
+                        purchaseProduct.invoke(customers.get("HanHan"), stores.get("food_store"), products.get("foods_origin").get(i)));
+            }
+            // pipi: jacket, tomato, coat, apple, 66
+            // hanhan: orange, pumpkin, 69
+            // food_store: banana, 300+15==315
+            // clothes_store: socks, dress, boots, 500+80==580
             for (String key : data.customers.keySet()) {
                 assertTrue(productListEquals(data.customers.get(key).shoppingCart, (ArrayList<Product>) shoppingCart.get(customers.get(key))));
                 assertEquals(data.customers.get(key).wallet, wallet.get(customers.get(key)));
             }
             for (String key : data.stores.keySet()) {
-                assertEquals(data.stores.get(key).income, income.get(stores.get(key)));
                 assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
+                assertEquals(data.stores.get(key).income, income.get(stores.get(key)));
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
-            fail("purchaseProduct error!");
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("wrong purchase");
         }
     }
 
     @Test
-    public void test33() {
-        //purchaseProduct(invalid)
+    public void test28() { //3
+        //CustomerPurchaseProduct(invalid)
         try {
             Method purchaseProduct = Customer.class.getDeclaredMethod("purchaseProduct", Store.class, Product.class);
-            purchaseProduct.setAccessible(true);
             Field shoppingCart = Customer.class.getDeclaredField("shoppingCart");
-            shoppingCart.setAccessible(true);
             Field wallet = Customer.class.getDeclaredField("wallet");
-            wallet.setAccessible(true);
             Field productList = Store.class.getDeclaredField("productList");
-            productList.setAccessible(true);
             Field income = Store.class.getDeclaredField("income");
+            shoppingCart.setAccessible(true);
+            wallet.setAccessible(true);
+            productList.setAccessible(true);
             income.setAccessible(true);
 
             for (int i = 0; i < 5; i++) {
                 assertEquals(data.customers.get("XueLao").purchaseProduct(data.stores.get("clothes_store"), data.products.get("foods_origin").get(i)),
-                        (Boolean) purchaseProduct.invoke(customers.get("XueLao"), stores.get("clothes_store"), products.get("foods_origin").get(i)));
+                        purchaseProduct.invoke(customers.get("XueLao"), stores.get("clothes_store"), products.get("foods_origin").get(i)));
                 assertEquals(data.customers.get("XueLao").purchaseProduct(data.stores.get("clothes_store"), data.products.get("clothes_origin").get(i)),
-                        (Boolean) purchaseProduct.invoke(customers.get("XueLao"), stores.get("clothes_store"), products.get("clothes_origin").get(i)));
+                        purchaseProduct.invoke(customers.get("XueLao"), stores.get("clothes_store"), products.get("clothes_origin").get(i)));
             }//false
             for (int i = 0; i < 5; i++) {
                 assertEquals(data.customers.get("XueLao").purchaseProduct(data.stores.get("clothes_store"), data.products.get("clothes_extend").get(i)),
-                        (Boolean) purchaseProduct.invoke(customers.get("XueLao"), stores.get("clothes_store"), products.get("clothes_extend").get(i)));
-            }//remain 15 yuan , buy socks,false
-
+                        purchaseProduct.invoke(customers.get("XueLao"), stores.get("clothes_store"), products.get("clothes_extend").get(i)));
+            }
+            //xuelao: socks, 15
+            //clothes_store: dress, boots, 585
             for (String key : data.customers.keySet()) {
                 assertTrue(productListEquals(data.customers.get(key).shoppingCart, (ArrayList<Product>) shoppingCart.get(customers.get(key))));
                 assertEquals(data.customers.get(key).wallet, wallet.get(customers.get(key)));
             }
             for (String key : data.stores.keySet()) {
-                assertEquals(data.stores.get(key).income, income.get(stores.get(key)));
                 assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
+                assertEquals(data.stores.get(key).income, income.get(stores.get(key)));
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
-            fail("purchaseProduct error!");
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("wrong purchase");
         }
     }
 
     @Test
-    public void test34() {
+    public void test29() { //3
         //updateWallet
         try {
             Method updateWallet = Customer.class.getDeclaredMethod("updateWallet", float.class);
@@ -1160,41 +1154,23 @@ public class TestOnlineStoreOfficial {
                 data.customers.get(key).updateWallet(10.5f);
                 updateWallet.invoke(customers.get(key), 10.5f);
                 assertEquals(data.customers.get(key).wallet, wallet.get(customers.get(key)));
+                //pipi 76.5, mengge 130.5, hanhan 79.5, xuelao 25.5
                 data.customers.get(key).updateWallet(-5.5f);
                 updateWallet.invoke(customers.get(key), -5.5f);
                 assertEquals(data.customers.get(key).wallet, wallet.get(customers.get(key)));
+                //pipi 71, mengge 125, hanhan 74, xuelao 20
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail("updateWallet error!");
-        }
-    }
-
-    @Test
-    public void test35() {
-        //viewShoppingCart
-        try {
-            Method viewShoppingCart = Customer.class.getDeclaredMethod("viewShoppingCart", SortBy.class);
-            viewShoppingCart.setAccessible(true);
-            ByteArrayOutputStream outContent1 = new ByteArrayOutputStream();
-            ByteArrayOutputStream outContent2 = new ByteArrayOutputStream();
-            System.setOut(new PrintStream(outContent1));
-            data.customers.get("PiPi").viewShoppingCart(SortByOfficial.Price);
-            System.setOut(new PrintStream(outContent2));
-            viewShoppingCart.invoke(customers.get("PiPi"), SortBy.Price);
-            assertEquals(outContent1.toString(), outContent2.toString());
-
-            System.setOut(System.out);
-        } catch (Exception e) {
-            System.setOut(System.out);
+        } catch (AssertionError e) {
             e.printStackTrace();
-            fail("viewShoppingCart error!");
+            fail("wrong wallet");
         }
     }
 
     @Test
-    public void test36() {
-        //viewShoppingCart
+    public void test30() { //3
+        //viewShoppingCart(purchaseTime)
         try {
             Method viewShoppingCart = Customer.class.getDeclaredMethod("viewShoppingCart", SortBy.class);
             viewShoppingCart.setAccessible(true);
@@ -1205,17 +1181,18 @@ public class TestOnlineStoreOfficial {
             System.setOut(new PrintStream(outContent2));
             viewShoppingCart.invoke(customers.get("PiPi"), SortBy.PurchaseTime);
             assertEquals(outContent1.toString(), outContent2.toString());
-
+            // jacket, tomato, coat, apple
             System.setOut(System.out);
         } catch (Exception e) {
-            System.setOut(System.out);
             e.printStackTrace();
-            fail("viewShoppingCart error!");
+        } catch (AssertionError e) {
+            fail("wrong shoppingCart");
         }
     }
+
     @Test
-    public void test37() {
-        //viewShoppingCart
+    public void test31() { //3
+        //viewShoppingCart(rating)
         try {
             Method viewShoppingCart = Customer.class.getDeclaredMethod("viewShoppingCart", SortBy.class);
             viewShoppingCart.setAccessible(true);
@@ -1226,100 +1203,124 @@ public class TestOnlineStoreOfficial {
             System.setOut(new PrintStream(outContent2));
             viewShoppingCart.invoke(customers.get("PiPi"), SortBy.Rating);
             assertEquals(outContent1.toString(), outContent2.toString());
-
+            // tomato, apple, coat, jacket
             System.setOut(System.out);
         } catch (Exception e) {
-            System.setOut(System.out);
             e.printStackTrace();
-            fail("viewShoppingCart error!");
+        } catch (AssertionError e) {
+            fail("wrong shoppingCart");
         }
     }
 
     @Test
-    public void test38() {
+    public void test32() { //3
+        //viewShoppingCart(price)
+        try {
+            Method viewShoppingCart = Customer.class.getDeclaredMethod("viewShoppingCart", SortBy.class);
+            ByteArrayOutputStream outContent1 = new ByteArrayOutputStream();
+            ByteArrayOutputStream outContent2 = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(outContent1));
+            data.customers.get("PiPi").viewShoppingCart(SortByOfficial.Price);
+            System.setOut(new PrintStream(outContent2));
+            viewShoppingCart.invoke(customers.get("PiPi"), SortBy.Price);
+            assertEquals(outContent1.toString(), outContent2.toString());
+            // tomato, apple, jacket, coat
+            System.setOut(System.out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } catch (AssertionError e) {
+            fail("wrong shoppingCart");
+        }
+    }
+
+    @Test
+    public void test33() { //bonus//4
         //refundProduct
         try {
             Method refundProduct = Customer.class.getDeclaredMethod("refundProduct", Product.class);
-            refundProduct.setAccessible(true);
             Field shoppingCart = Customer.class.getDeclaredField("shoppingCart");
-            shoppingCart.setAccessible(true);
             Field wallet = Customer.class.getDeclaredField("wallet");
-            wallet.setAccessible(true);
             Field productList = Store.class.getDeclaredField("productList");
-            productList.setAccessible(true);
             Field income = Store.class.getDeclaredField("income");
-            income.setAccessible(true);
             Field price = Product.class.getDeclaredField("price");
+            shoppingCart.setAccessible(true);
+            wallet.setAccessible(true);
+            productList.setAccessible(true);
+            income.setAccessible(true);
             price.setAccessible(true);
 
-            for(String key : data.customers.keySet()) {
+            for (String key : data.customers.keySet()) {
                 for (int i = 0; i < data.products.get("foods_origin").size(); i++) {
                     CustomerOfficial customer = data.customers.get(key);
                     Customer customer1 = customers.get(key);
-                    customer.refundProduct(data.products.get("foods_origin").get(i));
-                    refundProduct.invoke(customer1, products.get("foods_origin").get(i));
+                    boolean expect = customer.refundProduct(data.products.get("foods_origin").get(i));
+                    boolean actual = (boolean) refundProduct.invoke(customer1, products.get("foods_origin").get(i));
+                    assertEquals(expect, actual);
                     assertEquals(customer.wallet, wallet.getFloat(customer1));
-
                     assertTrue(productListEquals(customer.shoppingCart, (ArrayList<Product>) shoppingCart.get(customer1)));
                     for (String key1 : data.stores.keySet()) {
                         StoreOfficial store = data.stores.get(key1);
                         Store store1 = stores.get(key1);
-                        assertTrue(productListEquals(store.productList, (ArrayList<Product>) productList.get(store1)));
                         assertEquals(store.income, income.getFloat(store1));
+                        assertTrue(productListEquals(store.productList, (ArrayList<Product>) productList.get(store1)));
                     }
-
                 }
 
                 for (int i = 0; i < data.products.get("foods_extend").size(); i++) {
                     CustomerOfficial customer = data.customers.get(key);
                     Customer customer1 = customers.get(key);
-                    customer.refundProduct(data.products.get("foods_extend").get(i));
-                    refundProduct.invoke(customer1, products.get("foods_extend").get(i));
+                    boolean expect = customer.refundProduct(data.products.get("foods_extend").get(i));
+                    boolean actual = (boolean) refundProduct.invoke(customer1, products.get("foods_extend").get(i));
+                    assertEquals(expect, actual);
                     assertEquals(customer.wallet, wallet.getFloat(customer1));
-
                     assertTrue(productListEquals(customer.shoppingCart, (ArrayList<Product>) shoppingCart.get(customer1)));
                     for (String key1 : data.stores.keySet()) {
                         StoreOfficial store = data.stores.get(key1);
                         Store store1 = stores.get(key1);
-                        assertTrue(productListEquals(store.productList, (ArrayList<Product>) productList.get(store1)));
                         assertEquals(store.income, income.getFloat(store1));
+                        assertTrue(productListEquals(store.productList, (ArrayList<Product>) productList.get(store1)));
                     }
                 }
+
                 for (int i = 0; i < data.products.get("clothes_extend").size(); i++) {
                     CustomerOfficial customer = data.customers.get(key);
                     Customer customer1 = customers.get(key);
-                    customer.refundProduct(data.products.get("clothes_extend").get(i));
-                    refundProduct.invoke(customer1, products.get("clothes_extend").get(i));
+                    boolean expect = customer.refundProduct(data.products.get("clothes_extend").get(i));
+                    boolean actual = (boolean) refundProduct.invoke(customer1, products.get("clothes_extend").get(i));
+                    assertEquals(expect, actual);
                     assertEquals(customer.wallet, wallet.getFloat(customer1));
-
                     assertTrue(productListEquals(customer.shoppingCart, (ArrayList<Product>) shoppingCart.get(customer1)));
                     for (String key1 : data.stores.keySet()) {
                         StoreOfficial store = data.stores.get(key1);
                         Store store1 = stores.get(key1);
-                        assertTrue(productListEquals(store.productList, (ArrayList<Product>) productList.get(store1)));
                         assertEquals(store.income, income.getFloat(store1));
+                        assertTrue(productListEquals(store.productList, (ArrayList<Product>) productList.get(store1)));
                     }
                 }
+
                 for (int i = 0; i < data.products.get("clothes_origin").size(); i++) {
                     CustomerOfficial customer = data.customers.get(key);
                     Customer customer1 = customers.get(key);
-                    customer.refundProduct(data.products.get("clothes_origin").get(i));
-                    refundProduct.invoke(customer1, products.get("clothes_origin").get(i));
+                    boolean expect = customer.refundProduct(data.products.get("clothes_origin").get(i));
+                    boolean actual = (boolean) refundProduct.invoke(customer1, products.get("clothes_origin").get(i));
+                    assertEquals(expect, actual);
                     assertEquals(customer.wallet, wallet.getFloat(customer1));
-
                     assertTrue(productListEquals(customer.shoppingCart, (ArrayList<Product>) shoppingCart.get(customer1)));
                     for (String key1 : data.stores.keySet()) {
                         StoreOfficial store = data.stores.get(key1);
                         Store store1 = stores.get(key1);
-                        assertTrue(productListEquals(store.productList, (ArrayList<Product>) productList.get(store1)));
                         assertEquals(store.income, income.getFloat(store1));
+                        assertTrue(productListEquals(store.productList, (ArrayList<Product>) productList.get(store1)));
                     }
                 }
-
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail("refundProduct error!");
+        } catch (AssertionError e) {
+            e.printStackTrace();
+            fail("Bonus: wrong refund");
         }
     }
+
+    //class Customer: 25+4
 }
