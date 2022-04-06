@@ -343,7 +343,7 @@ public class TestOnlineStoreOfficial {
             fail("constructor not meet requirement");
         } catch (AssertionError e) {
             e.printStackTrace();
-            fail("wrong member variable");
+            fail("wrong member variable in Product class");
         }
     }
 
@@ -401,7 +401,7 @@ public class TestOnlineStoreOfficial {
 
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("setRating error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong ratings");
@@ -461,7 +461,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("setRating error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong ratings");
@@ -477,7 +477,7 @@ public class TestOnlineStoreOfficial {
                 assertEquals(data.products.get("foods_origin").get(i).getAvgRating(), getAvgRating.invoke(products.get("foods_origin").get(i)));
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("getAvgRating error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong average rating");
@@ -493,7 +493,7 @@ public class TestOnlineStoreOfficial {
                 assertEquals(data.products.get("clothes_origin").get(i).getAvgRating(), getAvgRating.invoke(products.get("clothes_origin").get(i)));
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("getAvgRating error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong average rating");
@@ -517,7 +517,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("toString error");
         } catch (AssertionError e) {
             fail("wrong toString");
         }
@@ -609,7 +609,7 @@ public class TestOnlineStoreOfficial {
             fail("constructor not meet requirement");
         } catch (AssertionError e) {
             e.printStackTrace();
-            fail("wrong member variable");
+            fail("wrong member variable in Store class");
         }
     }
 
@@ -650,7 +650,7 @@ public class TestOnlineStoreOfficial {
             fail("constructor not meet requirement");
         } catch (AssertionError e) {
             e.printStackTrace();
-            fail("wrong member variable");
+            fail("wrong member variable in Store class");
         }
     }
 
@@ -676,7 +676,7 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("addProduct error");
         } catch (AssertionError e) {
             fail("wrong productList");
         }
@@ -704,7 +704,7 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("addProduct error");
         } catch (AssertionError e) {
             fail("wrong productList");
         }
@@ -730,7 +730,7 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("removeProduct error");
         } catch (AssertionError e) {
             fail("wrong productList");
         }
@@ -756,7 +756,7 @@ public class TestOnlineStoreOfficial {
                     assertTrue(productListEquals(data.stores.get(key).productList, (ArrayList<Product>) productList.get(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("removeProduct error");
         } catch (AssertionError e) {
             fail("wrong productList");
         }
@@ -774,7 +774,7 @@ public class TestOnlineStoreOfficial {
                 assertTrue(productListEquals(data.stores.get(key).getProductList(), (ArrayList<Product>) getProductList.invoke(stores.get(key))));
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("getProductList error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong productList");
@@ -794,7 +794,7 @@ public class TestOnlineStoreOfficial {
                 assertTrue((Boolean) hasProduct.invoke(stores.get("clothes_store"), product));
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("hasProduct error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong productList");
@@ -812,7 +812,7 @@ public class TestOnlineStoreOfficial {
                 assertFalse((Boolean) hasProduct.invoke(stores.get("clothes_store"), product));
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("hasProduct error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong productList");
@@ -840,7 +840,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("transact error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong purchase");
@@ -868,7 +868,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("transact error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("Bonus: wrong refund");
@@ -966,7 +966,7 @@ public class TestOnlineStoreOfficial {
             fail("constructor not meet requirement");
         } catch (AssertionError e) {
             e.printStackTrace();
-            fail("wrong member variable");
+            fail("wrong member variable in Customer class");
         }
     }
 
@@ -1008,7 +1008,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("rateProduct error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong ratings");
@@ -1056,7 +1056,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("rateProduct error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong ratings");
@@ -1097,7 +1097,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("purchaseProduct error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong purchase");
@@ -1138,7 +1138,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("purchaseProduct error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong purchase");
@@ -1165,7 +1165,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("updateWallet error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("wrong wallet");
@@ -1193,7 +1193,7 @@ public class TestOnlineStoreOfficial {
             System.setOut(System.out);
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("viewShoppingCart error");
         } catch (AssertionError e) {
             fail("wrong shoppingCart");
         }
@@ -1215,7 +1215,7 @@ public class TestOnlineStoreOfficial {
             System.setOut(System.out);
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("viewShoppingCart error");
         } catch (AssertionError e) {
             fail("wrong shoppingCart");
         }
@@ -1236,7 +1236,7 @@ public class TestOnlineStoreOfficial {
             System.setOut(System.out);
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("viewShoppingCart error");
         } catch (AssertionError e) {
             fail("wrong shoppingCart");
         }
@@ -1325,7 +1325,7 @@ public class TestOnlineStoreOfficial {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            fail();
+            fail("refundProduct error");
         } catch (AssertionError e) {
             e.printStackTrace();
             fail("Bonus: wrong refund");
