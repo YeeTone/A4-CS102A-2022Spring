@@ -16,7 +16,7 @@ In the course CS202: Computer Organization, it is introduced that computers stor
 
 YeeTone is a student of CS major but not good at solving binary number arithmetic problems, so he asks you for help.
 Fortunately, he is very familiar with Java programming.
-If you can help YeeTone solve problems by designing a class in Java, he will be very happy to give you extra bonus points on your assignment!
+If you can help YeeTone solve problems by designing a class in Java, he will be very happy!
 
 Please design a Java class named BigBinary to give a hand to YeeTone.
 Notice that in order to let YeeTone really trust you have the ability to help him solve the problems, YeeTone does not want you to use some classes in the libraries of Java such as ```java.math.BigInteger``` in this problem.
