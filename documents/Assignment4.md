@@ -187,7 +187,7 @@ public void transact(Product product, int method);
 ```
 `public boolean hasProduct(Product product);`
 
-A method to determine whether this store has the given `product` . Return `true` if the `product` in the `productList` of the store; otherwise, return `false`.
+A method to determine whether this store has the given `product` . Return `true` if the `product` is in the `productList` of the store; otherwise, return `false`.
 
 `public boolean addProduct(Product product);`
 
@@ -251,7 +251,7 @@ Purchase `product` from `store`.
 
 `public void viewShoppingCart(SortBy sortMethod);`
 
-Display the purchased products in the `shoppingCart` of this customer. The order of displaying is specified by `sortMethod`. Below we provide an Enum `SortBy`, which says that sorting could be performed by the `PurchaseTime`,  `Rating`, or the `Price` of products. You can add methods to `SortBy` if necessary, but remember never change the constant values that we have specified.
+Display the purchased products in the `shoppingCart` of this customer. The order of displaying is specified by `sortMethod`. Below we provide an Enum `SortBy`, which says that sorting could be performed by the `PurchaseTime`,  `Rating`, or the `Price` of products. 
 
 ```Java
 public enum SortBy {
@@ -290,8 +290,8 @@ Product ID 4, Table, RMB 300.00, Rating 4.3
 Product ID 2, Laptop, RMB 10000.00, Rating 4.5
 Product ID 1, Phone, RMB 7000.00, Rating 4.5
 ```
-* If the actual average rating is different, but the same after reserving one decimal place as required, sort by the actual average rating.
-* If products exactly have the same average rating, they should be sorted by the purchase time.
+* If the average rating is different without rounding but the same after rounding to one decimal place, then sort by the actual average rating (without rounding).
+* If products have exactly the same average rating, they should be sorted by the purchase time.
 
 Calling
 ```java
@@ -308,7 +308,7 @@ Product ID 2, Laptop, RMB 10000.00, Rating 4.5
 
 `public boolean refundProduct(Product product);`
 
-**(Bonus)**  
+**(Bonus)**:  
 Return the `product` to the store where it was sold and get the money back. Return `true` if this customer has indeed purchased this product before and `false` otherwise. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly. In addition, the corresponding store should enable the refund process to update the `productList` and `income`.
 
 
