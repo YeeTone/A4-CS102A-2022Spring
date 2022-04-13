@@ -114,7 +114,7 @@ After executing the method, the return value should be the difference between Bi
 
 **(Bonus)** After executing the method, the return value should be the product of BigBinary ```b1``` and BigBinary ```b2```(i.e. ```b1``` * ```b2```). BigBinary ```b1``` and ```b2``` should not be changed.
 
-**Hint for Bonus** Considering the data scale, the simple implementation may cause **TLE(Time Limit Exceeded)** and cannot pass the testcases. Please think about how to improve the efficiency of multiplication!
+**Hint for Bonus**: Considering the data scale, the simple implementation may cause **TLE(Time Limit Exceeded)** and cannot pass the testcases. Please think about how to improve the efficiency of multiplication!
 
 ## Question 2. Online Shopping [Medium, 60 + 5 Points]
 > Contributors: Yida TAO, Sicen LIU, Dingyuan XUE
@@ -152,12 +152,12 @@ Set  `rating` to the product.  The `rating` would be added to this product's rat
 
 `public float getAvgRating();`
 
-Return the average rating of this product, which is computed as the average of all the ratings it has received so far.
+Return the average rating of this product, which is computed as the average of all the ratings it has received so far. Round the return value to 1 decimal place.
 
 `public String toString();`
 
 Return a string description of this product, in the format of `Product ID id, name, RMB price, Rating average-rating`, e.g., `Product ID 12345, Laptop, RMB 10000.00, Rating 4.5`.
-* For `price`, let's keep 2 decimal places following rounding. For `rating`, keep 1 decimal place following rounding.
+* Round `price` to 2 decimal places and `rating` to 1 decimal place.
 
 ### 2.2 Store
 #### Attributes
