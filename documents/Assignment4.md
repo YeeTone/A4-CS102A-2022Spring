@@ -154,7 +154,7 @@ Set  `rating` to the product.  The `rating` would be added to this product's rat
 
 `public float getAvgRating();`
 
-Return the average rating of this product, which is computed as the average of all the ratings it has received so far. Round the return value to 1 decimal place.
+Return the average rating of this product, which is computed as the average of all the ratings it has received so far.
 
 `public String toString();`
 
