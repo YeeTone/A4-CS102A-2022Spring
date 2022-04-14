@@ -1,4 +1,6 @@
 # Assignment 4
+Considering most of you are coming back to the SUSTech campus, we prepare a [helping document](https://docs.qq.com/doc/DTHpIRUJYV2t6ZnRz?u=c34e7d60b7bf4c3384a73627fee73747) for you. 
+If you have any troubles solving these questions, please look at it!
 ## Contributor List:
 >
 > Design: Yitong WANG, Yida TAO
