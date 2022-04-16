@@ -315,4 +315,4 @@ Return the `product` to the store where it was sold and get the money back. Retu
 
 
 ## Submission
-You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for question 2. Notice that you should not contain any Chinese character in the submitted java files.
+You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for question 2. **Notice that you should NOT contain any Chinese character in the submitted java files.**
