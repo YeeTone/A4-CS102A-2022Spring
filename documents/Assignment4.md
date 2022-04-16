@@ -1,6 +1,5 @@
 # Assignment 4
-Considering most of you are coming back to the SUSTech campus, we prepare a [bilingual helping document(双语帮助文档)](https://docs.qq.com/doc/DTHpIRUJYV2t6ZnRz?u=c34e7d60b7bf4c3384a73627fee73747) for you. 
-If you have any troubles solving these questions, please look at it!
+
 ## Contributor List:
 >
 > Design: Yitong WANG, Yida TAO
@@ -82,6 +81,8 @@ public static void main(String[] args) {
 }
 ```
 
+<div style="page-break-after: always;"></div>
+
 **Sample Output:**
 ```java
 101
@@ -116,7 +117,10 @@ After executing the method, the return value should be the difference between Bi
 
 **(Bonus)** After executing the method, the return value should be the product of BigBinary ```b1``` and BigBinary ```b2```(i.e. ```b1``` * ```b2```). BigBinary ```b1``` and ```b2``` should not be changed.
 
+
 **Hint for Bonus**: Considering the data scale, the simple implementation may cause **TLE(Time Limit Exceeded)** and cannot pass the testcases. Please think about how to improve the efficiency of multiplication!
+
+<div style="page-break-after: always;"></div>
 
 ## Question 2. Online Shopping [Medium, 60 + 5 Points]
 > Contributors: Yida TAO, Sicen LIU, Dingyuan XUE
@@ -222,6 +226,8 @@ private ArrayList<Product> shoppingCart; // The list of purchased products; defa
 private float wallet; 
 ```
 
+<div style="page-break-after: always;"></div>
+
 #### Constructor
 ```java
 public Customer(String name, float wallet);
@@ -260,6 +266,8 @@ public enum SortBy {
     PurchaseTime, Rating, Price
 }
 ```
+
+<div style="page-break-after: always;"></div>
 
 Suppose a customer Alice has purchased a few products from different stores.
 ```java
@@ -310,9 +318,11 @@ Product ID 2, Laptop, RMB 10000.00, Rating 4.5
 
 `public boolean refundProduct(Product product);`
 
-**(Bonus)**:  
-Return the `product` to the store where it was sold and get the money back. Return `true` if this customer has indeed purchased this product before and `false` otherwise. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly. In addition, the corresponding store should enable the refund process to update the `productList` and `income`.
+**(Bonus)**: Return the `product` to the store where it was sold and get the money back. Return `true` if this customer has indeed purchased this product before and `false` otherwise. Note that the `shoppingCart` and `wallet` of this customer should be updated accordingly. In addition, the corresponding store should enable the refund process to update the `productList` and `income`.
 
+## Tips
+* We prepared a [bilingual helping document(双语帮助文档)](https://docs.qq.com/doc/DTHpIRUJYV2t6ZnRz?u=c34e7d60b7bf4c3384a73627fee73747) for this assignment. Please refer to this document first if you have any trouble solving the problems.
+* We prepared sample test cases for Q1 and Q2, along with a documentation explaining how you could use JUnit to run these tests locally. Although OJ uses a different set of test cases, the sample tests are useful for testing and debugging purposes. 
 
 ## Submission
 You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for question 2. **Notice that you should NOT contain any Chinese character in the submitted java files.**
