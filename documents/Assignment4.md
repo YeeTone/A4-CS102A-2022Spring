@@ -1,5 +1,5 @@
 # Assignment 4
-Considering most of you are coming back to the SUSTech campus, we prepare a [helping document](https://docs.qq.com/doc/DTHpIRUJYV2t6ZnRz?u=c34e7d60b7bf4c3384a73627fee73747) for you. 
+Considering most of you are coming back to the SUSTech campus, we prepare a [bilingual helping document(双语帮助文档)](https://docs.qq.com/doc/DTHpIRUJYV2t6ZnRz?u=c34e7d60b7bf4c3384a73627fee73747) for you. 
 If you have any troubles solving these questions, please look at it!
 ## Contributor List:
 >
@@ -315,4 +315,4 @@ Return the `product` to the store where it was sold and get the money back. Retu
 
 
 ## Submission
-You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for question 2.
+You need to submit `BigBinary.java` for question 1, `Product.java`, `Store.java`, `Customer.java` and `SortBy.java` for question 2. Notice that you should not contain any Chinese character in the submitted java files.
